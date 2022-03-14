@@ -1,0 +1,76 @@
+//.settingsIcon {
+//  width: 30px;
+//  height: 30px;
+//  cursor: pointer;
+//  border: none;
+//  background-image: url('../../image/gear.png');
+//  transition: 2s;
+//}
+//
+//.settingsIcon2 {
+//  width: 30px;
+//  height: 30px;
+//  cursor: pointer;
+//  border: none;
+//  background-image: url('../../image/gear.png');
+//  transition: 2s;
+//  transform: rotate(90deg);
+//
+//}
+
+.main {
+  padding: 10px 0;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  transition: all 0.3s ease 0s;
+  position: relative;
+}
+
+
+@font-face {
+  font-family: "icons";
+  font-display: swap;
+  src: url("./../../fonts/icons.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon"],
+[class*="icon"] {
+  &:before {
+    font-family: "icons";
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: block;
+  }
+}
+
+.icon:before {
+  content: "\e900";
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
