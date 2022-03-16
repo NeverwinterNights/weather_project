@@ -1,12 +1,14 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
+import { dataReducer } from './dataReducer';
 import { themeReducer } from './themeReducer';
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
   theme: themeReducer,
+  dataReducer,
 });
 // непосредственно создаём store
 export const store = createStore(rootReducer, applyMiddleware(thunk));
