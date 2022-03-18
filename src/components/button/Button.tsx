@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { typeSearchTypes } from '../../types/types';
+import { TypeSearchTypes } from '../../types/types';
 
 type ButtonPropsType = {
-  onClickHandler: (type: typeSearchTypes) => void;
+  onClickHandler: (type: TypeSearchTypes) => void;
   label: string;
-  value: typeSearchTypes;
+  value: TypeSearchTypes;
 };
 
 export const Button = React.memo(({ onClickHandler, label, value }: ButtonPropsType) => (

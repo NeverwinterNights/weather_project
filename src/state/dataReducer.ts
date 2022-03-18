@@ -1,43 +1,65 @@
 import { Dispatch } from 'redux';
 
 import { dataAPI } from '../api/apiData';
+import { MainWeather } from '../types/types';
 
 type ActionsType = SetCityNameActionType;
 
-type DataStateType = {
-  cityName: string | null;
+export type DataWeatherType = {
+  cityName: string;
+  lat: number;
+  lon: number;
+  mainData: MainWeather;
 };
 
-const initialState: DataStateType = {
-  cityName: null,
-};
+const initialState: DataWeatherType[] = [] as DataWeatherType[];
 
 export const dataReducer = (
-  state: DataStateType = initialState,
+  state: DataWeatherType[] = initialState,
   action: ActionsType,
-): DataStateType => {
+): DataWeatherType[] => {
   switch (action.type) {
-    case 'SET-CITY-NAME': {
-      return {
-        ...state,
-        cityName: action.name,
-      };
+    case 'SET-DATA': {
+      return [
+        // ...state,
+        {
+          cityName: action.cityName,
+          lat: action.lat,
+          lon: action.lon,
+          mainData: action.mainData,
+        },
+      ];
     }
     default:
       return state;
   }
 };
 
-export const setCityNameAC = (name: string) =>
+export const setDataCityNameAC = (
+  cityName: string,
+  lat: number,
+  lon: number,
+  mainData: MainWeather,
+) =>
   ({
-    type: 'SET-CITY-NAME',
-    name,
+    type: 'SET-DATA',
+    cityName,
+    lat,
+    lon,
+    mainData,
   } as const);
 
-export type SetCityNameActionType = ReturnType<typeof setCityNameAC>;
+export type SetCityNameActionType = ReturnType<typeof setDataCityNameAC>;
 
 export const getDataByCityNameTC = (name: string) => (dispatch: Dispatch) => {
-  dataAPI.getDataByCityName(name).then(() => {
-    dispatch(setCityNameAC(name));
+  dataAPI.getDataByCityName(name).then(res => {
+    dispatch(
+      setDataCityNameAC(
+        res.data.name,
+        res.data.coord.lat,
+        res.data.coord.lon,
+        res.data.main,
+      ),
+    );
   });
 };

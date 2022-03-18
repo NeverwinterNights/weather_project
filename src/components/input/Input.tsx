@@ -1,22 +1,28 @@
 import React, { ChangeEvent, useState } from 'react';
 
-import { typeSearchTypes } from '../../types/types';
+import { useDispatch } from 'react-redux';
+
+import { getDataByCityNameTC } from '../../state/dataReducer';
+import { TypeSearchTypes } from '../../types/types';
 
 type InputPropsType = {
-  typeSearch: typeSearchTypes;
-  onClickInputSearch: (value: string) => void;
+  typeSearch: TypeSearchTypes;
+  // onClickInputSearch: (value: string) => void;
   // onInputCityNameHandler: (value: string) => void;
   // onInputZipHandler: (value: string) => void;
   // onInputCoordinatesXHandler: (value: number) => void;
   // onInputCoordinatesYHandler: (value: number) => void;
 };
 
-export const Input = React.memo(({ typeSearch, onClickInputSearch }: InputPropsType) => {
+export const Input = React.memo(({ typeSearch }: InputPropsType) => {
   const [cityName, setCityName] = useState<string>('');
   const [zipIndex, setZipIndex] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
   const [coordinatesX, setCoordinatesX] = useState<number | null>(null);
   const [coordinatesY, setCoordinatesY] = useState<number | null>(null);
+
+  const dispatch = useDispatch();
+
   return (
     <form action="">
       {typeSearch === 'city' && (
@@ -31,7 +37,7 @@ export const Input = React.memo(({ typeSearch, onClickInputSearch }: InputPropsT
           <button
             type="button"
             onClick={() => {
-              onClickInputSearch(cityName);
+              dispatch(getDataByCityNameTC(cityName));
               setCityName('');
             }}
           >
@@ -58,7 +64,7 @@ export const Input = React.memo(({ typeSearch, onClickInputSearch }: InputPropsT
           <button
             type="button"
             onClick={() => {
-              onClickInputSearch(`${zipIndex} ${zipCode}`);
+              // onClickInputSearch(`${zipIndex} ${zipCode}`);
               setZipIndex('');
               setZipCode('');
             }}
@@ -86,7 +92,7 @@ export const Input = React.memo(({ typeSearch, onClickInputSearch }: InputPropsT
           <button
             type="button"
             onClick={() => {
-              onClickInputSearch(`${coordinatesX} ${coordinatesY}`);
+              // onClickInputSearch(`${coordinatesX} ${coordinatesY}`);
               setCoordinatesX(null);
               setCoordinatesY(null);
             }}

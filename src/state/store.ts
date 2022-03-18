@@ -1,6 +1,7 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
+import { callReducer } from './callReducer';
 import { dataReducer } from './dataReducer';
 import { themeReducer } from './themeReducer';
 
@@ -9,6 +10,7 @@ import { themeReducer } from './themeReducer';
 const rootReducer = combineReducers({
   theme: themeReducer,
   dataReducer,
+  callReducer,
 });
 // непосредственно создаём store
 export const store = createStore(rootReducer, applyMiddleware(thunk));
