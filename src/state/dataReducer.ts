@@ -61,5 +61,6 @@ export const getDataByCityNameTC = (name: string) => (dispatch: Dispatch) => {
         res.data.main,
       ),
     );
+    console.log(res.data);
   });
 };

@@ -44,6 +44,5 @@ export const getDataByCallTC =
   (dispatch: Dispatch) => {
     dataAPI.getDataFromCall(lat, lon).then(res => {
       dispatch(setDataCallAC(res.data, cityName, mainData));
-      console.log(res.data);
     });
   };
