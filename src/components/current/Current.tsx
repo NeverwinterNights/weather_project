@@ -16,7 +16,7 @@ export const Current = React.memo(({ time }: CurrentPropsType) => {
   const data = useSelector<AppRootStateType, DataWeatherResponseType>(
     state => state.currentReducer,
   );
-  console.log('object');
+
   return (
     <div className={style.wrapper}>
       <div className={style.main}>
@@ -35,10 +35,10 @@ export const Current = React.memo(({ time }: CurrentPropsType) => {
             </div>
           </div>
           <div className={`${style.item} ${style.humidity}`}>
-            Pressure - {data.main && data.main.humidity}%
+            Humidity - {data.main && data.main.humidity}%
           </div>
           <div className={`${style.item} ${style.pressure}`}>
-            {data.main && data.main.pressure}mmHg
+            Pressure - {data.main && data.main.pressure}mmHg
           </div>
           <div className={`${style.item} ${style.wing}`}>
             Wind speed - {data.wind && data.wind.speed}m/s
