@@ -3,43 +3,43 @@ export type TypeSearchTypes = 'city' | 'zip' | 'coordinates';
 export type Themes = 'day' | 'night';
 
 export type MainWeather = {
-  feels_like: number | null;
-  humidity: number | null;
-  pressure: number | null;
-  temp: number | null;
-  temp_max: number | null;
-  temp_min: number | null;
+  feels_like: number;
+  humidity: number;
+  pressure: number;
+  temp: number;
+  temp_max: number;
+  temp_min: number;
 };
 
-export type DataWeather = {
-  base: string | null;
+export type DataWeatherResponseType = {
+  base: string;
   clouds: {
-    all: string | null;
+    all: string;
   };
-  cod: number | null;
+  cod: number;
   coord: {
-    lat: number | null;
-    lon: number | null;
+    lat: number;
+    lon: number;
   };
-  dt: number | null;
-  id: number | null;
+  dt: number;
+  id: number;
   main: MainWeather;
-  name: string | null;
+  name: string;
   sys: {
-    country: string | null;
-    id: number | null;
-    sunrise: number | null;
-    sunset: number | null;
-    type: number | null;
+    country: string;
+    id: number;
+    sunrise: number;
+    sunset: number;
+    type: number;
   };
-  timezone: number | null;
-  visibility: number | null;
+  timezone: number;
+  visibility: number;
   weather: [
     {
-      id: number | null;
-      main: string | null;
-      description: string | null;
-      icon: string | null;
+      id: number;
+      main: string;
+      description: string;
+      icon: string;
     },
   ];
   wind: {

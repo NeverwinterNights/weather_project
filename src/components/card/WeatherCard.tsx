@@ -1,6 +1,9 @@
 import React from 'react';
 
-import * as dayjs from 'dayjs';
+// import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import { useSelector } from 'react-redux';
 
 import moon from '../../image/moon.svg';
@@ -11,10 +14,14 @@ import { Icon } from '../icon/Icon';
 
 import style from './WeatherCard.module.scss';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 export const WeatherCard = React.memo(() => {
   const dataWeather = useSelector<AppRootStateType, DataCallWeatherType>(
     state => state.callReducer,
   );
+
   return (
     <div className={style.wrapper}>
       <div className={style.header}>
@@ -22,14 +29,13 @@ export const WeatherCard = React.memo(() => {
       </div>
       <div className={style.up}>
         <div className={style.city}>{dataWeather.cityName}</div>
-        <div className={style.date}>{`${dayjs
-          .unix(dataWeather.current?.dt)
-          .format('MMMM D, h:mm A')}`}</div>
+        <div className={style.time}>
+          {dayjs().tz(dataWeather.timezone).format('MMMM D, h:mm A')}
+        </div>
       </div>
       <div className={style.main}>
         <div className={style.info}>
           <Icon name={dataWeather.current?.weather[0].icon} />
-
           <div className={style.temp}>
             {dataWeather.current?.temp} <span>&deg;C</span>
           </div>

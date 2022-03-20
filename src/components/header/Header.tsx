@@ -23,10 +23,6 @@ export const Header = React.memo(() => {
     setMenuActive(!menuActive);
   };
 
-  // useEffect(() => {
-  //   console.log(searchData);
-  // }, [searchData]);
-
   return (
     <div className={style.main}>
       <Menu open={menuActive} />

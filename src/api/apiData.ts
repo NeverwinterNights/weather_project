@@ -17,6 +17,9 @@ export const dataAPI = {
       `onecall?lat=${lat}&lon=${lon}&units=metric&exclude=hourly&appid=${APIkey}`,
     );
   },
+  getDataFromParams(lat: number, lon: number) {
+    return instance.get(`weather?lat=${lat}&lon=${lon}&units=metric&appid=${APIkey}`);
+  },
 };
 
 //

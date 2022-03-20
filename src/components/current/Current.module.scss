@@ -1,0 +1,28 @@
+.wrapper {
+  background: cornflowerblue;
+  margin-bottom: 25px;
+  border-radius: 30px;
+  padding: 10px 100px;
+  display: flex;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 50%;
+  padding-right: 100px;
+}
+
+.info {
+  flex: 0 0 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.item {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
