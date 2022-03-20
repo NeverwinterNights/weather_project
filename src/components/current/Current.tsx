@@ -16,7 +16,7 @@ export const Current = React.memo(({ time }: CurrentPropsType) => {
   const data = useSelector<AppRootStateType, DataWeatherResponseType>(
     state => state.currentReducer,
   );
-
+  console.log('object');
   return (
     <div className={style.wrapper}>
       <div className={style.main}>
