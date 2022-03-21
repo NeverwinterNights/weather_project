@@ -1,10 +1,10 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
-import { appReducer } from './appReducer';
-import { callReducer } from './callReducer';
-import { currentReducer } from './currentReducer';
-import { dataReducer } from './dataReducer';
+import { AppActionsType, appReducer } from './appReducer';
+import { CallActionsType, callReducer } from './callReducer';
+import { CurrentActionsType, currentReducer } from './currentReducer';
+import { DataActionsType, dataReducer } from './dataReducer';
 import { themeReducer } from './themeReducer';
 
 // объединяя reducer-ы с помощью combineReducers,
@@ -20,7 +20,11 @@ const rootReducer = combineReducers({
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>;
-
+export type ActionsType =
+  | CurrentActionsType
+  | DataActionsType
+  | CallActionsType
+  | AppActionsType;
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
 window.store = store;

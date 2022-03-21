@@ -9,23 +9,22 @@ import { Current } from './components/current/Current';
 import { Header } from './components/header/Header';
 import { usePosition } from './hooks/usePosition';
 import { setTimeAC } from './state/appReducer';
-import { getDataByCallTC } from './state/callReducer';
+// import { getDataByCallTC } from './state/callReducer';
 import { getCurrentDataTC } from './state/currentReducer';
 import { DataWeatherType } from './state/dataReducer';
 import { AppRootStateType } from './state/store';
-import { DataCallWeatherType } from './types/types';
 
 const App = React.memo(() => {
   const theme = useSelector<AppRootStateType, boolean>(state => state.theme.dayNight);
   const data = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
-  const dataWeather = useSelector<AppRootStateType, DataCallWeatherType>(
-    state => state.callReducer,
-  );
+  // const dataWeather = useSelector<AppRootStateType, DataCallWeatherType>(
+  //   state => state.callReducer,
+  // );
   const time = useSelector<AppRootStateType, string>(state => state.appReducer.time);
   const dispatch = useDispatch();
-  const { latitude, longitude } = usePosition();
+  const { latitude, longitude, error } = usePosition();
 
   useEffect(() => {
     dispatch(setTimeAC(dayjs().format('MMMM D, h:mm A')));
@@ -47,13 +46,15 @@ const App = React.memo(() => {
     }
   }, [latitude, longitude]);
 
-  useEffect(() => {
-    if (data.length !== 0) {
-      data.map(city =>
-        dispatch(getDataByCallTC(city.lat, city.lon, city.cityName, city.mainData)),
-      );
-    }
-  }, [data]);
+  // console.log(data.length);
+  // useEffect(() => {
+  //   if (data.length !== 0) {
+  //     console.log('ggggggg');
+  //     data.map(city =>
+  //       dispatch(getDataByCallTC(city.lat, city.lon, city.cityName, city.mainData)),
+  //     );
+  //   }
+  // }, [data]);
 
   return (
     <div
@@ -61,8 +62,11 @@ const App = React.memo(() => {
       style={theme ? { backgroundColor: '#4fbb65' } : { backgroundColor: 'white' }}
     >
       <Header />
-      <Current time={time} />
-      {data.length !== 0 && dataWeather && <WeatherCard />}
+      {!error && <Current time={time} />}
+      {/* {data.length !== 0 && dataWeather && <WeatherCard />} */}
+      {data.map(city => (
+        <WeatherCard key={city.id} city={city} />
+      ))}
     </div>
   );
 });

@@ -3,13 +3,13 @@ import { Dispatch } from 'redux';
 import { dataAPI } from '../api/apiData';
 import { DataWeatherResponseType } from '../types/types';
 
-type ActionsType = SetCurrentActionType;
+export type CurrentActionsType = SetCurrentActionType;
 
 const initialState: DataWeatherResponseType = {} as DataWeatherResponseType;
 
 export const currentReducer = (
   state: DataWeatherResponseType = initialState,
-  action: ActionsType,
+  action: CurrentActionsType,
 ): DataWeatherResponseType => {
   switch (action.type) {
     case 'SET-CURRENT-DATA': {

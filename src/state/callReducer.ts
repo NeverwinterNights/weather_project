@@ -3,13 +3,13 @@ import { Dispatch } from 'redux';
 import { dataAPI } from '../api/apiData';
 import { DataCallWeatherType, MainWeather } from '../types/types';
 
-type ActionsType = SetCallActionType;
+export type CallActionsType = SetCallActionType;
 
 const initialState: DataCallWeatherType = {} as DataCallWeatherType;
 
 export const callReducer = (
   state: DataCallWeatherType = initialState,
-  action: ActionsType,
+  action: CallActionsType,
 ): DataCallWeatherType => {
   switch (action.type) {
     case 'SET-DATA-CALL': {
@@ -44,5 +44,6 @@ export const getDataByCallTC =
   (dispatch: Dispatch) => {
     dataAPI.getDataFromCall(lat, lon).then(res => {
       dispatch(setDataCallAC(res.data, cityName, mainData));
+      console.log(res.data);
     });
   };

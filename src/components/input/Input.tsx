@@ -22,7 +22,6 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
   const [coordinatesY, setCoordinatesY] = useState<number | null>(null);
 
   const dispatch = useDispatch();
-
   return (
     <form action="">
       {typeSearch === 'city' && (

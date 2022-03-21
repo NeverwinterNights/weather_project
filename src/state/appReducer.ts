@@ -1,4 +1,4 @@
-type ActionsType = SetTimeActionType;
+export type AppActionsType = SetTimeActionType;
 
 export type appStateType = {
   time: string;
@@ -8,7 +8,7 @@ const initialState: appStateType = {} as appStateType;
 
 export const appReducer = (
   state: appStateType = initialState,
-  action: ActionsType,
+  action: AppActionsType,
 ): appStateType => {
   switch (action.type) {
     case 'SET-TIME': {
