@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import { setTypeOfTemperatureAC } from '../../state/appReducer';
 import { AppRootStateType } from '../../state/store';
 import { dayNightAC } from '../../state/themeReducer';
 import { Toggle } from '../toggle/Toggle';
@@ -14,10 +15,17 @@ type MenuPropsType = {
 
 export const Menu = React.memo(({ open }: MenuPropsType) => {
   const theme = useSelector<AppRootStateType, boolean>(state => state.theme.dayNight);
+  const temperatureType = useSelector<AppRootStateType, boolean>(
+    state => state.appReducer.temperatureType,
+  );
   const dispatch = useDispatch();
 
   const themeHandler = (): void => {
     dispatch(dayNightAC(!theme));
+  };
+
+  const temperatureTypeChanger = (): void => {
+    dispatch(setTypeOfTemperatureAC(!temperatureType));
   };
 
   const styles = open ? { left: '0px' } : { left: '-37%' };
@@ -32,7 +40,7 @@ export const Menu = React.memo(({ open }: MenuPropsType) => {
       </div>
       <div className={style.item}>
         <div className={style.text}>Temperature</div>
-        <Toggle />
+        <Toggle temperatureTypeChanger={temperatureTypeChanger} />
       </div>
     </div>
   );

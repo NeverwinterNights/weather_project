@@ -10,7 +10,8 @@ import { ActionsType, AppRootStateType } from './store';
 export type DataActionsType =
   | SetCityNameActionType
   | AddActionType
-  | DeleteCityActionType;
+  | DeleteCityActionType
+  | GetDataFromLocationActionType;
 
 export type DataWeatherType = {
   cityName: string;
@@ -109,6 +110,13 @@ export const deleteCityAC = (id: string) =>
 
 export type DeleteCityActionType = ReturnType<typeof deleteCityAC>;
 
+export const getDataFromLocationAC = () =>
+  ({
+    type: 'GET-DATA-FROM-LOCATION',
+  } as const);
+
+export type GetDataFromLocationActionType = ReturnType<typeof getDataFromLocationAC>;
+
 export const additionalTC =
   (lat: number, lon: number, id: string) => (dispatch: Dispatch) => {
     dataAPI.getDataFromCall(lat, lon).then(res => {
@@ -135,4 +143,43 @@ export const getDataByCityNameTC =
     // .then(res => {
     //   dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
     // });
+  };
+
+export const getDataByLocationTC =
+  (lat: number, lon: number): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+  dispatch => {
+    const id: string = v1();
+    dataAPI.getDataFromParams(lat, lon).then(res => {
+      dispatch(
+        setDataCityNameAC(
+          res.data.name,
+          res.data.coord.lat,
+          res.data.coord.lon,
+          res.data.main,
+          id,
+        ),
+      );
+      dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
+    });
+  };
+
+export const getDataByZipCodeTC =
+  (
+    zip: string,
+    code: string,
+  ): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+  dispatch => {
+    const id: string = v1();
+    dataAPI.getDataFromZip(zip, code).then(res => {
+      dispatch(
+        setDataCityNameAC(
+          res.data.name,
+          res.data.coord.lat,
+          res.data.coord.lon,
+          res.data.main,
+          id,
+        ),
+      );
+      dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
+    });
   };

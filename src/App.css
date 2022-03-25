@@ -1,5 +1,13 @@
 .App {
-  max-width: 1200px;
+  /*max-width: 1200px;*/
+  /*margin: 0 auto;*/
+  /*overflow: hidden;*/
+  /*position: relative;*/
+  /*padding: 30px;*/
+}
+
+.main {
+  max-width: 900px;
   margin: 0 auto;
   overflow: hidden;
   position: relative;

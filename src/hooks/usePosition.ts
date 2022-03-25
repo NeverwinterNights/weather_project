@@ -44,7 +44,6 @@ export const usePosition = (): any => {
 
   useEffect(() => {
     const geo = navigator.geolocation;
-
     if (!geo) {
       setError('Геолокация не поддерживается браузером');
       return;

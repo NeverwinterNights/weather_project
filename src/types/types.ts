@@ -49,16 +49,29 @@ export type DataWeatherResponseType = {
   };
 };
 
-export type DataCallWeatherType = {
+export type DataWeatherType = {
   cityName: string;
   lat: number;
   lon: number;
+  mainData: MainWeather;
+  id: string;
+  current: CurrentWeatherType;
+  daily: Array<DailyDataType>;
+  timezone: string;
+};
+
+export type DataCallWeatherResponseType = {
+  current: CurrentWeatherType;
+  lat: number;
+  lon: number;
+  daily: Array<DailyDataType>;
   timezone: string;
   timezone_offset: number;
+};
+
+export type DataCallWeatherType = DataCallWeatherResponseType & {
+  cityName: string;
   mainData: MainWeather;
-  current: CurrentWeatherType;
-  hourly: Array<HourlyDataType>;
-  daily: Array<DailyDataType>;
 };
 
 export type WeatherType = {

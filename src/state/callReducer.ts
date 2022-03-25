@@ -1,7 +1,11 @@
 import { Dispatch } from 'redux';
 
 import { dataAPI } from '../api/apiData';
-import { DataCallWeatherType, MainWeather } from '../types/types';
+import {
+  DataCallWeatherResponseType,
+  DataCallWeatherType,
+  MainWeather,
+} from '../types/types';
 
 export type CallActionsType = SetCallActionType;
 
@@ -26,7 +30,7 @@ export const callReducer = (
 };
 
 export const setDataCallAC = (
-  data: DataCallWeatherType,
+  data: DataCallWeatherResponseType,
   cityName: string,
   mainData: MainWeather,
 ) =>
@@ -44,6 +48,5 @@ export const getDataByCallTC =
   (dispatch: Dispatch) => {
     dataAPI.getDataFromCall(lat, lon).then(res => {
       dispatch(setDataCallAC(res.data, cityName, mainData));
-      console.log(res.data);
     });
   };

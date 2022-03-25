@@ -2,7 +2,11 @@ import React, { ChangeEvent, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 
-import { getDataByCityNameTC } from '../../state/dataReducer';
+import {
+  getDataByCityNameTC,
+  getDataByLocationTC,
+  getDataByZipCodeTC,
+} from '../../state/dataReducer';
 import { TypeSearchTypes } from '../../types/types';
 
 type InputPropsType = {
@@ -18,8 +22,8 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
   const [cityName, setCityName] = useState<string>('');
   const [zipIndex, setZipIndex] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
-  const [coordinatesX, setCoordinatesX] = useState<number | null>(null);
-  const [coordinatesY, setCoordinatesY] = useState<number | null>(null);
+  const [coordinatesX, setCoordinatesX] = useState<number>(0);
+  const [coordinatesY, setCoordinatesY] = useState<number>(0);
 
   const dispatch = useDispatch();
   return (
@@ -38,6 +42,34 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
             onClick={() => {
               dispatch(getDataByCityNameTC(cityName));
               setCityName('');
+            }}
+          >
+            Send
+          </button>
+        </>
+      )}
+      {typeSearch === 'coordinates' && (
+        <>
+          <input
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setCoordinatesX(+e.currentTarget.value);
+            }}
+            value={coordinatesX}
+            type="text"
+          />
+          <input
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setCoordinatesY(+e.currentTarget.value);
+            }}
+            value={coordinatesY}
+            type="text"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              dispatch(getDataByLocationTC(coordinatesX, coordinatesY));
+              setCoordinatesX(0);
+              setCoordinatesY(0);
             }}
           >
             Send
@@ -63,37 +95,9 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
           <button
             type="button"
             onClick={() => {
-              // onClickInputSearch(`${zipIndex} ${zipCode}`);
+              dispatch(getDataByZipCodeTC(zipCode, zipIndex));
               setZipIndex('');
               setZipCode('');
-            }}
-          >
-            Send
-          </button>
-        </>
-      )}
-      {typeSearch === 'coordinates' && (
-        <>
-          <input
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setCoordinatesX(+e.currentTarget.value);
-            }}
-            value={coordinatesX || ''}
-            type="text"
-          />
-          <input
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setCoordinatesY(+e.currentTarget.value);
-            }}
-            value={coordinatesY || ''}
-            type="text"
-          />
-          <button
-            type="button"
-            onClick={() => {
-              // onClickInputSearch(`${coordinatesX} ${coordinatesY}`);
-              setCoordinatesX(null);
-              setCoordinatesY(null);
             }}
           >
             Send

@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { WeatherCard } from './components/card/WeatherCard';
 import { Current } from './components/current/Current';
+import { Favorites } from './components/favorites/Favorites';
 import { Header } from './components/header/Header';
 import { usePosition } from './hooks/usePosition';
 import { setTimeAC } from './state/appReducer';
-// import { getDataByCallTC } from './state/callReducer';
 import { getCurrentDataTC } from './state/currentReducer';
 import { DataWeatherType } from './state/dataReducer';
+import { setFavoritesCitiesAC } from './state/favoritesReducer';
 import { AppRootStateType } from './state/store';
 
 const App = React.memo(() => {
@@ -22,6 +23,10 @@ const App = React.memo(() => {
   // const dataWeather = useSelector<AppRootStateType, DataCallWeatherType>(
   //   state => state.callReducer,
   // );
+  const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
+    state => state.favoritesReducer,
+  );
+
   const time = useSelector<AppRootStateType, string>(state => state.appReducer.time);
   const dispatch = useDispatch();
   const { latitude, longitude, error } = usePosition();
@@ -46,27 +51,30 @@ const App = React.memo(() => {
     }
   }, [latitude, longitude]);
 
-  // console.log(data.length);
-  // useEffect(() => {
-  //   if (data.length !== 0) {
-  //     console.log('ggggggg');
-  //     data.map(city =>
-  //       dispatch(getDataByCallTC(city.lat, city.lon, city.cityName, city.mainData)),
-  //     );
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (favoritesCity.length === 0) {
+      const myString = localStorage.getItem('state');
+      if (myString) {
+        const myState = JSON.parse(myString);
+        dispatch(setFavoritesCitiesAC(myState as DataWeatherType[]));
+      }
+    }
+  }, []);
 
   return (
     <div
       className="App"
       style={theme ? { backgroundColor: '#4fbb65' } : { backgroundColor: 'white' }}
     >
-      <Header />
-      {!error && <Current time={time} />}
-      {/* {data.length !== 0 && dataWeather && <WeatherCard />} */}
-      {data.map(city => (
-        <WeatherCard key={city.id} city={city} />
-      ))}
+      <Favorites />
+      <div className="main">
+        <Header />
+        {!error && <Current time={time} />}
+        {/* {data.length !== 0 && dataWeather && <WeatherCard />} */}
+        {data.map(city => (
+          <WeatherCard key={city.id} city={city} />
+        ))}
+      </div>
     </div>
   );
 });
