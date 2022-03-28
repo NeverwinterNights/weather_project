@@ -4,6 +4,7 @@ import { v1 } from 'uuid';
 
 import { dataAPI } from '../api/apiData';
 import { CurrentWeatherType, DailyDataType, MainWeather } from '../types/types';
+import { handleThunk } from '../utils/thunks-utils';
 
 import { ActionsType, AppRootStateType } from './store';
 
@@ -129,20 +130,16 @@ export const getDataByCityNameTC =
   dispatch => {
     const id: string = v1();
     dataAPI.getDataByCityName(name).then(res => {
-      dispatch(
-        setDataCityNameAC(
-          res.data.name,
-          res.data.coord.lat,
-          res.data.coord.lon,
-          res.data.main,
-          id,
-        ),
+      handleThunk(
+        dispatch,
+        res.data.name,
+        res.data.coord.lat,
+        res.data.coord.lon,
+        res.data.main,
+        id,
       );
       dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
     });
-    // .then(res => {
-    //   dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
-    // });
   };
 
 export const getDataByLocationTC =
@@ -150,14 +147,13 @@ export const getDataByLocationTC =
   dispatch => {
     const id: string = v1();
     dataAPI.getDataFromParams(lat, lon).then(res => {
-      dispatch(
-        setDataCityNameAC(
-          res.data.name,
-          res.data.coord.lat,
-          res.data.coord.lon,
-          res.data.main,
-          id,
-        ),
+      handleThunk(
+        dispatch,
+        res.data.name,
+        res.data.coord.lat,
+        res.data.coord.lon,
+        res.data.main,
+        id,
       );
       dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
     });
@@ -171,14 +167,13 @@ export const getDataByZipCodeTC =
   dispatch => {
     const id: string = v1();
     dataAPI.getDataFromZip(zip, code).then(res => {
-      dispatch(
-        setDataCityNameAC(
-          res.data.name,
-          res.data.coord.lat,
-          res.data.coord.lon,
-          res.data.main,
-          id,
-        ),
+      handleThunk(
+        dispatch,
+        res.data.name,
+        res.data.coord.lat,
+        res.data.coord.lon,
+        res.data.main,
+        id,
       );
       dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
     });

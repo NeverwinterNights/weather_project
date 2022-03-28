@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moon from '../../image/moon.svg';
 import sun from '../../image/sun.svg';
 import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
-import { addCityAC, deleteCityFromFavoritesAC } from '../../state/favoritesReducer';
+import { addCityAC } from '../../state/favoritesReducer';
 import { AppRootStateType } from '../../state/store';
 import { changeTemp } from '../../utils/utils';
 import { Icon } from '../icon/Icon';
@@ -42,20 +42,11 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
     localStorage.setItem('state', JSON.stringify([...favoritesCity, city]));
   };
 
-  const onDeleteToFavoritesHandler = (): void => {
-    dispatch(deleteCityFromFavoritesAC(city.id));
-    const newFav = favoritesCity.filter(town => town.id !== city.id);
-    localStorage.setItem('state', JSON.stringify(newFav));
-  };
-
   return (
     <div className={style.wrapper}>
       <div className={style.header}>
         <button onClick={onAddToFavoritesHandler} type="button">
           add to fav
-        </button>
-        <button onClick={onDeleteToFavoritesHandler} type="button">
-          delete from fav
         </button>
         <button onClick={onClosedHandler} type="button">
           closed

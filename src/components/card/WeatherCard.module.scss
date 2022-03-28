@@ -2,7 +2,7 @@
   height: 400px;
   background: cornflowerblue;
   border-radius: 30px;
-  padding: 20px;
+  padding: 20px 5px;
   display: flex;
   flex-direction: column;
   margin-bottom: 25px;
@@ -70,7 +70,7 @@
 //}
 
 .footer {
-  padding: 0px 30px;
+  padding: 0px 15px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -84,6 +84,7 @@
 
 .row {
   margin-bottom: 5px;
+  font-size: 14px;
   img {
     height: 15px;
     width: 15px;

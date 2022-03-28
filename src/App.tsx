@@ -48,6 +48,9 @@ const App = React.memo(() => {
   useEffect(() => {
     if (latitude && longitude) {
       dispatch(getCurrentDataTC(latitude, longitude));
+      setInterval(() => {
+        dispatch(getCurrentDataTC(latitude, longitude));
+      }, 600000);
     }
   }, [latitude, longitude]);
 

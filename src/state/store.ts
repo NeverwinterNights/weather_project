@@ -27,6 +27,11 @@ export type ActionsType =
   | CallActionsType
   | AppActionsType
   | FavoritesActionsType;
+
+// store.subscribe(() => {
+//   localStorage.setItem('state', JSON.stringify(store.getState().favoritesReducer));
+// });
+
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
 window.store = store;
