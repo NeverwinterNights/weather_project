@@ -45,12 +45,20 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
   return (
     <div className={style.wrapper}>
       <div className={style.header}>
-        <button onClick={onAddToFavoritesHandler} type="button">
-          add to fav
-        </button>
-        <button onClick={onClosedHandler} type="button">
-          closed
-        </button>
+        <button
+          className={style.add}
+          onClick={onAddToFavoritesHandler}
+          aria-label=" "
+          type="button"
+          title="Close"
+        />
+        <button
+          className={style.delete}
+          onClick={onClosedHandler}
+          aria-label=" "
+          type="button"
+          title="Close"
+        />
       </div>
       <div className={style.up}>
         <div className={style.city}>{city.cityName}</div>

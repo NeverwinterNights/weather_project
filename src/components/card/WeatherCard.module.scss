@@ -18,7 +18,7 @@
 
 .main {
   flex: 1 1 auto;
-  padding: 0px 30px;
+  padding: 0px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,6 +30,7 @@
   align-items: center;
   flex: 0 0 50%;
 }
+
 .up {
   display: flex;
   justify-content: center;
@@ -48,15 +49,15 @@
   position: relative;
 
   span {
-    font-size: 30px;
+    font-size: 50px;
     position: absolute;
-    top: 5px;
-    right: -35px;
   }
 }
 
 .item {
   margin-bottom: 15px;
+  font-size: 14px;
+
   span {
     font-weight: bold;
     margin-right: 10px;
@@ -85,8 +86,26 @@
 .row {
   margin-bottom: 5px;
   font-size: 14px;
+
   img {
     height: 15px;
     width: 15px;
   }
+}
+
+.delete {
+  width: 20px;
+  height: 20px;
+  background: transparent url("../../image/closed.svg") no-repeat 0 0;
+  border: none;
+  margin-left: 20px;
+}
+
+.add {
+  width: 20px;
+  height: 20px;
+  background: transparent url("../../image/closed.svg") no-repeat 0 0;
+  border: none;
+  transform: rotate(45deg);
+  transform-origin: 33%;
 }

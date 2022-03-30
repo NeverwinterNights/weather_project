@@ -46,10 +46,10 @@ export const Current = React.memo(({ time }: CurrentPropsType) => {
             Humidity - {data.main && data.main.humidity}%
           </div>
           <div className={`${style.item} ${style.pressure}`}>
-            Pressure - {data.main && data.main.pressure}mmHg
+            Pressure - {data.main && data.main.pressure} mmHg
           </div>
           <div className={`${style.item} ${style.wing}`}>
-            Wind speed - {data.wind && data.wind.speed}m/s
+            Wind speed - {data.wind && data.wind.speed && Math.round(data.wind.speed)} m/s
           </div>
         </div>
       </div>

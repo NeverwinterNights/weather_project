@@ -35,12 +35,14 @@ export const Menu = React.memo(({ open }: MenuPropsType) => {
   return (
     <div className={style.wrapper} style={common}>
       <div className={style.item}>
-        <div className={style.text}>Theme</div>
+        <div className={style.text}>Light</div>
         <Toggle themeHandler={themeHandler} />
+        <div className={style.text}>Dark</div>
       </div>
       <div className={style.item}>
-        <div className={style.text}>Temperature</div>
+        <div className={style.text}>Celsius</div>
         <Toggle temperatureTypeChanger={temperatureTypeChanger} />
+        <div className={style.text}>Fahrenheit</div>
       </div>
     </div>
   );

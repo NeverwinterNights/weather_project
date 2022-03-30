@@ -44,13 +44,16 @@ export const FavCard = React.memo(({ city }: FavCardPropsType) => {
     const newFav = favoritesCity.filter(town => town.id !== city.id);
     localStorage.setItem('state', JSON.stringify(newFav));
   };
-
   return (
     <div key={city.id} className={style.card}>
       <div className={style.body}>
-        <button onClick={onDeleteToFavoritesHandler} type="button">
-          delete from fav
-        </button>
+        <button
+          className={style.delete}
+          onClick={onDeleteToFavoritesHandler}
+          aria-label=" "
+          type="button"
+          title="Delete from favorites"
+        />
         <div className={style.icon}>
           <Icon name={city.current.weather[0].icon} size={2} />
         </div>

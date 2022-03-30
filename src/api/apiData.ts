@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-import { DataCallWeatherResponseType, DataWeatherResponseType } from '../types/types';
+import {
+  CityResponseType,
+  DataCallWeatherResponseType,
+  DataWeatherResponseType,
+} from '../types/types';
 
 const instance = axios.create({
   baseURL: 'https://api.openweathermap.org/data/2.5/',
@@ -30,6 +34,11 @@ export const dataAPI = {
   getDataFromZip(zip: string, code: string) {
     return instance.get<DataWeatherResponseType>(
       `weather?zip=${zip},${code}&appid=${APIkey}`,
+    );
+  },
+  getCity(name: string) {
+    return axios.get<CityResponseType[]>(
+      `https://dataservice.accuweather.com/locations/v1/cities/search?apikey=n0sCB6fE383pJ65PYp8nu5T58wHsC7JL&q=${name}`,
     );
   },
 };
