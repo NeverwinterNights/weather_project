@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { WeatherCard } from './components/card/WeatherCard';
 import { Current } from './components/current/Current';
 import { Favorites } from './components/favorites/Favorites';
+import { Graphs } from './components/graphs/Graphs';
 import { Header } from './components/header/Header';
 import { usePosition } from './hooks/usePosition';
 import { setTimeAC } from './state/appReducer';
@@ -20,25 +21,30 @@ const App = React.memo(() => {
   const data = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
-  // const dataWeather = useSelector<AppRootStateType, DataCallWeatherType>(
-  //   state => state.callReducer,
-  // );
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
   );
+  const graphs = useSelector<AppRootStateType, boolean>(state => state.appReducer.graphs);
 
-  const time = useSelector<AppRootStateType, string>(state => state.appReducer.time);
+  const time = useSelector<AppRootStateType, string>(state => state.appReducer.time); // не пробрасывать
   const dispatch = useDispatch();
   const { latitude, longitude, error } = usePosition();
 
   useEffect(() => {
+    if (!favoritesCity.length) {
+      const myString = localStorage.getItem('state');
+      if (myString) {
+        const myState = JSON.parse(myString);
+        dispatch(setFavoritesCitiesAC(myState as DataWeatherType[]));
+      }
+    }
+
     dispatch(setTimeAC(dayjs().format('MMMM D, h:mm A')));
   }, []);
 
   useEffect(() => {
     const clock = setInterval(() => {
-      // setTime(dayjs().format('MMMM D, h:mm A'));
-      setTimeAC(dayjs().format('MMMM D, h:mm A'));
+      setTimeAC(dayjs().format('MMMM D, h:mm A')); // вынести в конст
     }, 60000);
     return () => {
       clearInterval(clock);
@@ -46,23 +52,13 @@ const App = React.memo(() => {
   }, [time]);
 
   useEffect(() => {
-    if (latitude && longitude) {
+    if (latitude) {
       dispatch(getCurrentDataTC(latitude, longitude));
       setInterval(() => {
         dispatch(getCurrentDataTC(latitude, longitude));
       }, 600000);
     }
   }, [latitude, longitude]);
-
-  useEffect(() => {
-    if (favoritesCity.length === 0) {
-      const myString = localStorage.getItem('state');
-      if (myString) {
-        const myState = JSON.parse(myString);
-        dispatch(setFavoritesCitiesAC(myState as DataWeatherType[]));
-      }
-    }
-  }, []);
 
   return (
     <div
@@ -73,10 +69,8 @@ const App = React.memo(() => {
       <div className="main">
         <Header />
         {!error && <Current time={time} />}
-        {/* {data.length !== 0 && dataWeather && <WeatherCard />} */}
-        {data.map(city => (
-          <WeatherCard key={city.id} city={city} />
-        ))}
+        {graphs && <Graphs />}
+        {!graphs && data.map(city => <WeatherCard key={city.id} city={city} />)}
       </div>
     </div>
   );

@@ -13,6 +13,8 @@ import { AppRootStateType } from '../../state/store';
 import { CityType, TypeSearchTypes } from '../../types/types';
 import { SelectLocation } from '../selectLocation/SelectLocation';
 
+import style from './Input.module.scss';
+
 type InputPropsType = {
   typeSearch: TypeSearchTypes;
   // onClickInputSearch: (value: string) => void;
@@ -60,6 +62,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               onClick={() => {
                 dispatch(getDataByCityNameTC(cityName));
                 setCityName('');
+                dispatch(setLocationCitiesAC([]));
               }}
             >
               Send
@@ -69,6 +72,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
         {typeSearch === 'coordinates' && (
           <>
             <input
+              className={style.cord}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setCoordinatesX(+e.currentTarget.value);
               }}
@@ -76,6 +80,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               type="text"
             />
             <input
+              className={style.cord}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setCoordinatesY(+e.currentTarget.value);
               }}
@@ -97,6 +102,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
         {typeSearch === 'zip' && (
           <>
             <input
+              className={style.cord}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setZipIndex(e.currentTarget.value);
               }}
@@ -104,6 +110,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               type="text"
             />
             <input
+              className={style.cord}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setZipCode(e.currentTarget.value);
               }}

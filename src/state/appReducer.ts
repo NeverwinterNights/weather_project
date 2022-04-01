@@ -1,11 +1,18 @@
-export type AppActionsType = SetTimeActionType | SetTypeOfTemperatureActionType;
+export type AppActionsType =
+  | SetTimeActionType
+  | SetGraphsActionType
+  | SetTypeOfTemperatureActionType;
 
 export type appStateType = {
   time: string;
   temperatureType: boolean;
+  graphs: boolean;
 };
 
-const initialState: appStateType = { temperatureType: true } as appStateType;
+const initialState: appStateType = {
+  temperatureType: true,
+  graphs: false,
+} as appStateType;
 
 export const appReducer = (
   state: appStateType = initialState,
@@ -22,6 +29,12 @@ export const appReducer = (
       return {
         ...state,
         temperatureType: action.value,
+      };
+    }
+    case 'SET-GRAPHS': {
+      return {
+        ...state,
+        graphs: action.value,
       };
     }
     default:
@@ -44,3 +57,11 @@ export const setTypeOfTemperatureAC = (value: boolean) =>
   } as const);
 
 export type SetTypeOfTemperatureActionType = ReturnType<typeof setTypeOfTemperatureAC>;
+
+export const setGraphsAC = (value: boolean) =>
+  ({
+    type: 'SET-GRAPHS',
+    value,
+  } as const);
+
+export type SetGraphsActionType = ReturnType<typeof setGraphsAC>;

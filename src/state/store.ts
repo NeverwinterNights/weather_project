@@ -9,8 +9,6 @@ import { DataActionsType, dataReducer } from './dataReducer';
 import { FavoritesActionsType, favoritesReducer } from './favoritesReducer';
 import { themeReducer } from './themeReducer';
 
-// объединяя reducer-ы с помощью combineReducers,
-// мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
   theme: themeReducer,
   dataReducer,
@@ -19,7 +17,6 @@ const rootReducer = combineReducers({
   favoritesReducer,
   citiesReducer,
 });
-// непосредственно создаём store
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 // export const store = createStore(rootReducer, loadState(), applyMiddleware(thunk));
@@ -31,7 +28,6 @@ export const store = createStore(rootReducer, applyMiddleware(thunk));
 //   });
 // });
 
-// определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>;
 export type ActionsType =
   | CurrentActionsType
@@ -44,6 +40,5 @@ export type ActionsType =
 //   localStorage.setItem('state', JSON.stringify(store.getState().favoritesReducer));
 // });
 
-// а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
 window.store = store;

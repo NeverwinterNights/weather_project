@@ -40,7 +40,6 @@ export type SetLocationCitiesActionType = ReturnType<typeof setLocationCitiesAC>
 
 export const setLocationCitiesTH = (name: string) => (dispatch: Dispatch) => {
   dataAPI.getCity(name).then(res => {
-    console.log(res.data);
     dispatch(setLocationCitiesAC(res.data));
   });
 };

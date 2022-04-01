@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -20,11 +20,19 @@ export const Current = React.memo(({ time }: CurrentPropsType) => {
   const tempType = useSelector<AppRootStateType, boolean>(
     state => state.appReducer.temperatureType,
   );
+  const x = useMemo(
+    () => ({
+      x: changeTemp(tempType, Math.round(data?.main?.temp)),
+      y: changeTemp(tempType, Math.round(data?.main?.feels_like)),
+    }),
+    [data.main, tempType],
+  );
+  const salectedTempType = tempType ? '\u00B0C' : '\u00B0F';
 
   return (
     <div className={style.wrapper}>
       <div className={style.main}>
-        <Icon name={data.weather && data.weather[0].icon} size={4} />
+        <Icon name={data.weather?.[0].icon} size={4} />
       </div>
       <div className={style.info}>
         <div className={style.wrap}>
@@ -32,12 +40,10 @@ export const Current = React.memo(({ time }: CurrentPropsType) => {
             <div className={`${style.item} ${style.name}`}>{data.name}</div>
             <div className={`${style.item} ${style.date}`}>{time}</div>
             <div className={`${style.item} ${style.temp}`}>
-              Temperature -{' '}
-              {data.main && changeTemp(tempType, Math.round(data.main.temp))}{' '}
-              {tempType ? <span>&deg;C</span> : <span>&deg;F</span>}
+              {`Temperature - ${x.x} ${salectedTempType}`}
             </div>
             <div className={`${style.item} ${style.feels}`}>
-              Feels Like -{' '}
+              Feels Like -
               {data.main && changeTemp(tempType, Math.round(data.main.feels_like))}{' '}
               {tempType ? <span>&deg;C</span> : <span>&deg;F</span>}
             </div>
@@ -46,10 +52,10 @@ export const Current = React.memo(({ time }: CurrentPropsType) => {
             Humidity - {data.main && data.main.humidity}%
           </div>
           <div className={`${style.item} ${style.pressure}`}>
-            Pressure - {data.main && data.main.pressure} mmHg
+            Pressure - {data.main && data.main.pressure}mmHg
           </div>
           <div className={`${style.item} ${style.wing}`}>
-            Wind speed - {data.wind && data.wind.speed && Math.round(data.wind.speed)} m/s
+            Wind speed - {data.wind && data.wind.speed && Math.round(data.wind.speed)}m/s
           </div>
         </div>
       </div>

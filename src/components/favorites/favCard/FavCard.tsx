@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 
-import humidity from '../../../image/humidity.svg';
-import temperature from '../../../image/temperature.svg';
-import wind from '../../../image/wind.svg';
+import humidity from '../../../images/humidity.svg';
+import temperature from '../../../images/temperature.svg';
+import wind from '../../../images/wind.svg';
 import {
   deleteCityFromFavoritesAC,
   updateFavoritesTC,

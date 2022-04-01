@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 
-import { TypeSearchTypes } from '../../types/types';
-import { Button } from '../button/Button';
-import { Input } from '../input/Input';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setGraphsAC } from '../../state/appReducer';
+import { AppRootStateType } from '../../state/store';
+// import { TypeSearchTypes } from '../../types/types';
+// import { Button } from '../button/Button';
+// import { Input } from '../input/Input';
+import { Controls } from '../controls/Controls';
 import { Menu } from '../menu/Menu';
-import { headerButton } from '../utils/constans';
+// import { headerButton } from '../utils/constans';
 
 import style from './Header.module.scss';
 
 export const Header = React.memo(() => {
   // const [searchData, setSearchData] = useState<string | number>('');
-  const [searchTypeValue, setSearchTypeValue] = useState<TypeSearchTypes>('city');
+  // const [searchTypeValue, setSearchTypeValue] = useState<TypeSearchTypes>('city');
   const [menuActive, setMenuActive] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
-  const onClickSearch = (type: TypeSearchTypes): void => {
-    setSearchTypeValue(type);
-  };
+  const graphs = useSelector<AppRootStateType, boolean>(state => state.appReducer.graphs);
+
   // const onClickInputSearch = (value: string): void => {
   //   setSearchData(value);
   // };
@@ -23,23 +28,18 @@ export const Header = React.memo(() => {
     setMenuActive(!menuActive);
   };
 
+  const onClickGraphsHandler = (): void => {
+    dispatch(setGraphsAC(!graphs));
+  };
+
   return (
     <div className={style.main}>
       <Menu open={menuActive} />
       <div className={style.wrapper}>
         <div className={style.search}>
-          {headerButton.map(button => (
-            <Button
-              key={button.value}
-              onClickHandler={onClickSearch}
-              value={button.value}
-              label={button.name}
-            />
-          ))}
           {/* <Input typeSearch={searchTypeValue} onClickInputSearch={onClickInputSearch} /> */}
-          <Input typeSearch={searchTypeValue} />
         </div>
-
+        {!graphs && <Controls />}
         <div className={style.controls}>
           <button
             onClick={onClickGearHandler}
@@ -48,6 +48,9 @@ export const Header = React.memo(() => {
             className={style.icon}
             style={menuActive ? { transform: 'rotate(180deg)', color: '#c9c23f' } : {}}
           />
+          <button onClick={onClickGraphsHandler} type="button">
+            Graphs
+          </button>
         </div>
       </div>
     </div>

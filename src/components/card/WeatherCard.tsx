@@ -6,8 +6,8 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { useDispatch, useSelector } from 'react-redux';
 
-import moon from '../../image/moon.svg';
-import sun from '../../image/sun.svg';
+import moon from '../../images/moon.svg';
+import sun from '../../images/sun.svg';
 import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
 import { addCityAC } from '../../state/favoritesReducer';
 import { AppRootStateType } from '../../state/store';
