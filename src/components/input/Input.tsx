@@ -35,8 +35,10 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
   const debouncedSearch = useDebounce(() => dispatch(setLocationCitiesTH(cityName)), 500);
 
   const onChooseLocation = (name: string, country: string): void => {
-    setCityName(`${name}, ${country}`);
-    dispatch(setLocationCitiesAC([]));
+    if (cityName.length >= 3) {
+      setCityName(`${name}, ${country}`);
+      dispatch(setLocationCitiesAC([]));
+    }
   };
   const allSearchedCities = useSelector<AppRootStateType, CityType[]>(
     state => state.citiesReducer,

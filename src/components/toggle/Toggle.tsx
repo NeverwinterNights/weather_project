@@ -28,9 +28,8 @@ export const Toggle: React.FC<TogglePropsType> = React.memo(
           role="button"
           onClick={onClickToggleHandler}
           className={`${style.checkbox} ${ready ? style.active : ''}`}
-          // className={style.checkbox}
         >
-          <input type="checkbox" name="namecheckbox_1" />
+          <input type="checkbox" />
         </div>
       </div>
     );

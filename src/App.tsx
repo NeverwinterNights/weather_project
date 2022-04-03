@@ -5,10 +5,11 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { WeatherCard } from './components/card/WeatherCard';
-import { Current } from './components/current/Current';
+import { CurrentTemperature } from './components/current/CurrentTemperature';
 import { Favorites } from './components/favorites/Favorites';
 import { Graphs } from './components/graphs/Graphs';
 import { Header } from './components/header/Header';
+import { CURRENT_TIME } from './components/utils/constans';
 import { usePosition } from './hooks/usePosition';
 import { setTimeAC } from './state/appReducer';
 import { getCurrentDataTC } from './state/currentReducer';
@@ -39,12 +40,12 @@ const App = React.memo(() => {
       }
     }
 
-    dispatch(setTimeAC(dayjs().format('MMMM D, h:mm A')));
+    dispatch(setTimeAC(dayjs().format(CURRENT_TIME)));
   }, []);
 
   useEffect(() => {
     const clock = setInterval(() => {
-      setTimeAC(dayjs().format('MMMM D, h:mm A')); // вынести в конст
+      dispatch(setTimeAC(dayjs().format(CURRENT_TIME)));
     }, 60000);
     return () => {
       clearInterval(clock);
@@ -68,9 +69,12 @@ const App = React.memo(() => {
       <Favorites />
       <div className="main">
         <Header />
-        {!error && <Current time={time} />}
-        {graphs && <Graphs />}
-        {!graphs && data.map(city => <WeatherCard key={city.id} city={city} />)}
+        {!error && <CurrentTemperature />}
+        {graphs ? (
+          <Graphs />
+        ) : (
+          data.map(city => <WeatherCard key={city.id} city={city} />)
+        )}
       </div>
     </div>
   );

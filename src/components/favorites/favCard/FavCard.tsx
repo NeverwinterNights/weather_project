@@ -15,6 +15,7 @@ import { AppRootStateType } from '../../../state/store';
 import { DataWeatherType } from '../../../types/types';
 import { changeTemp } from '../../../utils/utils';
 import { Icon } from '../../icon/Icon';
+import { CURRENT_TIME } from '../../utils/constans';
 import style from '../Favorites.module.scss';
 
 type FavCardPropsType = {
@@ -28,6 +29,9 @@ export const FavCard = React.memo(({ city }: FavCardPropsType) => {
   const tempType = useSelector<AppRootStateType, boolean>(
     state => state.appReducer.temperatureType,
   );
+
+  // const time = useSelector<AppRootStateType, string>(state => state.appReducer.time); // не пробрасывать
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(updateFavoritesTC(city.lat, city.lon, city.id));
@@ -58,9 +62,7 @@ export const FavCard = React.memo(({ city }: FavCardPropsType) => {
           <Icon name={city.current.weather[0].icon} size={2} />
         </div>
         <div className={style.name}>{city.cityName} </div>
-        <div className={style.date}>
-          {dayjs().tz(city.timezone).format('MMMM D, h:mm A')}
-        </div>
+        <div className={style.date}>{dayjs().tz(city.timezone).format(CURRENT_TIME)}</div>
         <div className={style.info}>
           <div className={style.item}>
             <img className={style.img} src={temperature} alt="" /> -{' '}
