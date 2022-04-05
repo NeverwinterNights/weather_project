@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,8 +30,6 @@ export const FavCard = React.memo(({ city }: FavCardPropsType) => {
     state => state.appReducer.temperatureType,
   );
 
-  // const time = useSelector<AppRootStateType, string>(state => state.appReducer.time); // не пробрасывать
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(updateFavoritesTC(city.lat, city.lon, city.id));
@@ -48,6 +46,18 @@ export const FavCard = React.memo(({ city }: FavCardPropsType) => {
     const newFav = favoritesCity.filter(town => town.id !== city.id);
     localStorage.setItem('state', JSON.stringify(newFav));
   };
+
+  const favoriteData = useMemo(
+    () => ({
+      current: changeTemp(tempType, Math.round(city.current.temp)),
+      humidity: city.current.humidity,
+      wind: Math.round(city.current.wind_speed),
+    }),
+    [city.current, tempType],
+  );
+
+  const favoriteTempType = tempType ? '\u00B0C' : '\u00B0F';
+
   return (
     <div key={city.id} className={style.card}>
       <div className={style.body}>
@@ -65,17 +75,16 @@ export const FavCard = React.memo(({ city }: FavCardPropsType) => {
         <div className={style.date}>{dayjs().tz(city.timezone).format(CURRENT_TIME)}</div>
         <div className={style.info}>
           <div className={style.item}>
-            <img className={style.img} src={temperature} alt="" /> -{' '}
-            {changeTemp(tempType, Math.round(city.current.temp))}
-            {tempType ? <span> &deg;C</span> : <span>&deg;F</span>}
+            <img className={style.img} src={temperature} alt="" />
+            {`- ${favoriteData.current} ${favoriteTempType}`}
           </div>
           <div className={style.item}>
-            <img className={`${style.img} ${style.hum}`} src={humidity} alt="" /> -{' '}
-            {city.current.humidity} %
+            <img className={`${style.img} ${style.hum}`} src={humidity} alt="" />
+            {`- ${favoriteData.humidity} ${favoriteTempType} %`}
           </div>
           <div className={style.item}>
-            <img className={style.img} src={wind} alt="" /> -{' '}
-            {Math.round(city.current.wind_speed)} m/s
+            <img className={style.img} src={wind} alt="" />
+            {`- ${favoriteData.wind} ${favoriteTempType} m/s`}
           </div>
         </div>
       </div>

@@ -17,11 +17,6 @@ import style from './Input.module.scss';
 
 type InputPropsType = {
   typeSearch: TypeSearchTypes;
-  // onClickInputSearch: (value: string) => void;
-  // onInputCityNameHandler: (value: string) => void;
-  // onInputZipHandler: (value: string) => void;
-  // onInputCoordinatesXHandler: (value: number) => void;
-  // onInputCoordinatesYHandler: (value: number) => void;
 };
 
 export const Input = React.memo(({ typeSearch }: InputPropsType) => {
@@ -34,15 +29,33 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
   const dispatch = useDispatch();
   const debouncedSearch = useDebounce(() => dispatch(setLocationCitiesTH(cityName)), 500);
 
-  const onChooseLocation = (name: string, country: string): void => {
+  const onChooseLocation = (): void => {
     if (cityName.length >= 3) {
-      setCityName(`${name}, ${country}`);
+      // setCityName(`${name}, ${country}`);
       dispatch(setLocationCitiesAC([]));
+      setCityName('');
     }
   };
   const allSearchedCities = useSelector<AppRootStateType, CityType[]>(
     state => state.citiesReducer,
   );
+
+  const clickCityNameHandler = (): void => {
+    dispatch(getDataByCityNameTC(cityName));
+    setCityName('');
+    dispatch(setLocationCitiesAC([]));
+  };
+
+  const clickCoordinatesHandler = (): void => {
+    dispatch(getDataByLocationTC(coordinatesX, coordinatesY));
+    setCoordinatesX(0);
+    setCoordinatesY(0);
+  };
+  const clickZipHandler = (): void => {
+    dispatch(getDataByZipCodeTC(zipCode, zipIndex));
+    setZipIndex('');
+    setZipCode('');
+  };
 
   return (
     <div style={{ position: 'relative' }}>
@@ -59,14 +72,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
                 debouncedSearch();
               }}
             />
-            <button
-              type="button"
-              onClick={() => {
-                dispatch(getDataByCityNameTC(cityName));
-                setCityName('');
-                dispatch(setLocationCitiesAC([]));
-              }}
-            >
+            <button type="button" onClick={clickCityNameHandler}>
               Send
             </button>
           </>
@@ -89,14 +95,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               value={coordinatesY}
               type="text"
             />
-            <button
-              type="button"
-              onClick={() => {
-                dispatch(getDataByLocationTC(coordinatesX, coordinatesY));
-                setCoordinatesX(0);
-                setCoordinatesY(0);
-              }}
-            >
+            <button type="button" onClick={clickCoordinatesHandler}>
               Send
             </button>
           </>
@@ -119,14 +118,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               value={zipCode}
               type="text"
             />
-            <button
-              type="button"
-              onClick={() => {
-                dispatch(getDataByZipCodeTC(zipCode, zipIndex));
-                setZipIndex('');
-                setZipCode('');
-              }}
-            >
+            <button type="button" onClick={clickZipHandler}>
               Send
             </button>
           </>

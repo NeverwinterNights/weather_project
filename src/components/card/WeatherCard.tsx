@@ -10,7 +10,7 @@ import sun from '../../images/sun.svg';
 import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
 import { addCityAC } from '../../state/favoritesReducer';
 import { AppRootStateType } from '../../state/store';
-import { changeTemp } from '../../utils/utils';
+import { changeTemp, fromPascalToMM } from '../../utils/utils';
 import { Icon } from '../icon/Icon';
 import { CURRENT_TIME } from '../utils/constans';
 
@@ -52,7 +52,7 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
       day: changeTemp(tempType, Math.round(city.daily[0]?.temp.day)),
       night: changeTemp(tempType, Math.round(city.daily[0]?.temp.night)),
       humidity: city.current?.humidity,
-      pressure: city.current?.pressure,
+      pressure: fromPascalToMM(city.current?.pressure),
       wind: Math.round(city.current?.wind_speed),
     }),
     [city.current, city.mainData, city.daily, tempType],

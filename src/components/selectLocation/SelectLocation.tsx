@@ -3,13 +3,14 @@ import React, { KeyboardEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setLocationCitiesAC } from '../../state/citiesReducer';
+import { getDataByCityNameTC } from '../../state/dataReducer';
 import { AppRootStateType } from '../../state/store';
 import { CityType } from '../../types/types';
 
 import style from './SelectLocation.module.scss';
 
 type SelectLocationPropsType = {
-  onChooseLocation: (name: string, country: string) => void;
+  onChooseLocation: () => void;
 };
 
 export const SelectLocation = React.memo(
@@ -30,7 +31,7 @@ export const SelectLocation = React.memo(
                   e: KeyboardEvent<HTMLInputElement>,
                 ): void => {
                   if (e.charCode === 13) {
-                    onChooseLocation(city.CityName, city.CountryID);
+                    onChooseLocation();
                     dispatch(setLocationCitiesAC([]));
                   }
                 };
@@ -42,7 +43,8 @@ export const SelectLocation = React.memo(
                     className={style.row}
                     key={city.ID}
                     onClick={() => {
-                      onChooseLocation(city.CityName, city.CountryID);
+                      onChooseLocation();
+                      dispatch(getDataByCityNameTC(city.CityName));
                     }}
                   >
                     <span className={`${style.item} ${style.city}`}>

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { AppRootStateType } from '../../state/store';
 import { DataWeatherResponseType } from '../../types/types';
-import { changeTemp } from '../../utils/utils';
+import { changeTemp, fromPascalToMM } from '../../utils/utils';
 import { Icon } from '../icon/Icon';
 
 import style from './CurrentTemperature.module.scss';
@@ -22,11 +22,12 @@ export const CurrentTemperature = React.memo(() => {
   const tempType = useSelector<AppRootStateType, boolean>(
     state => state.appReducer.temperatureType,
   );
-  const CurrentTemp = useMemo(
+  const currentTemp = useMemo(
     () => ({
       current: changeTemp(tempType, Math.round(data?.main?.temp)),
       feels: changeTemp(tempType, Math.round(data?.main?.feels_like)),
-      wind: Math.round(data.wind.speed as number),
+      pressure: fromPascalToMM(data?.main?.pressure),
+      wind: Math.round(data.wind?.speed),
     }),
     [data.main, tempType],
   );
@@ -43,15 +44,15 @@ export const CurrentTemperature = React.memo(() => {
             <div className={style.item}>{data.name}</div>
             <div className={style.item}>{time}</div>
             <div className={style.item}>
-              {`Temperature ${CurrentTemp.current} ${selectedTempType}`}
+              {`Temperature ${currentTemp.current} ${selectedTempType}`}
             </div>
             <div className={style.item}>
-              {`Feels Like ${CurrentTemp.feels} ${selectedTempType}`}
+              {`Feels Like ${currentTemp.feels} ${selectedTempType}`}
             </div>
           </div>
           <div className={style.item}>{`Humidity ${data?.main?.humidity}%`}</div>
-          <div className={style.item}>{`Pressure ${data?.main?.pressure}mmHg`}</div>
-          <div className={style.item}>{`Wind speed ${CurrentTemp.wind}m/s`}</div>
+          <div className={style.item}>{`Pressure ${currentTemp.pressure} mmHg`}</div>
+          <div className={style.item}>{`Wind speed ${currentTemp.wind} m/s`}</div>
         </div>
       </div>
     </div>

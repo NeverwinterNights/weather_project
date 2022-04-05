@@ -1,7 +1,7 @@
 export type TypeSearchTypes = 'city' | 'zip' | 'coordinates';
 
 export type Themes = 'day' | 'night';
-
+export type TypeDataType = 'temperature' | 'humidity' | 'pressure';
 export type MainWeather = {
   feels_like: number;
   humidity: number;
@@ -43,9 +43,9 @@ export type DataWeatherResponseType = {
     },
   ];
   wind: {
-    deg: number | null;
-    gust: number | null;
-    speed: number | null;
+    deg: number;
+    gust: number;
+    speed: number;
   };
 };
 

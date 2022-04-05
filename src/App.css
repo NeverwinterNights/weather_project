@@ -12,7 +12,7 @@
   max-width: 47%;
   margin: 0 auto;
   overflow: hidden;
-  position: relative;
+  /*position: relative;*/
   padding: 0 30px;
   min-height: 100vh;
 }

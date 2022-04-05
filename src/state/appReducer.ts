@@ -1,12 +1,16 @@
+import { TypeDataType } from '../types/types';
+
 export type AppActionsType =
   | SetTimeActionType
   | SetGraphsActionType
-  | SetTypeOfTemperatureActionType;
+  | SetTypeOfTemperatureActionType
+  | ChangeGraphsTypeActionType;
 
 export type appStateType = {
   time: string;
   temperatureType: boolean;
   graphs: boolean;
+  typeData: TypeDataType;
 };
 
 const initialState: appStateType = {
@@ -37,6 +41,12 @@ export const appReducer = (
         graphs: action.value,
       };
     }
+    case 'CHANGE-GRAPHS-TYPE': {
+      return {
+        ...state,
+        typeData: action.value,
+      };
+    }
     default:
       return state;
   }
@@ -65,3 +75,11 @@ export const setGraphsAC = (value: boolean) =>
   } as const);
 
 export type SetGraphsActionType = ReturnType<typeof setGraphsAC>;
+
+export const changeGraphsTypeAC = (value: TypeDataType) =>
+  ({
+    type: 'CHANGE-GRAPHS-TYPE',
+    value,
+  } as const);
+
+export type ChangeGraphsTypeActionType = ReturnType<typeof changeGraphsTypeAC>;

@@ -14,16 +14,11 @@ import { Menu } from '../menu/Menu';
 import style from './Header.module.scss';
 
 export const Header = React.memo(() => {
-  // const [searchData, setSearchData] = useState<string | number>('');
-  // const [searchTypeValue, setSearchTypeValue] = useState<TypeSearchTypes>('city');
   const [menuActive, setMenuActive] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const graphs = useSelector<AppRootStateType, boolean>(state => state.appReducer.graphs);
 
-  // const onClickInputSearch = (value: string): void => {
-  //   setSearchData(value);
-  // };
   const onClickGearHandler = (): void => {
     setMenuActive(!menuActive);
   };

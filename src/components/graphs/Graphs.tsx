@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-// import dayjs from 'dayjs';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import {
@@ -14,35 +13,54 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-// import { DataWeatherType } from '../../state/dataReducer';
-// import { AppRootStateType } from '../../state/store';
 import { AppRootStateType } from '../../state/store';
-import { DataWeatherType } from '../../types/types';
+import { DailyDataType, DataWeatherType, TypeDataType } from '../../types/types';
+import { fromPascalToMM, randomColor } from '../../utils/utils';
 import { Controls } from '../controls/Controls';
 
 import style from './Graphs.module.scss';
+import { GraphsControls } from './graphsControls/graphsControls';
+
+type DataType = {
+  name: string;
+  [key: string]: number | string;
+};
 
 export const Graphs = React.memo(() => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<DataType[]>([]);
+  const type = useSelector<AppRootStateType, TypeDataType>(
+    state => state.appReducer.typeData,
+  );
+
   const cities = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
-  useEffect(() => {
-    // setData(
-    //   cities.map(city =>
-    //     city.daily.map(day => ({
-    //       name: dayjs.unix(day.dt).format('MMMM D'),
-    //       [city.cityName]: Math.round(day.temp.day),
-    //     })),
-    //   ),
-    // );
 
+  const graphTypeHandler = (daily: DailyDataType): number => {
+    switch (type) {
+      case 'temperature': {
+        return daily.temp.day;
+      }
+      case 'humidity': {
+        return daily.humidity;
+      }
+      case 'pressure': {
+        return fromPascalToMM(daily.pressure);
+      }
+      default: {
+        return daily.temp.day;
+      }
+    }
+  };
+
+  useEffect(() => {
     setData(
       cities
         .map(city =>
           city.daily.map(day => ({
             name: dayjs.unix(day.dt).format('MMMM D'),
-            [city.cityName]: Math.round(day.temp.day),
+            // [city.cityName]: Math.round(day.temp.day),
+            [city.cityName]: Math.round(graphTypeHandler(day)),
           })),
         )
         .reduce((previousValue, currentValue) => {
@@ -54,43 +72,23 @@ export const Graphs = React.memo(() => {
           }));
         }, []),
     );
-  }, [cities]);
+  }, [cities, type]);
 
-  console.log(data);
-
-  // useEffect(() => {
-  //   cities.forEach(city => {
-  //     const arrr: any[] = [];
-  //     city.daily.forEach(day => {
-  //       const date = dayjs.unix(day.dt).format('MMMM D');
-  //       if (data.length === 8) {
-  //         const result = data.map(el =>
-  //           el.name === date ? { ...el, [city.cityName]: day.temp.day } : el,
-  //         );
-  //
-  //         // const result = data.map(el => {
-  //         //   // eslint-disable-next-line no-debugger
-  //         //   debugger;
-  //         //   const a = { ...el, [city.cityName]: day.temp.day };
-  //         //   return a;
-  //         // });
-  //         console.log(result);
-  //         // setData(result);
-  //       } else {
-  //         const obj = { name: date, [city.cityName]: day.temp.day };
-  //         arrr.push(obj);
-  //       }
-  //       if (data.length !== 8) {
-  //         setData([...data, ...arrr]);
-  //       }
-  //     });
-  //   });
-  // }, [cities]);
-  // console.log(data);
+  const title =
+    data.length !== 0
+      ? data
+          .map(city => Object.keys(city))[0]
+          .splice(1, data.length)
+          .join(' & ')
+      : null;
 
   return (
     <div className={style.main}>
-      <ResponsiveContainer width="100%" height="100%">
+      <div className={style.title}>{title}</div>
+      <div className={style.subtitle}>
+        {type ? type[0].toUpperCase() + type.slice(1) : ''}
+      </div>
+      <ResponsiveContainer width="100%" height="90%">
         <LineChart
           width={500}
           height={300}
@@ -107,13 +105,19 @@ export const Graphs = React.memo(() => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-          <Line type="monotone" dataKey="amt" stroke="#82ca9d" />
+          {title?.split(' & ').map(city => (
+            <Line
+              key={randomColor()}
+              type="monotone"
+              dataKey={city}
+              stroke={randomColor()}
+            />
+          ))}
         </LineChart>
       </ResponsiveContainer>
       <div className={style.footer}>
         <Controls />
+        <GraphsControls />
       </div>
     </div>
   );
