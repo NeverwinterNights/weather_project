@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { WeatherCard } from './components/card/WeatherCard';
 import { CurrentTemperature } from './components/current/CurrentTemperature';
+import { ErrorSnackbar } from './components/error/ErrorSnackbar';
 import { Favorites } from './components/favorites/Favorites';
 import { Graphs } from './components/graphs/Graphs';
 import { Header } from './components/header/Header';
@@ -76,6 +77,7 @@ const App = React.memo(() => {
           data.map(city => <WeatherCard key={city.id} city={city} />)
         )}
       </div>
+      <ErrorSnackbar />
     </div>
   );
 });

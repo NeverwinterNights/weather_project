@@ -84,7 +84,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setCoordinatesX(+e.currentTarget.value);
               }}
-              value={coordinatesX}
+              value={coordinatesX || ''}
               type="text"
             />
             <input
@@ -92,7 +92,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setCoordinatesY(+e.currentTarget.value);
               }}
-              value={coordinatesY}
+              value={coordinatesY || ''}
               type="text"
             />
             <button type="button" onClick={clickCoordinatesHandler}>

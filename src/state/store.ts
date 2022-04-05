@@ -6,6 +6,7 @@ import { CallActionsType } from './callReducer';
 import { citiesReducer } from './citiesReducer';
 import { CurrentActionsType, currentReducer } from './currentReducer';
 import { DataActionsType, dataReducer } from './dataReducer';
+import { errorReducer } from './errorReducer';
 import { FavoritesActionsType, favoritesReducer } from './favoritesReducer';
 import { themeReducer } from './themeReducer';
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   appReducer,
   favoritesReducer,
   citiesReducer,
+  errorReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

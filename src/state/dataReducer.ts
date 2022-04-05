@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { v1 } from 'uuid';
@@ -6,13 +7,16 @@ import { dataAPI } from '../api/apiData';
 import { CurrentWeatherType, DailyDataType, MainWeather } from '../types/types';
 import { handleThunk } from '../utils/thunks-utils';
 
+// import { etErrorActionType } from './errorReducer';
+import { setErrorAC, SetErrorActionType } from './errorReducer';
 import { ActionsType, AppRootStateType } from './store';
 
 export type DataActionsType =
   | SetCityNameActionType
   | AddActionType
   | DeleteCityActionType
-  | GetDataFromLocationActionType;
+  | GetDataFromLocationActionType
+  | SetErrorActionType;
 
 export type DataWeatherType = {
   cityName: string;
@@ -129,34 +133,48 @@ export const getDataByCityNameTC =
   (name: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
   dispatch => {
     const id: string = v1();
-    dataAPI.getDataByCityName(name).then(res => {
-      handleThunk(
-        dispatch,
-        res.data.name,
-        res.data.coord.lat,
-        res.data.coord.lon,
-        res.data.main,
-        id,
-      );
-      dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
-    });
+    dataAPI
+      .getDataByCityName(name)
+      .then(res => {
+        handleThunk(
+          dispatch,
+          res.data.name,
+          res.data.coord.lat,
+          res.data.coord.lon,
+          res.data.main,
+          id,
+        );
+        dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
+      })
+      .catch(err => {
+        if (axios.isAxiosError(err) && err.response) {
+          dispatch(setErrorAC(err.response.data.message));
+        }
+      });
   };
 
 export const getDataByLocationTC =
   (lat: number, lon: number): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
   dispatch => {
     const id: string = v1();
-    dataAPI.getDataFromParams(lat, lon).then(res => {
-      handleThunk(
-        dispatch,
-        res.data.name,
-        res.data.coord.lat,
-        res.data.coord.lon,
-        res.data.main,
-        id,
-      );
-      dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
-    });
+    dataAPI
+      .getDataFromParams(lat, lon)
+      .then(res => {
+        handleThunk(
+          dispatch,
+          res.data.name,
+          res.data.coord.lat,
+          res.data.coord.lon,
+          res.data.main,
+          id,
+        );
+        dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
+      })
+      .catch(err => {
+        if (axios.isAxiosError(err) && err.response) {
+          dispatch(setErrorAC(err.response.data.message));
+        }
+      });
   };
 
 export const getDataByZipCodeTC =
@@ -166,15 +184,22 @@ export const getDataByZipCodeTC =
   ): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
   dispatch => {
     const id: string = v1();
-    dataAPI.getDataFromZip(zip, code).then(res => {
-      handleThunk(
-        dispatch,
-        res.data.name,
-        res.data.coord.lat,
-        res.data.coord.lon,
-        res.data.main,
-        id,
-      );
-      dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
-    });
+    dataAPI
+      .getDataFromZip(zip, code)
+      .then(res => {
+        handleThunk(
+          dispatch,
+          res.data.name,
+          res.data.coord.lat,
+          res.data.coord.lon,
+          res.data.main,
+          id,
+        );
+        dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
+      })
+      .catch(err => {
+        if (axios.isAxiosError(err) && err.response) {
+          dispatch(setErrorAC(err.response.data.message));
+        }
+      });
   };
