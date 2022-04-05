@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/weather_project/static/css/main.f76cca43.css",
-    "main.js": "/weather_project/static/js/main.cc18bb17.js",
+    "main.js": "/weather_project/static/js/main.299d86cb.js",
     "static/js/787.e33c3224.chunk.js": "/weather_project/static/js/787.e33c3224.chunk.js",
     "static/media/humidity.svg": "/weather_project/static/media/humidity.4810ceffb1d8565f36bc342022bed462.svg",
     "static/media/icons.woff": "/weather_project/static/media/icons.1ce898420e2306d64066.woff",
@@ -12,11 +12,11 @@
     "static/media/closed.svg": "/weather_project/static/media/closed.f71172dab95524e43ba8.svg",
     "static/media/moon.svg": "/weather_project/static/media/moon.9fae35e80d3651d1ad347037b196c637.svg",
     "main.f76cca43.css.map": "/weather_project/static/css/main.f76cca43.css.map",
-    "main.cc18bb17.js.map": "/weather_project/static/js/main.cc18bb17.js.map",
+    "main.299d86cb.js.map": "/weather_project/static/js/main.299d86cb.js.map",
     "787.e33c3224.chunk.js.map": "/weather_project/static/js/787.e33c3224.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f76cca43.css",
-    "static/js/main.cc18bb17.js"
+    "static/js/main.299d86cb.js"
   ]
 }
