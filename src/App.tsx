@@ -12,7 +12,7 @@ import { Graphs } from './components/graphs/Graphs';
 import { Header } from './components/header/Header';
 import { CURRENT_TIME } from './components/utils/constans';
 import { usePosition } from './hooks/usePosition';
-import { setTimeAC } from './state/appReducer';
+import { setTimeAC, ViewModeType } from './state/appReducer';
 import { getCurrentDataTC } from './state/currentReducer';
 import { DataWeatherType } from './state/dataReducer';
 import { setFavoritesCitiesAC } from './state/favoritesReducer';
@@ -26,7 +26,9 @@ const App = React.memo(() => {
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
   );
-  const graphs = useSelector<AppRootStateType, boolean>(state => state.appReducer.graphs);
+  const viewMode = useSelector<AppRootStateType, ViewModeType>(
+    state => state.appReducer.viewMode,
+  );
 
   const time = useSelector<AppRootStateType, string>(state => state.appReducer.time); // не пробрасывать
   const dispatch = useDispatch();
@@ -71,11 +73,10 @@ const App = React.memo(() => {
       <div className="main">
         <Header />
         {!error && <CurrentTemperature />}
-        {graphs ? (
-          <Graphs />
-        ) : (
-          data.map(city => <WeatherCard key={city.id} city={city} />)
-        )}
+        {viewMode === 'graphs' && <Graphs />}
+        {viewMode === 'card' &&
+          data.map(city => <WeatherCard key={city.id} city={city} />)}
+        {viewMode === 'map' && <div>gggggg</div>}
       </div>
       <ErrorSnackbar />
     </div>

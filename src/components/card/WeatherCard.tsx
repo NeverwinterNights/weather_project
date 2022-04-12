@@ -11,6 +11,7 @@ import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
 import { addCityAC } from '../../state/favoritesReducer';
 import { AppRootStateType } from '../../state/store';
 import { changeTemp, fromPascalToMM } from '../../utils/utils';
+import { Handle } from '../handle/Handle';
 import { Icon } from '../icon/Icon';
 import { CURRENT_TIME } from '../utils/constans';
 
@@ -75,6 +76,7 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
           type="button"
           title="Close"
         />
+        <Handle />
       </div>
       <div className={style.up}>
         <div className={style.city}>{city.cityName}</div>

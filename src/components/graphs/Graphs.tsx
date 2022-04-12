@@ -3,20 +3,21 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import {
-  LineChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from 'recharts';
 
 import { AppRootStateType } from '../../state/store';
 import { DailyDataType, DataWeatherType, TypeDataType } from '../../types/types';
 import { fromPascalToMM, randomColor } from '../../utils/utils';
 import { Controls } from '../controls/Controls';
+import { Handle } from '../handle/Handle';
 
 import style from './Graphs.module.scss';
 import { GraphsControls } from './graphsControls/graphsControls';
@@ -84,9 +85,14 @@ export const Graphs = React.memo(() => {
 
   return (
     <div className={style.main}>
-      <div className={style.title}>{title}</div>
-      <div className={style.subtitle}>
-        {type ? type[0].toUpperCase() + type.slice(1) : ''}
+      <div className={style.header}>
+        <div className={style.title}>{title}</div>
+        <div className={style.subtitle}>
+          {type ? type[0].toUpperCase() + type.slice(1) : ''}
+        </div>
+        <div className={style.controls}>
+          <Handle />
+        </div>
       </div>
       <ResponsiveContainer width="100%" height="90%">
         <LineChart
