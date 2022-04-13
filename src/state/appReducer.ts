@@ -18,6 +18,7 @@ export type appStateType = {
 const initialState: appStateType = {
   temperatureType: true,
   viewMode: 'card',
+  typeData: 'temperature',
 } as appStateType;
 
 export const appReducer = (

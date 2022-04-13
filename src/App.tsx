@@ -10,6 +10,7 @@ import { ErrorSnackbar } from './components/error/ErrorSnackbar';
 import { Favorites } from './components/favorites/Favorites';
 import { Graphs } from './components/graphs/Graphs';
 import { Header } from './components/header/Header';
+import { Map } from './components/map/Map';
 import { CURRENT_TIME } from './components/utils/constans';
 import { usePosition } from './hooks/usePosition';
 import { setTimeAC, ViewModeType } from './state/appReducer';
@@ -76,7 +77,7 @@ const App = React.memo(() => {
         {viewMode === 'graphs' && <Graphs />}
         {viewMode === 'card' &&
           data.map(city => <WeatherCard key={city.id} city={city} />)}
-        {viewMode === 'map' && <div>gggggg</div>}
+        {viewMode === 'map' && <Map />}
       </div>
       <ErrorSnackbar />
     </div>

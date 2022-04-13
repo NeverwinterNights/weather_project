@@ -32,7 +32,7 @@ export const Graphs = React.memo(() => {
   const type = useSelector<AppRootStateType, TypeDataType>(
     state => state.appReducer.typeData,
   );
-
+  console.log(type);
   const cities = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
@@ -86,9 +86,11 @@ export const Graphs = React.memo(() => {
   return (
     <div className={style.main}>
       <div className={style.header}>
-        <div className={style.title}>{title}</div>
-        <div className={style.subtitle}>
-          {type ? type[0].toUpperCase() + type.slice(1) : ''}
+        <div className={style.information}>
+          <div className={style.title}>{title}</div>
+          <div className={style.subtitle}>
+            {type ? type[0].toUpperCase() + type.slice(1) : ''}
+          </div>
         </div>
         <div className={style.controls}>
           <Handle />

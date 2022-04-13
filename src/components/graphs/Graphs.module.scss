@@ -8,7 +8,14 @@
 
 .header {
   display: flex;
+  align-items: center;
 }
+
+.information {
+  flex: 1 1 100%;
+}
+
+
 .controls {
   min-width: 120px;
 }

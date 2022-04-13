@@ -117,13 +117,15 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
       <div className={style.footer}>
         {city.daily.map(day => (
           <div key={day.dt} className={style.elem}>
-            <div className={style.row}>{`${dayjs.unix(day.dt).format('MMMM D')}`}</div>
-            <div className={style.row}>{`${dayjs.unix(day.dt).format('dddd')}`}</div>
-            <div className={style.row}>
-              <img src={sun} alt="day" /> {`${CardTemp.max} ${selectedTempType}`}
-            </div>
-            <div className={style.row}>
-              <img src={moon} alt="night" /> {`${CardTemp.min} ${selectedTempType}`}
+            <div className={style.block}>
+              <div className={style.row}>{`${dayjs.unix(day.dt).format('MMMM D')}`}</div>
+              <div className={style.row}>{`${dayjs.unix(day.dt).format('dddd')}`}</div>
+              <div className={style.row}>
+                <img src={sun} alt="day" /> {`${CardTemp.max} ${selectedTempType}`}
+              </div>
+              <div className={style.row}>
+                <img src={moon} alt="night" /> {`${CardTemp.min} ${selectedTempType}`}
+              </div>
             </div>
           </div>
         ))}
