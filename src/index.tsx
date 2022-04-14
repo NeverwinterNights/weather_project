@@ -8,6 +8,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './state/store';
 
+console.log('object');
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
