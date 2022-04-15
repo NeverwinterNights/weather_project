@@ -32,7 +32,6 @@ export const Graphs = React.memo(() => {
   const type = useSelector<AppRootStateType, TypeDataType>(
     state => state.appReducer.typeData,
   );
-  console.log(type);
   const cities = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );

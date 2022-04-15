@@ -1,22 +1,32 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import ReactDOM from 'react-dom';
-import './index.css';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
+
+import './index.css';
 
 import App from './App';
+import useTheme from './hooks/useTheme.hooks';
 import reportWebVitals from './reportWebVitals';
 import { store } from './state/store';
 
-console.log('object');
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root'),
-);
+const WrappedWithTheme = (): ReactElement => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentTheme, setCurrentTheme] = useTheme();
+  console.log(currentTheme);
+  return (
+    <ThemeProvider theme={currentTheme}>
+      {/* <StyledApp> */}
+      <Provider store={store}>
+        <App />
+      </Provider>
+      {/* </StyledApp> */}
+    </ThemeProvider>
+  );
+};
+
+ReactDOM.render(<WrappedWithTheme />, document.getElementById('root'));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

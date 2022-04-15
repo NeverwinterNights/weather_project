@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import './App.css';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 
-import { WeatherCard } from './components/card/WeatherCard';
+import { WeatherCardContainer } from './components/card/WeatherCardContainer';
 import { CurrentTemperature } from './components/current/CurrentTemperature';
-import { ErrorSnackbar } from './components/error/ErrorSnackbar';
+import { Error } from './components/error/Error';
 import { Favorites } from './components/favorites/Favorites';
 import { Graphs } from './components/graphs/Graphs';
 import { Header } from './components/header/Header';
@@ -19,11 +20,13 @@ import { DataWeatherType } from './state/dataReducer';
 import { setFavoritesCitiesAC } from './state/favoritesReducer';
 import { AppRootStateType } from './state/store';
 
+const StyledApp = styled.div`
+  ${({ theme }) => theme.colors.body}
+`;
+
 const App = React.memo(() => {
-  const theme = useSelector<AppRootStateType, boolean>(state => state.theme.dayNight);
-  const data = useSelector<AppRootStateType, DataWeatherType[]>(
-    state => state.dataReducer,
-  );
+  // const theme = useSelector<AppRootStateType, boolean>(state => state.theme.dayNight);
+
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
   );
@@ -31,10 +34,15 @@ const App = React.memo(() => {
     state => state.appReducer.viewMode,
   );
 
-  const time = useSelector<AppRootStateType, string>(state => state.appReducer.time); // не пробрасывать
+  const time = useSelector<AppRootStateType, string>(state => state.appReducer.time);
+
   const dispatch = useDispatch();
   const { latitude, longitude, error } = usePosition();
 
+  const err = useSelector<AppRootStateType, string[]>(state => state.errorReducer);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const [currentTheme, setCurrentTheme] = useTheme();
   useEffect(() => {
     if (!favoritesCity.length) {
       const myString = localStorage.getItem('state');
@@ -65,22 +73,37 @@ const App = React.memo(() => {
     }
   }, [latitude, longitude]);
 
+  const componentRender = (): ReactElement => {
+    switch (viewMode) {
+      case 'card': {
+        return <WeatherCardContainer />;
+      }
+      case 'graphs': {
+        return <Graphs />;
+      }
+      case 'map': {
+        return <Map />;
+      }
+      default:
+        return <WeatherCardContainer />;
+    }
+  };
+
   return (
-    <div
-      className="App"
-      style={theme ? { backgroundColor: '#4fbb65' } : { backgroundColor: 'white' }}
-    >
-      <Favorites />
-      <div className="main">
-        <Header />
-        {!error && <CurrentTemperature />}
-        {viewMode === 'graphs' && <Graphs />}
-        {viewMode === 'card' &&
-          data.map(city => <WeatherCard key={city.id} city={city} />)}
-        {viewMode === 'map' && <Map />}
+    <StyledApp>
+      <div
+        className="App"
+        // style={theme ? { backgroundColor: '#4fbb65' } : { backgroundColor: 'white' }}
+      >
+        <Favorites />
+        <div className="main">
+          <Header />
+          {!error && <CurrentTemperature />}
+          {componentRender()}
+        </div>
+        {err && <Error />}
       </div>
-      <ErrorSnackbar />
-    </div>
+    </StyledApp>
   );
 });
 export default App;

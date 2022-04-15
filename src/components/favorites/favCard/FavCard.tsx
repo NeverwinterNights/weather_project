@@ -80,11 +80,11 @@ export const FavCard = React.memo(({ city }: FavCardPropsType) => {
           </div>
           <div className={style.item}>
             <img className={`${style.img} ${style.hum}`} src={humidity} alt="" />
-            {`- ${favoriteData.humidity} ${favoriteTempType} %`}
+            {`- ${favoriteData.humidity} %`}
           </div>
           <div className={style.item}>
             <img className={style.img} src={wind} alt="" />
-            {`- ${favoriteData.wind} ${favoriteTempType} m/s`}
+            {`- ${favoriteData.wind} m/s`}
           </div>
         </div>
       </div>

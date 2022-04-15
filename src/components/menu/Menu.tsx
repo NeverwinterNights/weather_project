@@ -2,9 +2,10 @@ import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import schema from '../../../theme/schema';
+import useTheme from '../../hooks/useTheme.hooks';
 import { setTypeOfTemperatureAC } from '../../state/appReducer';
 import { AppRootStateType } from '../../state/store';
-import { dayNightAC } from '../../state/themeReducer';
 import { Toggle } from '../toggle/Toggle';
 
 import style from './Menu.module.scss';
@@ -19,9 +20,18 @@ export const Menu = React.memo(({ open }: MenuPropsType) => {
     state => state.appReducer.temperatureType,
   );
   const dispatch = useDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentTheme, setCurrentTheme] = useTheme();
+  // const themeHandler = (): void => {
+  //   dispatch(dayNightAC(!theme));
+  // };
 
-  const themeHandler = (): void => {
-    dispatch(dayNightAC(!theme));
+  const themeHandler = (value: boolean): void => {
+    if (value) {
+      setCurrentTheme(schema.data.Light);
+    } else {
+      setCurrentTheme(schema.data['Sea Wave']);
+    }
   };
 
   const temperatureTypeChanger = (): void => {

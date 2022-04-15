@@ -1,0 +1,44 @@
+.main {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+}
+
+.wrapper {
+  display: flex;
+  background-color: brown;
+  align-items: center;
+  height: 55px;
+  justify-content: space-between;
+  width: 350px;
+  padding: 0 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  &:last-child{
+    margin-bottom: 0;
+  }
+}
+
+.image {
+  height: 100%;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}
+.text {
+  margin: 0 7px;
+}
+
+.closed {
+  min-width: 30px;
+  height: 30px;
+  cursor: pointer;
+  background: transparent url("../../images/circle.svg") center  no-repeat;
+  border: none;
+}

@@ -28,6 +28,7 @@ export const Header = React.memo(() => {
             className={style.icon}
             style={menuActive ? { transform: 'rotate(180deg)', color: '#c9c23f' } : {}}
           />
+          {/* <img className={style.icon} src={gear} alt="" /> */}
         </div>
       </div>
     </div>

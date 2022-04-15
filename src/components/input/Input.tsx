@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -31,7 +31,6 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
 
   const onChooseLocation = (): void => {
     if (cityName.length >= 3) {
-      // setCityName(`${name}, ${country}`);
       dispatch(setLocationCitiesAC([]));
       setCityName('');
     }
@@ -57,12 +56,20 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
     setZipCode('');
   };
 
+  const keyPressNameHandler = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      clickCityNameHandler();
+    }
+  };
+
   return (
     <div style={{ position: 'relative' }}>
       <form action="">
         {typeSearch === 'city' && (
           <>
             <input
+              onKeyPress={keyPressNameHandler}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setCityName(e.currentTarget.value);
               }}

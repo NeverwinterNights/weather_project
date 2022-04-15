@@ -16,17 +16,17 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.svg$/,
-        use: [
-          {
-            loader: 'svg-url-loader',
-            options: {
-              limit: 10000,
-            },
-          },
-        ],
-      },
+      // {
+      //   test: /\.svg$/,
+      //   use: [
+      //     {
+      //       loader: 'svg-url-loader',
+      //       options: {
+      //         limit: 10000,
+      //       },
+      //     },
+      //   ],
+      // },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
@@ -55,6 +55,10 @@ module.exports = {
             ],
           },
         },
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        type: 'asset/resource',
       },
     ],
   },

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import style from './Toggle.module.scss';
 
 type TogglePropsType = {
-  themeHandler?: () => void;
+  themeHandler?: (value: boolean) => void;
   temperatureTypeChanger?: () => void;
 };
 
@@ -11,7 +11,7 @@ export const Toggle: React.FC<TogglePropsType> = React.memo(
   ({ themeHandler, temperatureTypeChanger }) => {
     const [ready, setReady] = useState<boolean>(false);
     const onClickToggleHandler = (): void => {
-      if (themeHandler) themeHandler();
+      if (themeHandler) themeHandler(ready);
       if (temperatureTypeChanger) temperatureTypeChanger();
       setReady(!ready);
     };

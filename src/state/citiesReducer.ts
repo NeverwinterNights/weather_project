@@ -1,7 +1,10 @@
+import axios from 'axios';
 import { Dispatch } from 'redux';
 
 import { dataAPI } from '../api/apiData';
 import { CityResponseType, CityType } from '../types/types';
+
+import { setErrorAC } from './errorReducer';
 
 export type CityActionsType = SetLocationCitiesActionType;
 
@@ -39,7 +42,14 @@ export const setLocationCitiesAC = (cities: CityResponseType[]) =>
 export type SetLocationCitiesActionType = ReturnType<typeof setLocationCitiesAC>;
 
 export const setLocationCitiesTH = (name: string) => (dispatch: Dispatch) => {
-  dataAPI.getCity(name).then(res => {
-    dispatch(setLocationCitiesAC(res.data));
-  });
+  dataAPI
+    .getCity(name)
+    .then(res => {
+      dispatch(setLocationCitiesAC(res.data));
+    })
+    .catch(err => {
+      if (axios.isAxiosError(err) && err.response) {
+        dispatch(setErrorAC(err.response.data.Message));
+      }
+    });
 };
