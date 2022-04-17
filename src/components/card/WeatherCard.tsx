@@ -10,7 +10,7 @@ import sun from '../../images/sun.svg';
 import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
 import { addCityAC } from '../../state/favoritesReducer';
 import { AppRootStateType } from '../../state/store';
-import { changeTemp, fromPascalToMM } from '../../utils/utils';
+import { changeTemp, conditionUtils, fromPascalToMM } from '../../utils/utils';
 import { Handle } from '../handle/Handle';
 import { Icon } from '../icon/Icon';
 import { CURRENT_TIME } from '../utils/constans';
@@ -31,6 +31,9 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
   );
+  const favData = useSelector<AppRootStateType, DataWeatherType[]>(
+    state => state.favoritesReducer,
+  );
   const dispatch = useDispatch();
 
   const onClosedHandler = (): void => {
@@ -38,6 +41,9 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
   };
 
   const onAddToFavoritesHandler = (): void => {
+    if (conditionUtils(favData, city.cityName)) {
+      return;
+    }
     dispatch(addCityAC(city));
     localStorage.setItem('state', JSON.stringify([...favoritesCity, city]));
   };

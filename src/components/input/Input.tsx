@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import useDebounce from '../../hooks/useDebounse';
 import { setLocationCitiesAC, setLocationCitiesTH } from '../../state/citiesReducer';
 import {
+  DataWeatherType,
   getDataByCityNameTC,
   getDataByLocationTC,
   getDataByZipCodeTC,
 } from '../../state/dataReducer';
 import { AppRootStateType } from '../../state/store';
 import { CityType, TypeSearchTypes } from '../../types/types';
+import { conditionUtils } from '../../utils/utils';
 import { SelectLocation } from '../selectLocation/SelectLocation';
 
 import style from './Input.module.scss';
@@ -26,6 +28,9 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
   const [coordinatesX, setCoordinatesX] = useState<number>(0);
   const [coordinatesY, setCoordinatesY] = useState<number>(0);
 
+  const data = useSelector<AppRootStateType, DataWeatherType[]>(
+    state => state.dataReducer,
+  );
   const dispatch = useDispatch();
   const debouncedSearch = useDebounce(() => dispatch(setLocationCitiesTH(cityName)), 500);
 
@@ -40,9 +45,14 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
   );
 
   const clickCityNameHandler = (): void => {
-    dispatch(getDataByCityNameTC(cityName));
-    setCityName('');
-    dispatch(setLocationCitiesAC([]));
+    if (conditionUtils(data, cityName)) {
+      dispatch(setLocationCitiesAC([]));
+      setCityName('');
+    } else {
+      dispatch(getDataByCityNameTC(cityName));
+      setCityName('');
+      dispatch(setLocationCitiesAC([]));
+    }
   };
 
   const clickCoordinatesHandler = (): void => {
@@ -79,7 +89,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
                 debouncedSearch();
               }}
             />
-            <button type="button" onClick={clickCityNameHandler}>
+            <button disabled={!cityName} type="button" onClick={clickCityNameHandler}>
               Send
             </button>
           </>

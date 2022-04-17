@@ -10,6 +10,7 @@ export interface ITheme {
   colors: {
     button: Object;
     body: Object;
+    current: Object;
   };
 }
 
@@ -29,7 +30,10 @@ const schema: IThemeSchema = {
           background: '#FFFFFF',
         },
         body: {
-          background: 'red',
+          background: '#fffff',
+        },
+        current: {
+          background: 'cornflowerblue',
         },
       },
     },
@@ -42,6 +46,9 @@ const schema: IThemeSchema = {
         },
         body: {
           background: '#4E939B',
+        },
+        current: {
+          background: 'green',
         },
       },
     },

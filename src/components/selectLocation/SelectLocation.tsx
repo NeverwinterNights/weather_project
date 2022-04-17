@@ -3,9 +3,10 @@ import React, { KeyboardEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setLocationCitiesAC } from '../../state/citiesReducer';
-import { getDataByCityNameTC } from '../../state/dataReducer';
+import { DataWeatherType, getDataByCityNameTC } from '../../state/dataReducer';
 import { AppRootStateType } from '../../state/store';
 import { CityType } from '../../types/types';
+import { conditionUtils } from '../../utils/utils';
 
 import style from './SelectLocation.module.scss';
 
@@ -20,6 +21,18 @@ export const SelectLocation = React.memo(
     const allSearchedCities = useSelector<AppRootStateType, CityType[]>(
       state => state.citiesReducer,
     );
+    const data = useSelector<AppRootStateType, DataWeatherType[]>(
+      state => state.dataReducer,
+    );
+
+    const clickSelectLocationHandler = (cityName: string): void => {
+      if (conditionUtils(data, cityName)) {
+        dispatch(setLocationCitiesAC([]));
+      } else {
+        onChooseLocation();
+        dispatch(getDataByCityNameTC(cityName));
+      }
+    };
 
     return (
       <div>
@@ -43,8 +56,7 @@ export const SelectLocation = React.memo(
                     className={style.row}
                     key={city.ID}
                     onClick={() => {
-                      onChooseLocation();
-                      dispatch(getDataByCityNameTC(city.CityName));
+                      clickSelectLocationHandler(city.CityName);
                     }}
                   >
                     <span className={`${style.item} ${style.city}`}>

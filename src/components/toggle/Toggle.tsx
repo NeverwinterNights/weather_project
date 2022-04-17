@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import themes from '../../../theme/schema';
 
 import style from './Toggle.module.scss';
 
@@ -15,11 +17,25 @@ export const Toggle: React.FC<TogglePropsType> = React.memo(
       if (temperatureTypeChanger) temperatureTypeChanger();
       setReady(!ready);
     };
+    useEffect(() => {
+      const localValue = localStorage.getItem('current-theme');
+      if (
+        localValue &&
+        themeHandler &&
+        JSON.parse(localValue).name === themes.data.Light.name
+      ) {
+        setReady(false);
+      } else {
+        setReady(true);
+      }
+      if (temperatureTypeChanger) {
+        setReady(false);
+      }
+    }, []);
 
     const onKeyToggleHandler = (): void => {
       setReady(!ready);
     };
-
     return (
       <div className={style.wrapper}>
         <div

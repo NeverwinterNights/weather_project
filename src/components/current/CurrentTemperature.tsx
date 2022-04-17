@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 import { AppRootStateType } from '../../state/store';
 import { DataWeatherResponseType } from '../../types/types';
@@ -12,6 +13,14 @@ import style from './CurrentTemperature.module.scss';
 // type CurrentPropsType = {
 //   time: string;
 // };
+const StyledCurrent = styled.div`
+  ${({ theme }) => theme.colors.current}
+  //background: cornflowerblue;
+  margin-bottom: 25px;
+  border-radius: 30px;
+  padding: 10px 100px;
+  display: flex;
+`;
 
 export const CurrentTemperature = React.memo(() => {
   const data = useSelector<AppRootStateType, DataWeatherResponseType>(
@@ -34,7 +43,8 @@ export const CurrentTemperature = React.memo(() => {
   const selectedTempType = tempType ? '\u00B0C' : '\u00B0F';
 
   return (
-    <div className={style.wrapper}>
+    <StyledCurrent>
+      {/* <div className={style.wrapper}> */}
       <div className={style.main}>
         <Icon name={data.weather?.[0].icon} size={4} />
       </div>
@@ -55,6 +65,7 @@ export const CurrentTemperature = React.memo(() => {
           <div className={style.item}>{`Wind speed ${currentTemp.wind} m/s`}</div>
         </div>
       </div>
-    </div>
+      {/* </div> */}
+    </StyledCurrent>
   );
 });

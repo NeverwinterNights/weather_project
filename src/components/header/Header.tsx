@@ -5,7 +5,11 @@ import { Menu } from '../menu/Menu';
 
 import style from './Header.module.scss';
 
-export const Header = React.memo(() => {
+type HeaderPropsType = {
+  themeHandler: (value: boolean) => void;
+};
+
+export const Header = React.memo(({ themeHandler }: HeaderPropsType) => {
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
   const onClickGearHandler = (): void => {
@@ -14,7 +18,7 @@ export const Header = React.memo(() => {
 
   return (
     <div className={style.main}>
-      <Menu open={menuActive} />
+      <Menu themeHandler={themeHandler} open={menuActive} />
       <div className={style.wrapper}>
         <div className={style.search}>
           {/* <Input typeSearch={searchTypeValue} onClickInputSearch={onClickInputSearch} /> */}

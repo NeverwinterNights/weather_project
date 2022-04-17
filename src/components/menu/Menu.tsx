@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import schema from '../../../theme/schema';
+// import schema from '../../../theme/schema';
 import useTheme from '../../hooks/useTheme.hooks';
 import { setTypeOfTemperatureAC } from '../../state/appReducer';
 import { AppRootStateType } from '../../state/store';
@@ -12,9 +12,10 @@ import style from './Menu.module.scss';
 
 type MenuPropsType = {
   open: boolean;
+  themeHandler: (value: boolean) => void;
 };
 
-export const Menu = React.memo(({ open }: MenuPropsType) => {
+export const Menu = React.memo(({ open, themeHandler }: MenuPropsType) => {
   const theme = useSelector<AppRootStateType, boolean>(state => state.theme.dayNight);
   const temperatureType = useSelector<AppRootStateType, boolean>(
     state => state.appReducer.temperatureType,
@@ -26,13 +27,13 @@ export const Menu = React.memo(({ open }: MenuPropsType) => {
   //   dispatch(dayNightAC(!theme));
   // };
 
-  const themeHandler = (value: boolean): void => {
-    if (value) {
-      setCurrentTheme(schema.data.Light);
-    } else {
-      setCurrentTheme(schema.data['Sea Wave']);
-    }
-  };
+  // const themeHandler = (value: boolean): void => {
+  //   if (value) {
+  //     setCurrentTheme(schema.data.Light);
+  //   } else {
+  //     setCurrentTheme(schema.data['Sea Wave']);
+  //   }
+  // };
 
   const temperatureTypeChanger = (): void => {
     dispatch(setTypeOfTemperatureAC(!temperatureType));
@@ -57,8 +58,3 @@ export const Menu = React.memo(({ open }: MenuPropsType) => {
     </div>
   );
 });
-// {
-//   open ? { left: '0px' } : { left: '-37%' };
-// }
-// theme ? { backgroundColor: 'white' } : { backgroundColor: '#4fbb65' };
-//  style={`${open ? "left: '0px'" : "left: '-37px'"}`}

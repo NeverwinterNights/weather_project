@@ -1,3 +1,5 @@
+import { DataWeatherType } from '../state/dataReducer';
+
 export const changeTemp = (type: boolean, value: number): number => {
   if (!type) {
     return (value * 9) / 5 + 32;
@@ -10,3 +12,9 @@ export const randomColor = (): string =>
 
 export const fromPascalToMM = (value: number): number =>
   Math.round((value / 133.3224) * 100);
+
+export const nomeToUppercase = (name: string): string =>
+  name[0].toUpperCase() + name.slice(1);
+
+export const conditionUtils = (data: DataWeatherType[], cityName: string): boolean =>
+  !!data[0] && !!data.filter(city => city.cityName === nomeToUppercase(cityName))[0];

@@ -15,7 +15,7 @@ import {
 
 import { AppRootStateType } from '../../state/store';
 import { DailyDataType, DataWeatherType, TypeDataType } from '../../types/types';
-import { fromPascalToMM, randomColor } from '../../utils/utils';
+import { fromPascalToMM, nomeToUppercase, randomColor } from '../../utils/utils';
 import { Controls } from '../controls/Controls';
 import { Handle } from '../handle/Handle';
 
@@ -87,9 +87,7 @@ export const Graphs = React.memo(() => {
       <div className={style.header}>
         <div className={style.information}>
           <div className={style.title}>{title}</div>
-          <div className={style.subtitle}>
-            {type ? type[0].toUpperCase() + type.slice(1) : ''}
-          </div>
+          <div className={style.subtitle}>{type ? nomeToUppercase(type) : ''}</div>
         </div>
         <div className={style.controls}>
           <Handle />
