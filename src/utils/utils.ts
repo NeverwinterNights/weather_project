@@ -13,8 +13,8 @@ export const randomColor = (): string =>
 export const fromPascalToMM = (value: number): number =>
   Math.round((value / 133.3224) * 100);
 
-export const nomeToUppercase = (name: string): string =>
+export const nameToUppercase = (name: string): string =>
   name[0].toUpperCase() + name.slice(1);
 
 export const conditionUtils = (data: DataWeatherType[], cityName: string): boolean =>
-  !!data[0] && !!data.filter(city => city.cityName === nomeToUppercase(cityName))[0];
+  !!data[0] && !!data.filter(city => city.cityName === nameToUppercase(cityName))[0];
