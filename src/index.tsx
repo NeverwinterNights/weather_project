@@ -70,20 +70,13 @@ const StyledApp = styled.div`
 const WrappedWithTheme = (): ReactElement => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [allThemes /* setAvailableThemes */] = useLocalStorage('all-themes', themes);
-  const [currentTheme, setCurrentTheme] = useTheme();
-  const themeHandler = (value: boolean): void => {
-    if (value) {
-      setCurrentTheme(themes.data.Light);
-    } else {
-      setCurrentTheme(themes.data['Sea Wave']);
-    }
-  };
+  const [currentTheme] = useTheme();
 
   return (
     <ThemeProvider theme={currentTheme}>
       <Provider store={store}>
         <StyledApp>
-          <App themeHandler={themeHandler} />
+          <App />
         </StyledApp>
       </Provider>
     </ThemeProvider>

@@ -1,14 +1,13 @@
-import axios from 'axios';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { v1 } from 'uuid';
 
 import { dataAPI } from '../api/apiData';
 import { CurrentWeatherType, DailyDataType, MainWeather } from '../types/types';
-import { handleThunk } from '../utils/thunks-utils';
+import { handleThunk, utilsError } from '../utils/thunks-utils';
 
 // import { etErrorActionType } from './errorReducer';
-import { setErrorAC, SetErrorActionType } from './errorReducer';
+import { SetErrorActionType } from './errorReducer';
 import { ActionsType, AppRootStateType } from './store';
 
 export type DataActionsType =
@@ -27,6 +26,7 @@ export type DataWeatherType = {
   current: CurrentWeatherType;
   daily: Array<DailyDataType>;
   timezone: string;
+  country?: string;
 };
 
 const initialState: DataWeatherType[] = [] as DataWeatherType[];
@@ -60,6 +60,7 @@ export const dataReducer = (
               current: action.current,
               daily: action.daily,
               timezone: action.timezone,
+              country: action.country,
             }
           : { ...city },
       );
@@ -96,6 +97,7 @@ export const addDataAC = (
   daily: Array<DailyDataType>,
   timezone: string,
   id: string,
+  country: string | undefined,
 ) =>
   ({
     type: 'SET-ADD-DATA',
@@ -103,6 +105,7 @@ export const addDataAC = (
     daily,
     timezone,
     id,
+    country,
   } as const);
 
 export type AddActionType = ReturnType<typeof addDataAC>;
@@ -123,14 +126,19 @@ export const getDataFromLocationAC = () =>
 export type GetDataFromLocationActionType = ReturnType<typeof getDataFromLocationAC>;
 
 export const additionalTC =
-  (lat: number, lon: number, id: string) => (dispatch: Dispatch) => {
+  (lat: number, lon: number, id: string, country?: string) => (dispatch: Dispatch) => {
     dataAPI.getDataFromCall(lat, lon).then(res => {
-      dispatch(addDataAC(res.data.current, res.data.daily, res.data.timezone, id));
+      dispatch(
+        addDataAC(res.data.current, res.data.daily, res.data.timezone, id, country),
+      );
     });
   };
 
 export const getDataByCityNameTC =
-  (name: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+  (
+    name: string,
+    country: string,
+  ): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
   dispatch => {
     const id: string = v1();
     dataAPI
@@ -144,12 +152,10 @@ export const getDataByCityNameTC =
           res.data.main,
           id,
         );
-        dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
+        dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id, country));
       })
       .catch(err => {
-        if (axios.isAxiosError(err) && err.response) {
-          dispatch(setErrorAC(err.response.data.message));
-        }
+        utilsError(err, dispatch);
       });
   };
 
@@ -171,9 +177,7 @@ export const getDataByLocationTC =
         dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
       })
       .catch(err => {
-        if (axios.isAxiosError(err) && err.response) {
-          dispatch(setErrorAC(err.response.data.message));
-        }
+        utilsError(err, dispatch);
       });
   };
 
@@ -198,8 +202,6 @@ export const getDataByZipCodeTC =
         dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
       })
       .catch(err => {
-        if (axios.isAxiosError(err) && err.response) {
-          dispatch(setErrorAC(err.response.data.message));
-        }
+        utilsError(err, dispatch);
       });
   };

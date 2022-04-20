@@ -1,5 +1,9 @@
 @import url("~leaflet/dist/leaflet.css");
 
 .main {
-  height: 1700px;
+  //height: 1700px;
+  height: 550px;
+  border-radius: 30px;
+  overflow: hidden;
+  background-color: cornflowerblue;
 }

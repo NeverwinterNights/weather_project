@@ -10,7 +10,7 @@ type TogglePropsType = {
 };
 
 export const Toggle: React.FC<TogglePropsType> = React.memo(
-  ({ themeHandler, temperatureTypeChanger }) => {
+  ({ temperatureTypeChanger, themeHandler }) => {
     const [ready, setReady] = useState<boolean>(false);
     const onClickToggleHandler = (): void => {
       if (themeHandler) themeHandler(ready);

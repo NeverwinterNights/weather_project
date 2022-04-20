@@ -24,11 +24,7 @@ const StyledApp = styled.div`
   ${({ theme }) => theme.colors.body}
 `;
 
-type AppPropsType = {
-  themeHandler: (value: boolean) => void;
-};
-
-const App = React.memo(({ themeHandler }: AppPropsType) => {
+const App = React.memo(() => {
   // const theme = useSelector<AppRootStateType, boolean>(state => state.theme.dayNight);
 
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
@@ -95,13 +91,10 @@ const App = React.memo(({ themeHandler }: AppPropsType) => {
 
   return (
     <StyledApp>
-      <div
-        className="App"
-        // style={theme ? { backgroundColor: '#4fbb65' } : { backgroundColor: 'white' }}
-      >
+      <div className="App">
         <Favorites />
         <div className="main">
-          <Header themeHandler={themeHandler} />
+          <Header />
           {!error && <CurrentTemperature />}
           {componentRender()}
         </div>

@@ -49,7 +49,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
       dispatch(setLocationCitiesAC([]));
       setCityName('');
     } else {
-      dispatch(getDataByCityNameTC(cityName));
+      dispatch(getDataByCityNameTC(cityName, ''));
       setCityName('');
       dispatch(setLocationCitiesAC([]));
     }
@@ -73,6 +73,13 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
     }
   };
 
+  const onChangeInputByName = (e: ChangeEvent<HTMLInputElement>): void => {
+    setCityName(e.currentTarget.value);
+    if (cityName) {
+      dispatch(setLocationCitiesAC([]));
+    }
+  };
+
   return (
     <div style={{ position: 'relative' }}>
       <form action="">
@@ -80,16 +87,14 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
           <>
             <input
               onKeyPress={keyPressNameHandler}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                setCityName(e.currentTarget.value);
-              }}
+              onChange={onChangeInputByName}
               value={cityName}
               type="text"
               onKeyUp={() => {
                 debouncedSearch();
               }}
             />
-            <button disabled={!cityName} type="button" onClick={clickCityNameHandler}>
+            <button type="button" onClick={clickCityNameHandler}>
               Send
             </button>
           </>

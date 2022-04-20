@@ -44,18 +44,15 @@ export const CurrentTemperature = React.memo(() => {
 
   return (
     <StyledCurrent>
-      {/* <div className={style.wrapper}> */}
       <div className={style.main}>
         <Icon name={data.weather?.[0].icon} size={4} />
+        <div className={style.name}>{data.name}</div>
+        <div className={style.temp}>{`${currentTemp.current} ${selectedTempType}`}</div>
       </div>
       <div className={style.info}>
         <div className={style.wrap}>
           <div className={style.city}>
-            <div className={style.item}>{data.name}</div>
             <div className={style.item}>{time}</div>
-            <div className={style.item}>
-              {`Temperature ${currentTemp.current} ${selectedTempType}`}
-            </div>
             <div className={style.item}>
               {`Feels Like ${currentTemp.feels} ${selectedTempType}`}
             </div>
@@ -65,7 +62,6 @@ export const CurrentTemperature = React.memo(() => {
           <div className={style.item}>{`Wind speed ${currentTemp.wind} m/s`}</div>
         </div>
       </div>
-      {/* </div> */}
     </StyledCurrent>
   );
 });

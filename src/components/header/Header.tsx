@@ -5,11 +5,7 @@ import { Menu } from '../menu/Menu';
 
 import style from './Header.module.scss';
 
-type HeaderPropsType = {
-  themeHandler: (value: boolean) => void;
-};
-
-export const Header = React.memo(({ themeHandler }: HeaderPropsType) => {
+export const Header = React.memo(() => {
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
   const onClickGearHandler = (): void => {
@@ -18,11 +14,9 @@ export const Header = React.memo(({ themeHandler }: HeaderPropsType) => {
 
   return (
     <div className={style.main}>
-      <Menu themeHandler={themeHandler} open={menuActive} />
+      <Menu open={menuActive} />
       <div className={style.wrapper}>
-        <div className={style.search}>
-          {/* <Input typeSearch={searchTypeValue} onClickInputSearch={onClickInputSearch} /> */}
-        </div>
+        <div className={style.search} />
         <Controls />
         <div className={style.controls}>
           <button
@@ -32,7 +26,6 @@ export const Header = React.memo(({ themeHandler }: HeaderPropsType) => {
             className={style.icon}
             style={menuActive ? { transform: 'rotate(180deg)', color: '#c9c23f' } : {}}
           />
-          {/* <img className={style.icon} src={gear} alt="" /> */}
         </div>
       </div>
     </div>

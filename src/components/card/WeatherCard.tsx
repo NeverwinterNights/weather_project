@@ -86,6 +86,7 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
       </div>
       <div className={style.up}>
         <div className={style.city}>{city.cityName}</div>
+        <div className={style.country}>{`(${city.country})`}</div>
         <div className={style.time}>
           {city.timezone && dayjs().tz(city.timezone).format(CURRENT_TIME)}
         </div>
@@ -123,14 +124,20 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
       <div className={style.footer}>
         {city.daily.map(day => (
           <div key={day.dt} className={style.elem}>
-            <div className={style.block}>
-              <div className={style.row}>{`${dayjs.unix(day.dt).format('MMMM D')}`}</div>
-              <div className={style.row}>{`${dayjs.unix(day.dt).format('dddd')}`}</div>
-              <div className={style.row}>
-                <img src={sun} alt="day" /> {`${CardTemp.max} ${selectedTempType}`}
-              </div>
-              <div className={style.row}>
-                <img src={moon} alt="night" /> {`${CardTemp.min} ${selectedTempType}`}
+            <div className={style.column}>
+              <div className={style.card}>
+                <div className={style.row}>{`${dayjs
+                  .unix(day.dt)
+                  .format('MMMM D')}`}</div>
+                <div className={style.row}>{`${dayjs.unix(day.dt).format('dddd')}`}</div>
+                <div className={style.row}>
+                  <img src={sun} alt="day" />
+                  <span>{`${CardTemp.max} ${selectedTempType}`}</span>
+                </div>
+                <div className={style.row}>
+                  <img src={moon} alt="night" />
+                  <span>{`${CardTemp.min} ${selectedTempType}`}</span>
+                </div>
               </div>
             </div>
           </div>

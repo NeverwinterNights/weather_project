@@ -25,15 +25,15 @@ export const SelectLocation = React.memo(
       state => state.dataReducer,
     );
 
-    const clickSelectLocationHandler = (cityName: string): void => {
+    const clickSelectLocationHandler = (cityName: string, CountryName: string): void => {
       if (conditionUtils(data, cityName)) {
         dispatch(setLocationCitiesAC([]));
       } else {
         onChooseLocation();
-        dispatch(getDataByCityNameTC(cityName));
+        dispatch(getDataByCityNameTC(cityName, CountryName));
       }
     };
-
+    console.log(allSearchedCities);
     return (
       <div>
         {allSearchedCities && (
@@ -56,7 +56,7 @@ export const SelectLocation = React.memo(
                     className={style.row}
                     key={city.ID}
                     onClick={() => {
-                      clickSelectLocationHandler(city.CityName);
+                      clickSelectLocationHandler(city.CityName, city.CountryName);
                     }}
                   >
                     <span className={`${style.item} ${style.city}`}>

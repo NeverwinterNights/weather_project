@@ -1,5 +1,8 @@
 import React from 'react';
 
+import L from 'leaflet';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 
@@ -14,6 +17,11 @@ export const Map = React.memo(() => {
     state => state.dataReducer,
   );
   const position: [number, number] = [+`${city[0].lat}`, +`${city[0].lon}`];
+
+  L.Marker.prototype.options.icon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow,
+  });
 
   return (
     <div className={style.main}>
