@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import './App.css';
 import dayjs from 'dayjs';
@@ -9,12 +9,10 @@ import { WeatherCardContainer } from './components/card/WeatherCardContainer';
 import { CurrentTemperature } from './components/current/CurrentTemperature';
 import { Error } from './components/error/Error';
 import { Favorites } from './components/favorites/Favorites';
-import { Graphs } from './components/graphs/Graphs';
 import { Header } from './components/header/Header';
-import { Map } from './components/map/Map';
 import { CURRENT_TIME } from './components/utils/constans';
 import { usePosition } from './hooks/usePosition';
-import { setTimeAC, ViewModeType } from './state/appReducer';
+import { setTimeAC } from './state/appReducer';
 import { getCurrentDataTC } from './state/currentReducer';
 import { DataWeatherType } from './state/dataReducer';
 import { setFavoritesCitiesAC } from './state/favoritesReducer';
@@ -25,24 +23,15 @@ const StyledApp = styled.div`
 `;
 
 const App = React.memo(() => {
-  // const theme = useSelector<AppRootStateType, boolean>(state => state.theme.dayNight);
-
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
   );
-  const viewMode = useSelector<AppRootStateType, ViewModeType>(
-    state => state.appReducer.viewMode,
-  );
 
   const time = useSelector<AppRootStateType, string>(state => state.appReducer.time);
-
   const dispatch = useDispatch();
   const { latitude, longitude, error } = usePosition();
-
   const err = useSelector<AppRootStateType, string[]>(state => state.errorReducer);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const [currentTheme, setCurrentTheme] = useTheme();
   useEffect(() => {
     if (!favoritesCity.length) {
       const myString = localStorage.getItem('state');
@@ -73,22 +62,6 @@ const App = React.memo(() => {
     }
   }, [latitude, longitude]);
 
-  const componentRender = (): ReactElement => {
-    switch (viewMode) {
-      case 'card': {
-        return <WeatherCardContainer />;
-      }
-      case 'graphs': {
-        return <Graphs />;
-      }
-      case 'map': {
-        return <Map />;
-      }
-      default:
-        return <WeatherCardContainer />;
-    }
-  };
-
   return (
     <StyledApp>
       <div className="App">
@@ -96,7 +69,7 @@ const App = React.memo(() => {
         <div className="main">
           <Header />
           {!error && <CurrentTemperature />}
-          {componentRender()}
+          <WeatherCardContainer />
         </div>
         {err && <Error />}
       </div>

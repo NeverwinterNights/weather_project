@@ -4,7 +4,6 @@ export type AppActionsType =
   | SetTimeActionType
   | SetGraphsActionType
   | SetTypeOfTemperatureActionType
-  | SetIDActionType
   | ChangeGraphsTypeActionType;
 
 export type ViewModeType = 'graphs' | 'map' | 'card';
@@ -14,7 +13,6 @@ export type appStateType = {
   temperatureType: boolean;
   viewMode: ViewModeType;
   typeData: TypeDataType;
-  id: string;
 };
 
 const initialState: appStateType = {
@@ -52,12 +50,6 @@ export const appReducer = (
         typeData: action.value,
       };
     }
-    case 'SET-ID': {
-      return {
-        ...state,
-        id: action.value,
-      };
-    }
     default:
       return state;
   }
@@ -90,14 +82,6 @@ export type SetGraphsActionType = ReturnType<typeof setGraphsAC>;
 export const changeGraphsTypeAC = (value: TypeDataType) =>
   ({
     type: 'CHANGE-GRAPHS-TYPE',
-    value,
-  } as const);
-
-export type SetIDActionType = ReturnType<typeof setIDTypeAC>;
-
-export const setIDTypeAC = (value: string) =>
-  ({
-    type: 'SET-ID',
     value,
   } as const);
 

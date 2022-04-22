@@ -1,3 +1,4 @@
+// import React, { ReactElement, useMemo } from 'react';
 import React, { useMemo } from 'react';
 
 import dayjs from 'dayjs';
@@ -5,7 +6,6 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setIDTypeAC } from '../../state/appReducer';
 import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
 import { addCityAC } from '../../state/favoritesReducer';
 import { AppRootStateType } from '../../state/store';
@@ -14,7 +14,7 @@ import { Handle } from '../handle/Handle';
 import { Icon } from '../icon/Icon';
 import { CURRENT_TIME } from '../utils/constans';
 
-import { Week } from './elements/Week';
+import { WeekForecast } from './elements/WeekForecast';
 import style from './WeatherCard.module.scss';
 
 dayjs.extend(utc);
@@ -22,9 +22,10 @@ dayjs.extend(timezone);
 
 type WeatherCardPropsType = {
   city: DataWeatherType;
+  getID: (id: string) => void;
 };
 
-export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
+export const WeatherCard = React.memo(({ city, getID }: WeatherCardPropsType) => {
   const tempType = useSelector<AppRootStateType, boolean>(
     state => state.appReducer.temperatureType,
   );
@@ -34,6 +35,7 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
   const favData = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
   );
+
   const dispatch = useDispatch();
 
   const onClosedHandler = (): void => {
@@ -48,8 +50,8 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
     localStorage.setItem('state', JSON.stringify([...favoritesCity, city]));
   };
 
-  const getID = (): void => {
-    dispatch(setIDTypeAC(city.id));
+  const getId = (): void => {
+    getID(city.id);
   };
 
   const selectedTempType = tempType ? '\u00B0C' : '\u00B0F';
@@ -69,67 +71,69 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
     [city.current, city.mainData, city.daily, tempType],
   );
   return (
-    <div className={style.wrapper}>
-      <div className={style.header}>
-        <button
-          className={style.add}
-          onClick={onAddToFavoritesHandler}
-          aria-label=" "
-          type="button"
-          title="Add to Favorites"
+    <div className={style.main}>
+      <div className={style.wrapper}>
+        <div className={style.header}>
+          <button
+            className={style.add}
+            onClick={onAddToFavoritesHandler}
+            aria-label=" "
+            type="button"
+            title="Add to Favorites"
+          />
+          <button
+            className={style.delete}
+            onClick={onClosedHandler}
+            aria-label=" "
+            type="button"
+            title="Close"
+          />
+          <Handle getId={getId} />
+        </div>
+        <div className={style.up}>
+          <div className={style.city}>{city.cityName}</div>
+          <div className={style.country}>{city.country ? `(${city.country})` : ''}</div>
+          <div className={style.time}>
+            {city.timezone && dayjs().tz(city.timezone).format(CURRENT_TIME)}
+          </div>
+        </div>
+        <div className={style.main}>
+          <div className={style.info}>
+            {Object.keys(city.current).length && city.current.weather[0] ? (
+              <Icon name={city.current.weather[0].icon} size={4} />
+            ) : null}
+            <div className={style.temp}>{`${CardTemp.current} ${selectedTempType}`}</div>
+          </div>
+          <div className={style.block}>
+            <div className={style.item}>
+              {`Minimum temp. ${CardTemp.min} ${selectedTempType}`}
+            </div>
+            <div className={style.item}>
+              {`Maximum temp. ${CardTemp.max} ${selectedTempType}`}
+            </div>
+            <div className={style.item}>
+              {`Feels like ${CardTemp.feels} ${selectedTempType}`}
+            </div>
+            <div className={style.item}>
+              {`Day temp. ${CardTemp.day} ${selectedTempType}`}
+            </div>
+            <div className={style.item}>
+              {`Night temp. ${CardTemp.night} ${selectedTempType}`}
+            </div>
+          </div>
+          <div className={style.block}>
+            <div className={style.item}> {`Humidity ${CardTemp.humidity} %`}</div>
+            <div className={style.item}>{`Pressure ${CardTemp.pressure} mmHg`}</div>
+            <div className={style.item}>{`Wind Speed ${CardTemp.wind} m/s`}</div>
+          </div>
+        </div>
+        <WeekForecast
+          max={CardTemp.max}
+          min={CardTemp.min}
+          selectedTempType={selectedTempType}
+          city={city}
         />
-        <button
-          className={style.delete}
-          onClick={onClosedHandler}
-          aria-label=" "
-          type="button"
-          title="Close"
-        />
-        <Handle getID={getID} />
       </div>
-      <div className={style.up}>
-        <div className={style.city}>{city.cityName}</div>
-        <div className={style.country}>{city.country ? `(${city.country})` : ''}</div>
-        <div className={style.time}>
-          {city.timezone && dayjs().tz(city.timezone).format(CURRENT_TIME)}
-        </div>
-      </div>
-      <div className={style.main}>
-        <div className={style.info}>
-          {Object.keys(city.current).length && city.current.weather[0] ? (
-            <Icon name={city.current.weather[0].icon} size={4} />
-          ) : null}
-          <div className={style.temp}>{`${CardTemp.current} ${selectedTempType}`}</div>
-        </div>
-        <div className={style.block}>
-          <div className={style.item}>
-            {`Minimum temp. ${CardTemp.min} ${selectedTempType}`}
-          </div>
-          <div className={style.item}>
-            {`Maximum temp. ${CardTemp.max} ${selectedTempType}`}
-          </div>
-          <div className={style.item}>
-            {`Feels like ${CardTemp.feels} ${selectedTempType}`}
-          </div>
-          <div className={style.item}>
-            {`Day temp. ${CardTemp.day} ${selectedTempType}`}
-          </div>
-          <div className={style.item}>
-            {`Night temp. ${CardTemp.night} ${selectedTempType}`}
-          </div>
-        </div>
-        <div className={style.block}>
-          <div className={style.item}> {`Humidity ${CardTemp.humidity} %`}</div>
-          <div className={style.item}>{`Pressure ${CardTemp.pressure} mmHg`}</div>
-          <div className={style.item}>{`Wind Speed ${CardTemp.wind} m/s`}</div>
-        </div>
-      </div>
-      <Week
-        max={CardTemp.max}
-        min={CardTemp.min}
-        selectedTempType={selectedTempType}
-        city={city}
-      />
     </div>
   );
 });

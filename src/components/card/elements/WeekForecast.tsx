@@ -14,7 +14,7 @@ type WeekCardPropsType = {
   min: number;
 };
 
-export const Week = React.memo(
+export const WeekForecast = React.memo(
   ({ city, selectedTempType, max, min }: WeekCardPropsType) => (
     <div className={style.footer}>
       {city.daily.map(day => (

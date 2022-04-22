@@ -12,11 +12,14 @@ import { Handle } from '../handle/Handle';
 
 import style from './Map.module.scss';
 
-export const Map = React.memo(() => {
+type MapPropsType = {
+  ID: string;
+};
+
+export const Map = React.memo(({ ID }: MapPropsType) => {
   const city = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
-  const ID = useSelector<AppRootStateType, string>(state => state.appReducer.id);
   const currentCity = city.filter(town => town.id === ID);
 
   const position: [number, number] = [+`${currentCity[0].lat}`, +`${currentCity[0].lon}`];

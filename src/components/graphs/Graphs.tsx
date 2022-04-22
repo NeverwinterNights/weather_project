@@ -16,7 +16,7 @@ import {
 import { AppRootStateType } from '../../state/store';
 import { DailyDataType, DataWeatherType, TypeDataType } from '../../types/types';
 import { fromPascalToMM, nameToUppercase, randomColor } from '../../utils/utils';
-import { Controls } from '../controls/Controls';
+// import { Controls } from '../controls/Controls';
 import { Handle } from '../handle/Handle';
 
 import style from './Graphs.module.scss';
@@ -26,8 +26,11 @@ type DataType = {
   name: string;
   [key: string]: number | string;
 };
+type GraphsPropsType = {
+  getID: (id: string) => void;
+};
 
-export const Graphs = React.memo(() => {
+export const Graphs = React.memo(({ getID }: GraphsPropsType) => {
   const [data, setData] = useState<DataType[]>([]);
   const type = useSelector<AppRootStateType, TypeDataType>(
     state => state.appReducer.typeData,
@@ -35,6 +38,12 @@ export const Graphs = React.memo(() => {
   const cities = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
+
+  const id = cities && cities.map(town => town.id)[0];
+
+  const getId = (): void => {
+    getID(id);
+  };
 
   const graphTypeHandler = (daily: DailyDataType): number => {
     switch (type) {
@@ -90,7 +99,7 @@ export const Graphs = React.memo(() => {
           <div className={style.subtitle}>{type ? nameToUppercase(type) : ''}</div>
         </div>
         <div className={style.controls}>
-          <Handle />
+          <Handle getId={getId} />
         </div>
       </div>
       <ResponsiveContainer width="100%" height="90%">
@@ -116,12 +125,13 @@ export const Graphs = React.memo(() => {
               type="monotone"
               dataKey={city}
               stroke={randomColor()}
+              strokeWidth={4}
             />
           ))}
         </LineChart>
       </ResponsiveContainer>
       <div className={style.footer}>
-        <Controls />
+        {/* <Controls /> */}
         <GraphsControls />
       </div>
     </div>

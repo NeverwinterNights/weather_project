@@ -7,19 +7,15 @@ import { setGraphsAC, ViewModeType } from '../../state/appReducer';
 import style from './Handle.module.scss';
 
 type HandlePropsType = {
-  // eslint-disable-next-line react/require-default-props
-  getID?: () => void;
+  getId?: () => void;
 };
 
-export const Handle = React.memo(({ getID }: HandlePropsType) => {
+export const Handle: React.FC<HandlePropsType> = React.memo(({ getId }) => {
   const dispatch = useDispatch();
   const onClickHandler = (viewMode: ViewModeType): void => {
     dispatch(setGraphsAC(viewMode));
-  };
-  const onClickMapHandler = (viewMode: ViewModeType): void => {
-    dispatch(setGraphsAC(viewMode));
-    if (getID) {
-      getID();
+    if (getId) {
+      getId();
     }
   };
 
@@ -31,7 +27,7 @@ export const Handle = React.memo(({ getID }: HandlePropsType) => {
       <button value="graphs" onClick={() => onClickHandler('graphs')} type="button">
         Graphs
       </button>
-      <button value="map" onClick={() => onClickMapHandler('map')} type="button">
+      <button value="map" onClick={() => onClickHandler('map')} type="button">
         Map
       </button>
     </div>
