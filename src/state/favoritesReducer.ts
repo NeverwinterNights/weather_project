@@ -21,8 +21,6 @@ export const favoritesReducer = (
     }
     case 'SET-CITIES': {
       return [...state, ...action.cities];
-      // let copyState = [...state]
-      // copyState.map((town)=> town.id===action.cities.)
     }
     case 'DELETE-CITY': {
       return state.filter(town => town.id !== action.cityId);

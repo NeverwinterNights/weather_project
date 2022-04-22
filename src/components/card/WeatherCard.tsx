@@ -5,8 +5,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { useDispatch, useSelector } from 'react-redux';
 
-import moon from '../../images/moon.svg';
-import sun from '../../images/sun.svg';
+import { setIDTypeAC } from '../../state/appReducer';
 import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
 import { addCityAC } from '../../state/favoritesReducer';
 import { AppRootStateType } from '../../state/store';
@@ -15,6 +14,7 @@ import { Handle } from '../handle/Handle';
 import { Icon } from '../icon/Icon';
 import { CURRENT_TIME } from '../utils/constans';
 
+import { Week } from './elements/Week';
 import style from './WeatherCard.module.scss';
 
 dayjs.extend(utc);
@@ -48,6 +48,10 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
     localStorage.setItem('state', JSON.stringify([...favoritesCity, city]));
   };
 
+  const getID = (): void => {
+    dispatch(setIDTypeAC(city.id));
+  };
+
   const selectedTempType = tempType ? '\u00B0C' : '\u00B0F';
 
   const CardTemp = useMemo(
@@ -64,7 +68,6 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
     }),
     [city.current, city.mainData, city.daily, tempType],
   );
-
   return (
     <div className={style.wrapper}>
       <div className={style.header}>
@@ -82,11 +85,11 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
           type="button"
           title="Close"
         />
-        <Handle />
+        <Handle getID={getID} />
       </div>
       <div className={style.up}>
         <div className={style.city}>{city.cityName}</div>
-        <div className={style.country}>{`(${city.country})`}</div>
+        <div className={style.country}>{city.country ? `(${city.country})` : ''}</div>
         <div className={style.time}>
           {city.timezone && dayjs().tz(city.timezone).format(CURRENT_TIME)}
         </div>
@@ -121,28 +124,12 @@ export const WeatherCard = React.memo(({ city }: WeatherCardPropsType) => {
           <div className={style.item}>{`Wind Speed ${CardTemp.wind} m/s`}</div>
         </div>
       </div>
-      <div className={style.footer}>
-        {city.daily.map(day => (
-          <div key={day.dt} className={style.elem}>
-            <div className={style.column}>
-              <div className={style.card}>
-                <div className={style.row}>{`${dayjs
-                  .unix(day.dt)
-                  .format('MMMM D')}`}</div>
-                <div className={style.row}>{`${dayjs.unix(day.dt).format('dddd')}`}</div>
-                <div className={style.row}>
-                  <img src={sun} alt="day" />
-                  <span>{`${CardTemp.max} ${selectedTempType}`}</span>
-                </div>
-                <div className={style.row}>
-                  <img src={moon} alt="night" />
-                  <span>{`${CardTemp.min} ${selectedTempType}`}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <Week
+        max={CardTemp.max}
+        min={CardTemp.min}
+        selectedTempType={selectedTempType}
+        city={city}
+      />
     </div>
   );
 });

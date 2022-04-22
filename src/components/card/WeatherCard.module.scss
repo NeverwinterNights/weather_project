@@ -75,22 +75,22 @@
 .footer {
   padding: 0px 15px;
   display: flex;
-  justify-content: flex-end;
+  //justify-content: flex-end;
   align-items: center;
   margin: 0 -4px;
 }
+.column {
+  padding: 0 4px;
+  width: 100%;
 
+}
 .elem {
   flex: 1 1 18%;
 
 
 }
 
-.column {
-  padding: 0 4px;
-  width: 100%;
 
-}
 
 .card {
   background: #5a8ce5;

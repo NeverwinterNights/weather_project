@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import {
+  CityHintsResponse,
   CityResponseType,
   DataCallWeatherResponseType,
   DataWeatherResponseType,
@@ -39,6 +40,12 @@ export const dataAPI = {
   getCity(name: string) {
     return axios.get<CityResponseType[]>(
       `https://dataservice.accuweather.com/locations/v1/cities/search?apikey=n0sCB6fE383pJ65PYp8nu5T58wHsC7JL&q=${name}`,
+    );
+  },
+
+  getLocationHints(name: string) {
+    return axios.get<CityHintsResponse>(
+      `https://api.opencagedata.com/geocode/v1/json?q=${name}&key=64a1714fbdda479ebb06a3fa9dbd5ba9&language=en`,
     );
   },
 };

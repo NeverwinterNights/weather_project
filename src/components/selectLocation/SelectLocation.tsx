@@ -12,10 +12,12 @@ import style from './SelectLocation.module.scss';
 
 type SelectLocationPropsType = {
   onChooseLocation: () => void;
+  setCityName: (str: string) => void;
+  countryIDHandler: (ID: string) => void;
 };
 
 export const SelectLocation = React.memo(
-  ({ onChooseLocation }: SelectLocationPropsType) => {
+  ({ onChooseLocation, setCityName, countryIDHandler }: SelectLocationPropsType) => {
     const dispatch = useDispatch();
 
     const allSearchedCities = useSelector<AppRootStateType, CityType[]>(
@@ -25,15 +27,24 @@ export const SelectLocation = React.memo(
       state => state.dataReducer,
     );
 
-    const clickSelectLocationHandler = (cityName: string, CountryName: string): void => {
-      if (conditionUtils(data, cityName)) {
+    // const clickSelectLocationHandler = (cityName: string, CountryName: string): void => {
+    const clickSelectLocationHandler = (
+      cityName: string,
+      lat: number,
+      lon: number,
+      countryID: string,
+    ): void => {
+      if (conditionUtils(data, cityName, countryID)) {
+        setCityName('');
         dispatch(setLocationCitiesAC([]));
       } else {
         onChooseLocation();
-        dispatch(getDataByCityNameTC(cityName, CountryName));
+        // dispatch(getDataByCityNameTC(cityName, CountryName));
+        // dispatch(getDataByCityNameTC(cityName));
+        dispatch(getDataByCityNameTC(cityName, lat, lon, countryID));
+        countryIDHandler(countryID);
       }
     };
-    console.log(allSearchedCities);
     return (
       <div>
         {allSearchedCities && (
@@ -48,6 +59,7 @@ export const SelectLocation = React.memo(
                     dispatch(setLocationCitiesAC([]));
                   }
                 };
+                // console.log(city);
                 return (
                   <div
                     tabIndex={0}
@@ -56,7 +68,13 @@ export const SelectLocation = React.memo(
                     className={style.row}
                     key={city.ID}
                     onClick={() => {
-                      clickSelectLocationHandler(city.CityName, city.CountryName);
+                      // clickSelectLocationHandler(city.CityName, city.CountryName);
+                      clickSelectLocationHandler(
+                        city.CityName,
+                        city.lat,
+                        city.lot,
+                        city.CountryID,
+                      );
                     }}
                   >
                     <span className={`${style.item} ${style.city}`}>
@@ -65,9 +83,12 @@ export const SelectLocation = React.memo(
                     <span className={`${style.item} ${style.area}`}>
                       {city.AdministrativeArea},
                     </span>
-                    <span className={`${style.item} ${style.country}`}>
-                      {city.CountryName}
+                    <span className={`${style.item} ${style.area}`}>
+                      {city.CountryID},
                     </span>
+                    {/* <span className={`${style.item} ${style.country}`}> */}
+                    {/*  {city.CountryName} */}
+                    {/* </span> */}
                   </div>
                 );
               })}

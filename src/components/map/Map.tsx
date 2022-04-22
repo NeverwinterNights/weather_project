@@ -16,7 +16,10 @@ export const Map = React.memo(() => {
   const city = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
-  const position: [number, number] = [+`${city[0].lat}`, +`${city[0].lon}`];
+  const ID = useSelector<AppRootStateType, string>(state => state.appReducer.id);
+  const currentCity = city.filter(town => town.id === ID);
+
+  const position: [number, number] = [+`${currentCity[0].lat}`, +`${currentCity[0].lon}`];
 
   L.Marker.prototype.options.icon = L.icon({
     iconUrl: icon,

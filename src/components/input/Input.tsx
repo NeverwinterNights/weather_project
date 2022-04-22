@@ -6,7 +6,7 @@ import useDebounce from '../../hooks/useDebounse';
 import { setLocationCitiesAC, setLocationCitiesTH } from '../../state/citiesReducer';
 import {
   DataWeatherType,
-  getDataByCityNameTC,
+  getDataByInputNameTC,
   getDataByLocationTC,
   getDataByZipCodeTC,
 } from '../../state/dataReducer';
@@ -27,12 +27,16 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
   const [zipCode, setZipCode] = useState<string>('');
   const [coordinatesX, setCoordinatesX] = useState<number>(0);
   const [coordinatesY, setCoordinatesY] = useState<number>(0);
+  const [countryID, setCountryID] = useState<string>('');
 
   const data = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
   const dispatch = useDispatch();
   const debouncedSearch = useDebounce(() => dispatch(setLocationCitiesTH(cityName)), 500);
+  const allSearchedCities = useSelector<AppRootStateType, CityType[]>(
+    state => state.citiesReducer,
+  );
 
   const onChooseLocation = (): void => {
     if (cityName.length >= 3) {
@@ -40,19 +44,26 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
       setCityName('');
     }
   };
-  const allSearchedCities = useSelector<AppRootStateType, CityType[]>(
-    state => state.citiesReducer,
-  );
 
   const clickCityNameHandler = (): void => {
-    if (conditionUtils(data, cityName)) {
+    if (conditionUtils(data, cityName, countryID)) {
       dispatch(setLocationCitiesAC([]));
       setCityName('');
     } else {
-      dispatch(getDataByCityNameTC(cityName, ''));
+      dispatch(getDataByInputNameTC(cityName));
       setCityName('');
       dispatch(setLocationCitiesAC([]));
     }
+  };
+
+  const onKeyUpSendHandler = (): void => {
+    if (cityName.length >= 3) {
+      debouncedSearch();
+    }
+  };
+
+  const countryIDHandler = (ID: string): void => {
+    setCountryID(ID);
   };
 
   const clickCoordinatesHandler = (): void => {
@@ -80,6 +91,10 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
     }
   };
 
+  const stateHandler = (str: string): void => {
+    setCityName(str);
+  };
+
   return (
     <div style={{ position: 'relative' }}>
       <form action="">
@@ -90,11 +105,13 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               onChange={onChangeInputByName}
               value={cityName}
               type="text"
-              onKeyUp={() => {
-                debouncedSearch();
-              }}
+              onKeyUp={onKeyUpSendHandler}
             />
-            <button type="button" onClick={clickCityNameHandler}>
+            <button
+              disabled={allSearchedCities.length < 1}
+              type="button"
+              onClick={clickCityNameHandler}
+            >
               Send
             </button>
           </>
@@ -147,7 +164,11 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
         )}
       </form>
       {allSearchedCities.length !== 0 && (
-        <SelectLocation onChooseLocation={onChooseLocation} />
+        <SelectLocation
+          countryIDHandler={countryIDHandler}
+          setCityName={stateHandler}
+          onChooseLocation={onChooseLocation}
+        />
       )}
     </div>
   );

@@ -10,9 +10,6 @@ import { Icon } from '../icon/Icon';
 
 import style from './CurrentTemperature.module.scss';
 
-// type CurrentPropsType = {
-//   time: string;
-// };
 const StyledCurrent = styled.div`
   ${({ theme }) => theme.colors.current}
   //background: cornflowerblue;

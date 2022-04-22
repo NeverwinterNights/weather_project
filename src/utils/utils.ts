@@ -16,5 +16,13 @@ export const fromPascalToMM = (value: number): number =>
 export const nameToUppercase = (name: string): string =>
   name[0].toUpperCase() + name.slice(1);
 
-export const conditionUtils = (data: DataWeatherType[], cityName: string): boolean =>
-  !!data[0] && !!data.filter(city => city.cityName === nameToUppercase(cityName))[0];
+export const conditionUtils = (
+  data: DataWeatherType[],
+  cityName: string,
+  country?: string,
+): boolean =>
+  !!data.length &&
+  !!data.filter(
+    city => city.cityName === nameToUppercase(cityName) && city.country === country,
+  ).length;
+// city => city.cityName === nameToUppercase(cityName) && city.country === CountryName)[0];
