@@ -9,7 +9,8 @@
 
 .main {
     /*max-width: 900px;*/
-    max-width: 47%;
+    max-width: 51%;
+    width: 100%;
     margin: 0 auto;
     overflow: hidden;
     /*position: relative;*/

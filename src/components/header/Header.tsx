@@ -1,33 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 
+import { useDispatch } from 'react-redux';
+
+// import { ReactComponent as Star } from '../../images/star.svg';
+import { changeFavoritesAC } from '../../state/appReducer';
 import { Controls } from '../controls/Controls';
-import { Menu } from '../menu/Menu';
 
 import style from './Header.module.scss';
+import { Star } from './icons/Star';
 
-export const Header = React.memo(() => {
-  const [menuActive, setMenuActive] = useState<boolean>(false);
+type HeaderPropsType = {
+  menuActive: boolean;
+  onClickGearHandler: () => void;
+};
 
-  const onClickGearHandler = (): void => {
-    setMenuActive(!menuActive);
-  };
+export const Header = React.memo(
+  ({ menuActive, onClickGearHandler }: HeaderPropsType) => {
+    const dispatch = useDispatch();
 
-  return (
-    <div className={style.main}>
-      <Menu open={menuActive} />
-      <div className={style.wrapper}>
-        <div className={style.search} />
-        <Controls />
-        <div className={style.controls}>
-          <button
-            onClick={onClickGearHandler}
-            type="button"
-            aria-label=" "
-            className={style.icon}
-            style={menuActive ? { transform: 'rotate(180deg)', color: '#c9c23f' } : {}}
-          />
+    const onClickFavoriteHandler = (fav: boolean): void => {
+      dispatch(changeFavoritesAC(fav));
+    };
+
+    return (
+      <div className={style.main}>
+        <div className={style.wrapper}>
+          <div className={style.search} />
+          <Controls />
+          <div className={style.controls}>
+            {/* <Star className={style.favorites} onClick={onClickFavoriteHandler} /> */}
+            <Star onClickFavoriteHandler={onClickFavoriteHandler} />
+            {/* <button */}
+            {/*  onClick={onClickFavoriteHandler} */}
+            {/*  type="button" */}
+            {/*  aria-label=" " */}
+            {/*  className={style.favorites} */}
+            {/*  style={menuActive ? { transform: 'rotate(180deg)', color: '#c9c23f' } : {}} */}
+            {/* /> */}
+            <button
+              onClick={onClickGearHandler}
+              type="button"
+              aria-label=" "
+              className={style.icon}
+              style={menuActive ? { transform: 'rotate(180deg)', color: '#c9c23f' } : {}}
+            />
+          </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);

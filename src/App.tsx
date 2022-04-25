@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './App.css';
 import dayjs from 'dayjs';
@@ -8,8 +8,9 @@ import styled from 'styled-components';
 import { WeatherCardContainer } from './components/card/WeatherCardContainer';
 import { CurrentTemperature } from './components/current/CurrentTemperature';
 import { Error } from './components/error/Error';
-import { Favorites } from './components/favorites/Favorites';
+import { FavMenu } from './components/favorites/FavMenu/FavMenu';
 import { Header } from './components/header/Header';
+import { MenuTheme } from './components/menuTheme/MenuTheme';
 import { CURRENT_TIME } from './components/utils/constans';
 import { usePosition } from './hooks/usePosition';
 import { setTimeAC } from './state/appReducer';
@@ -26,6 +27,7 @@ const App = React.memo(() => {
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
   );
+  const [menuActive, setMenuActive] = useState<boolean>(false);
 
   const time = useSelector<AppRootStateType, string>(state => state.appReducer.time);
   const dispatch = useDispatch();
@@ -62,12 +64,18 @@ const App = React.memo(() => {
     }
   }, [latitude, longitude]);
 
+  const onClickGearHandler = (): void => {
+    setMenuActive(!menuActive);
+  };
+
   return (
     <StyledApp>
       <div className="App">
-        <Favorites />
+        <Header onClickGearHandler={onClickGearHandler} menuActive={menuActive} />
+        <MenuTheme open={menuActive} />
+        {/* <Favorites /> */}
+        <FavMenu />
         <div className="main">
-          <Header />
           {!error && <CurrentTemperature />}
           <WeatherCardContainer />
         </div>

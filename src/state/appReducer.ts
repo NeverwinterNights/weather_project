@@ -4,6 +4,7 @@ export type AppActionsType =
   | SetTimeActionType
   | SetGraphsActionType
   | SetTypeOfTemperatureActionType
+  | ChangeFavoritesActionType
   | ChangeGraphsTypeActionType;
 
 export type ViewModeType = 'graphs' | 'map' | 'card';
@@ -13,12 +14,14 @@ export type appStateType = {
   temperatureType: boolean;
   viewMode: ViewModeType;
   typeData: TypeDataType;
+  favorite: boolean;
 };
 
 const initialState: appStateType = {
   temperatureType: true,
   viewMode: 'card',
   typeData: 'temperature',
+  favorite: false,
 } as appStateType;
 
 export const appReducer = (
@@ -48,6 +51,12 @@ export const appReducer = (
       return {
         ...state,
         typeData: action.value,
+      };
+    }
+    case 'CHANGE-FAVORITES': {
+      return {
+        ...state,
+        favorite: action.value,
       };
     }
     default:
@@ -86,3 +95,11 @@ export const changeGraphsTypeAC = (value: TypeDataType) =>
   } as const);
 
 export type ChangeGraphsTypeActionType = ReturnType<typeof changeGraphsTypeAC>;
+
+export const changeFavoritesAC = (value: boolean) =>
+  ({
+    type: 'CHANGE-FAVORITES',
+    value,
+  } as const);
+
+export type ChangeFavoritesActionType = ReturnType<typeof changeFavoritesAC>;

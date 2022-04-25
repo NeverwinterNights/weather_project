@@ -1,12 +1,19 @@
 
 .main {
   padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  background-color: #3388ff;
+  margin-bottom: 5px;
 }
 
 .wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1170px;
+  width: 100%;
+  padding: 0 30px;
 }
 
 
@@ -15,11 +22,26 @@
   height: 20px;
   cursor: pointer;
   border: none;
-
-  background: url("./../../images/gear.svg")  no-repeat;
-  background-color: transparent;
+  background: transparent url("./../../images/gear.svg") no-repeat;
   transition: all 0.3s ease 0s;
   position: relative;
+}
+
+.favorites {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: none;
+  margin-right: 25px;
+  background: transparent url("./../../images/star.svg") no-repeat;
+  transition: all 0.3s ease 0s;
+  position: relative;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+
 }
 
 

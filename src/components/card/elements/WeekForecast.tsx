@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import moon from '../../../images/moon.svg';
 import sun from '../../../images/sun.svg';
 import { DataWeatherType } from '../../../state/dataReducer';
-import style from '../WeatherCard.module.scss';
+import style from '../Temperature.module.scss';
 
 type WeekCardPropsType = {
   city: DataWeatherType;

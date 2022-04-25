@@ -139,7 +139,7 @@ export const getDataByCityNameTC =
     name: string,
     lat: number,
     lon: number,
-    countryID: string,
+    countryID?: string,
   ): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
   dispatch => {
     const id: string = v1();

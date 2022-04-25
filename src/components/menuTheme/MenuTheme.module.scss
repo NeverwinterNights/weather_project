@@ -3,9 +3,10 @@
   background-color: black;
   width: 300px;
   position: absolute;
-  top: 0;
   transition:  all 0.5s ease 0s;
   padding: 50px 25px;
+  left: 10px;
+  border-radius: 25px;
 }
 .item {
   display: flex;

@@ -6,9 +6,8 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 
-import { DataWeatherType } from '../../state/dataReducer';
-import { AppRootStateType } from '../../state/store';
-import { Handle } from '../handle/Handle';
+import { DataWeatherType } from '../../../state/dataReducer';
+import { AppRootStateType } from '../../../state/store';
 
 import style from './Map.module.scss';
 
@@ -34,8 +33,8 @@ export const Map = React.memo(({ ID }: MapPropsType) => {
       <div className={style.body}>
         <MapContainer
           center={position}
-          zoom={12}
-          style={{ height: '500px', width: '100%' }}
+          zoom={8}
+          style={{ height: '450px', width: '100%' }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -47,10 +46,6 @@ export const Map = React.memo(({ ID }: MapPropsType) => {
             </Popup>
           </Marker>
         </MapContainer>
-      </div>
-
-      <div className={style.controls}>
-        <Handle />
       </div>
     </div>
   );
