@@ -10,12 +10,10 @@ import style from '../Temperature.module.scss';
 type WeekCardPropsType = {
   city: DataWeatherType;
   selectedTempType: string;
-  max: number;
-  min: number;
 };
 
 export const WeekForecast = React.memo(
-  ({ city, selectedTempType, max, min }: WeekCardPropsType) => (
+  ({ city, selectedTempType }: WeekCardPropsType) => (
     <div className={style.footer}>
       {city.daily.map(day => (
         <div key={day.dt} className={style.elem}>
@@ -25,11 +23,11 @@ export const WeekForecast = React.memo(
               <div className={style.row}>{`${dayjs.unix(day.dt).format('dddd')}`}</div>
               <div className={style.row}>
                 <img src={sun} alt="day" />
-                <span>{`${max} ${selectedTempType}`}</span>
+                <span>{`${Math.round(day.temp.max)} ${selectedTempType}`}</span>
               </div>
               <div className={style.row}>
                 <img src={moon} alt="night" />
-                <span>{`${min} ${selectedTempType}`}</span>
+                <span>{`${Math.round(day.temp.min)} ${selectedTempType}`}</span>
               </div>
             </div>
           </div>

@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { WeatherCardContainer } from './components/card/WeatherCardContainer';
 import { CurrentTemperature } from './components/current/CurrentTemperature';
 import { Error } from './components/error/Error';
-import { FavMenu } from './components/favorites/FavMenu/FavMenu';
+import { Favorites } from './components/favorites/Favorites';
 import { Header } from './components/header/Header';
 import { MenuTheme } from './components/menuTheme/MenuTheme';
 import { CURRENT_TIME } from './components/utils/constans';
@@ -73,8 +73,8 @@ const App = React.memo(() => {
       <div className="App">
         <Header onClickGearHandler={onClickGearHandler} menuActive={menuActive} />
         <MenuTheme open={menuActive} />
-        {/* <Favorites /> */}
-        <FavMenu />
+        <Favorites />
+
         <div className="main">
           {!error && <CurrentTemperature />}
           <WeatherCardContainer />

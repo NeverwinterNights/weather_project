@@ -85,12 +85,7 @@ export const Temperature = React.memo(({ city }: WeatherCardPropsType) => {
           <div className={style.item}>{`Wind Speed ${CardTemp.wind} m/s`}</div>
         </div>
       </div>
-      <WeekForecast
-        max={CardTemp.max}
-        min={CardTemp.min}
-        selectedTempType={selectedTempType}
-        city={city}
-      />
+      <WeekForecast selectedTempType={selectedTempType} city={city} />
     </div>
   );
 });

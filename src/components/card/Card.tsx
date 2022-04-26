@@ -1,15 +1,16 @@
 import React, { ReactElement, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
-import { addCityAC } from '../../state/favoritesReducer';
-import { AppRootStateType } from '../../state/store';
-import { conditionUtils } from '../../utils/utils';
+// import { addCityAC } from '../../state/favoritesReducer';
+// import { AppRootStateType } from '../../state/store';
+// import { conditionUtils } from '../../utils/utils';
 import { Handle } from '../handle/Handle';
 
 import style from './Card.module.scss';
 import { Graphs } from './graphs/Graphs';
+import { FavIcon } from './icon/FavIcon';
 import { Map } from './map/Map';
 import { Temperature } from './Temperature';
 
@@ -21,17 +22,14 @@ export const Card = React.memo(({ city }: CardPropsType) => {
   const dispatch = useDispatch();
 
   const [viewMode, setViewMode] = useState('card');
-  const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
-    state => state.favoritesReducer,
-  );
 
-  const onAddToFavoritesHandler = (): void => {
-    if (conditionUtils(favoritesCity, city.cityName)) {
-      return;
-    }
-    dispatch(addCityAC(city));
-    localStorage.setItem('state', JSON.stringify([...favoritesCity, city]));
-  };
+  // const onAddToFavoritesHandler = (): void => {
+  //   if (conditionUtils(favoritesCity, city.cityName)) {
+  //     return;
+  //   }
+  //   dispatch(addCityAC(city));
+  //   localStorage.setItem('state', JSON.stringify([...favoritesCity, city]));
+  // };
 
   const onClosedHandler = (): void => {
     dispatch(deleteCityAC(city.id));
@@ -60,13 +58,14 @@ export const Card = React.memo(({ city }: CardPropsType) => {
   return (
     <div className={style.main}>
       <div className={style.header}>
-        <button
-          className={style.add}
-          onClick={onAddToFavoritesHandler}
-          aria-label=" "
-          type="button"
-          title="Add to Favorites"
-        />
+        {/* <button */}
+        {/*  className={style.add} */}
+        {/*  onClick={onAddToFavoritesHandler} */}
+        {/*  aria-label=" " */}
+        {/*  type="button" */}
+        {/*  title="Add to Favorites" */}
+        {/* /> */}
+        <FavIcon city={city} />
         <button
           className={style.delete}
           onClick={onClosedHandler}

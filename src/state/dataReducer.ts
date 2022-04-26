@@ -148,7 +148,7 @@ export const getDataByCityNameTC =
       .then(res => {
         handleThunk(
           dispatch,
-          res.data.name,
+          name,
           res.data.coord.lat,
           res.data.coord.lon,
           res.data.main,
