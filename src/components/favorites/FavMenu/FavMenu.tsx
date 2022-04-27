@@ -17,6 +17,7 @@ export const FavMenu = React.memo(() => {
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
   );
+  console.log(favoritesCity);
   const data = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
