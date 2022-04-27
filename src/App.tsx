@@ -27,6 +27,9 @@ const App = React.memo(() => {
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
   );
+  const favorite = useSelector<AppRootStateType, boolean>(
+    state => state.appReducer.favorite,
+  );
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
   const time = useSelector<AppRootStateType, string>(state => state.appReducer.time);
@@ -73,7 +76,7 @@ const App = React.memo(() => {
       <div className="App">
         <Header onClickGearHandler={onClickGearHandler} menuActive={menuActive} />
         <MenuTheme open={menuActive} />
-        <Favorites />
+        {favorite && <Favorites />}
 
         <div className="main">
           {!error && <CurrentTemperature />}

@@ -26,9 +26,6 @@ export const Temperature = React.memo(({ city }: WeatherCardPropsType) => {
     state => state.appReducer.temperatureType,
   );
 
-  // const getId = (): void => {
-  //   getID(city.id);
-  // };
 
   const selectedTempType = tempType ? '\u00B0C' : '\u00B0F';
 

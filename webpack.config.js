@@ -8,11 +8,11 @@ module.exports = {
   entry: './src/index.tsx',
   devtool: 'inline-source-map',
   output: {
-    path: path.join(__dirname, '/dist'),
+    path: path.join(__dirname, '/build'),
     filename: 'bundle.js',
   },
   devServer: {
-    static: './dist',
+    static: './build',
   },
   module: {
     rules: [

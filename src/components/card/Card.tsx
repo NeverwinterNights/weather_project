@@ -3,9 +3,6 @@ import React, { ReactElement, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
-// import { addCityAC } from '../../state/favoritesReducer';
-// import { AppRootStateType } from '../../state/store';
-// import { conditionUtils } from '../../utils/utils';
 import { Handle } from '../handle/Handle';
 
 import style from './Card.module.scss';
@@ -22,14 +19,6 @@ export const Card = React.memo(({ city }: CardPropsType) => {
   const dispatch = useDispatch();
 
   const [viewMode, setViewMode] = useState('card');
-
-  // const onAddToFavoritesHandler = (): void => {
-  //   if (conditionUtils(favoritesCity, city.cityName)) {
-  //     return;
-  //   }
-  //   dispatch(addCityAC(city));
-  //   localStorage.setItem('state', JSON.stringify([...favoritesCity, city]));
-  // };
 
   const onClosedHandler = (): void => {
     dispatch(deleteCityAC(city.id));
@@ -58,13 +47,6 @@ export const Card = React.memo(({ city }: CardPropsType) => {
   return (
     <div className={style.main}>
       <div className={style.header}>
-        {/* <button */}
-        {/*  className={style.add} */}
-        {/*  onClick={onAddToFavoritesHandler} */}
-        {/*  aria-label=" " */}
-        {/*  type="button" */}
-        {/*  title="Add to Favorites" */}
-        {/* /> */}
         <FavIcon city={city} />
         <button
           className={style.delete}
