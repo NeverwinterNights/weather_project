@@ -1,8 +1,9 @@
 import React, { ReactElement, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
+import { AppRootStateType } from '../../state/store';
 import { Handle } from '../handle/Handle';
 
 import style from './Card.module.scss';
@@ -18,6 +19,12 @@ type CardPropsType = {
 export const Card = React.memo(({ city }: CardPropsType) => {
   const dispatch = useDispatch();
 
+  const tempType = useSelector<AppRootStateType, boolean>(
+    state => state.appReducer.temperatureType,
+  );
+
+  const selectedTempType = tempType ? '\u00B0C' : '\u00B0F';
+
   const [viewMode, setViewMode] = useState('card');
 
   const onClosedHandler = (): void => {
@@ -31,16 +38,26 @@ export const Card = React.memo(({ city }: CardPropsType) => {
   const componentRender = (): ReactElement | ReactElement[] => {
     switch (viewMode) {
       case 'card': {
-        return <Temperature city={city} />;
+        return <Temperature selectedTempType={selectedTempType} city={city} />;
       }
       case 'graphs': {
         return <Graphs city={city} />;
       }
       case 'map': {
-        return <Map ID={city.id} />;
+        return (
+          <Map
+            tempType={tempType}
+            selectedTempType={selectedTempType}
+            image={city.current.weather[0].icon}
+            name={city.cityName}
+            min={city.daily[0]?.temp.min}
+            max={city.daily[0]?.temp.max}
+            ID={city.id}
+          />
+        );
       }
       default:
-        return <Temperature city={city} />;
+        return <Temperature selectedTempType={selectedTempType} city={city} />;
     }
   };
 
