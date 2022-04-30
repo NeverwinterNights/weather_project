@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 
 import moon from '../../../images/moon.svg';
@@ -38,10 +38,17 @@ export const Map = React.memo(
 
     L.Marker.prototype.options.icon = L.icon({
       iconUrl: icon,
-      // iconUrl: `http://openweathermap.org/img/wn/${icon}@4x.png`,
       shadowUrl: iconShadow,
       className: style.marker,
     });
+
+    const MapTemp = useMemo(
+      () => ({
+        min: changeTemp(tempType, Math.round(min)),
+        max: changeTemp(tempType, Math.round(max)),
+      }),
+      [min, max, tempType],
+    );
 
     const iconURL: string = `http://openweathermap.org/img/wn/${image}@4x.png`;
 
@@ -55,17 +62,11 @@ export const Map = React.memo(
             <div className={style.title}>{name}</div>
             <div className={style.row}>
               <img className={style.image} src={sun} alt="day" />
-              <span>{`${changeTemp(
-                tempType,
-                Math.round(min),
-              )} ${selectedTempType}`}</span>
+              <span>{`${MapTemp.max} ${selectedTempType}`}</span>
             </div>
             <div className={style.row}>
               <img className={style.image} src={moon} alt="night" />
-              <span>{`${changeTemp(
-                tempType,
-                Math.round(max),
-              )} ${selectedTempType}`}</span>
+              <span>{`${MapTemp.min} ${selectedTempType}`}</span>
             </div>
           </div>
         </div>
@@ -79,22 +80,7 @@ export const Map = React.memo(
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={position}>
-              {/* <Tooltip */}
-              {/*  className={style.tooltip} */}
-              {/*  direction="bottom" */}
-              {/*  offset={[0, 40]} */}
-              {/*  opacity={1} */}
-              {/*  permanent */}
-              {/* > */}
-              {/*  <span className={style.text}>`Today temperature in {name} is from +`</span> */}
-              {/*  <span className={style.min}>{Math.round(min)}</span> to +*/}
-              {/*  <span className={style.max}>{Math.round(max)}</span> */}
-              {/* </Tooltip> */}
-              <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup>
-            </Marker>
+            <Marker position={position} />
           </MapContainer>
         </div>
       </div>

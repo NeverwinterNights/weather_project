@@ -1,3 +1,13 @@
 .main {
 
 }
+
+.buttons:first-child {
+  border-radius: 7px 0 0 7px;
+  border-width: 2px 1px 2px 2px;
+}
+
+.buttons:last-child {
+  border-radius: 0 7px 7px 0;
+  border-width: 2px 2px 2px 1px;
+}

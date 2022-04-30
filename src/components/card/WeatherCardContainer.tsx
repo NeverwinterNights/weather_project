@@ -11,6 +11,7 @@ export const WeatherCardContainer = React.memo(() => {
   const data = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
+
   return (
     <>
       {data.map(city => (

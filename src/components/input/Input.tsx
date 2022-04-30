@@ -101,6 +101,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
         {typeSearch === 'city' && (
           <>
             <input
+              className={style.input}
               onKeyPress={keyPressNameHandler}
               onChange={onChangeInputByName}
               value={cityName}
@@ -111,6 +112,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               disabled={allSearchedCities.length < 1}
               type="button"
               onClick={clickCityNameHandler}
+              className={style.button}
             >
               Send
             </button>
@@ -134,7 +136,11 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               value={coordinatesY || ''}
               type="text"
             />
-            <button type="button" onClick={clickCoordinatesHandler}>
+            <button
+              className={style.button}
+              type="button"
+              onClick={clickCoordinatesHandler}
+            >
               Send
             </button>
           </>
@@ -157,7 +163,7 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
               value={zipCode}
               type="text"
             />
-            <button type="button" onClick={clickZipHandler}>
+            <button className={style.button} type="button" onClick={clickZipHandler}>
               Send
             </button>
           </>

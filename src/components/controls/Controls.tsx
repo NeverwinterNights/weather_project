@@ -9,20 +9,24 @@ import style from './Controls.module.scss';
 
 export const Controls = React.memo(() => {
   const [searchTypeValue, setSearchTypeValue] = useState<TypeSearchTypes>('city');
-
+  const [clicked, setClicked] = useState<TypeSearchTypes>('city');
   const onClickSearch = (type: TypeSearchTypes): void => {
     setSearchTypeValue(type);
+    setClicked(type);
   };
   return (
     <div className={style.main}>
-      {headerButton.map(button => (
-        <Button
-          key={button.value}
-          onClickHandler={onClickSearch}
-          value={button.value}
-          label={button.name}
-        />
-      ))}
+      <div className={style.buttons}>
+        {headerButton.map(button => (
+          <Button
+            clicked={clicked}
+            key={button.value}
+            onClickHandler={onClickSearch}
+            value={button.value}
+            label={button.name}
+          />
+        ))}
+      </div>
       <Input typeSearch={searchTypeValue} />
     </div>
   );

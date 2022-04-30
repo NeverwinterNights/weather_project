@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { useTransition, animated, config } from 'react-spring';
 
 import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
 import { AppRootStateType } from '../../state/store';
@@ -18,6 +19,7 @@ type CardPropsType = {
 
 export const Card = React.memo(({ city }: CardPropsType) => {
   const dispatch = useDispatch();
+  const [show, set] = useState(true);
 
   const tempType = useSelector<AppRootStateType, boolean>(
     state => state.appReducer.temperatureType,
@@ -28,7 +30,10 @@ export const Card = React.memo(({ city }: CardPropsType) => {
   const [viewMode, setViewMode] = useState('card');
 
   const onClosedHandler = (): void => {
-    dispatch(deleteCityAC(city.id));
+    set(!show);
+    setTimeout(() => {
+      dispatch(deleteCityAC(city.id));
+    }, 1000);
   };
 
   const viewModeHandler = (value: string): void => {
@@ -61,20 +66,33 @@ export const Card = React.memo(({ city }: CardPropsType) => {
     }
   };
 
-  return (
-    <div className={style.main}>
-      <div className={style.header}>
-        <FavIcon city={city} />
-        <button
-          className={style.delete}
-          onClick={onClosedHandler}
-          aria-label=" "
-          type="button"
-          title="Close"
-        />
-        <Handle viewModeHandler={viewModeHandler} />
-      </div>
-      {componentRender()}
-    </div>
+  const transitions = useTransition(show, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    reverse: show,
+    config: config.molasses,
+  });
+
+  return transitions(
+    (styles, item) =>
+      item && (
+        <animated.div style={styles}>
+          <div className={style.main}>
+            <div className={style.header}>
+              <FavIcon city={city} />
+              <button
+                className={style.delete}
+                onClick={onClosedHandler}
+                aria-label=" "
+                type="button"
+                title="Close"
+              />
+              <Handle viewModeHandler={viewModeHandler} />
+            </div>
+            {componentRender()}
+          </div>
+        </animated.div>
+      ),
   );
 });

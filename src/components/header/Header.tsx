@@ -28,15 +28,7 @@ export const Header = React.memo(
           <div className={style.search} />
           <Controls />
           <div className={style.controls}>
-            {/* <Star className={style.favorites} onClick={onClickFavoriteHandler} /> */}
             <Star onClickFavoriteHandler={onClickFavoriteHandler} />
-            {/* <button */}
-            {/*  onClick={onClickFavoriteHandler} */}
-            {/*  type="button" */}
-            {/*  aria-label=" " */}
-            {/*  className={style.favorites} */}
-            {/*  style={menuActive ? { transform: 'rotate(180deg)', color: '#c9c23f' } : {}} */}
-            {/* /> */}
             <button
               onClick={onClickGearHandler}
               type="button"
