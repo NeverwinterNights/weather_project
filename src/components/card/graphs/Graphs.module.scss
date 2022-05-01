@@ -4,6 +4,10 @@
   background-color: cornflowerblue;
   padding: 40px 40px 80px 40px;
   border-radius: 30px;
+  @media (max-width: 750px) {
+    padding: 10px 0px 20px 00px;
+    height: 100%;
+  }
 }
 
 .header {
@@ -18,7 +22,14 @@
 
 .controls {
   min-width: 120px;
+
 }
+
+.wrap {
+  margin-left: -50px;
+  height: 300px;
+}
+
 
 .title {
   color: white;
@@ -38,4 +49,7 @@
   align-items: center;
   justify-content: space-between;
   position: relative;
+  @media (max-width: 680px) {
+    margin-top: 20px;
+  }
 }

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 
@@ -13,8 +13,11 @@ type GraphsControlsPropsType = {
   setValue: (value: string) => void;
 };
 
+type Button = 'temperature' | 'pressure' | 'humidity';
+
 export const GraphsControls = React.memo(
   ({ sendCityHintsRequest, value, setValue }: GraphsControlsPropsType) => {
+    const [clicked, setClicked] = useState<Button>('temperature');
     const dispatch = useDispatch();
 
     const debouncedSearch = useDebounce(() => sendCityHintsRequest(value), 500);
@@ -29,30 +32,54 @@ export const GraphsControls = React.memo(
       }
     }, [value]);
 
-    const tempOnClickHandler = (): void => {
-      dispatch(changeGraphsTypeAC('temperature'));
-    };
-
-    const humidityOnClickHandler = (): void => {
-      dispatch(changeGraphsTypeAC('humidity'));
-    };
-
-    const pressureOnClickHandler = (): void => {
-      dispatch(changeGraphsTypeAC('pressure'));
+    const onClickHandler = (val: Button): void => {
+      dispatch(changeGraphsTypeAC(val));
+      setClicked(val);
     };
 
     return (
       <div className={style.main}>
-        <button onClick={tempOnClickHandler} type="button">
-          Temperature
-        </button>
-        <button onClick={humidityOnClickHandler} type="button">
-          Humidity
-        </button>
-        <button onClick={pressureOnClickHandler} type="button">
-          Pressure
-        </button>
-        <div>
+        <div className={style.buttons}>
+          <button
+            style={
+              clicked === 'temperature'
+                ? { backgroundColor: '#637479', color: '#ffd0a6' }
+                : {}
+            }
+            className={style.button}
+            onClick={() => {
+              onClickHandler('temperature');
+            }}
+            type="button"
+          >
+            Temperature
+          </button>
+          <button
+            style={
+              clicked === 'humidity'
+                ? { backgroundColor: '#637479', color: '#ffd0a6' }
+                : {}
+            }
+            className={style.button}
+            onClick={() => onClickHandler('humidity')}
+            type="button"
+          >
+            Humidity
+          </button>
+          <button
+            style={
+              clicked === 'pressure'
+                ? { backgroundColor: '#637479', color: '#ffd0a6' }
+                : {}
+            }
+            className={style.button}
+            onClick={() => onClickHandler('pressure')}
+            type="button"
+          >
+            Pressure
+          </button>
+        </div>
+        <div className={style.input}>
           <input onChange={inputHandler} value={value} />
           {/* <button type="button">Send</button> */}
         </div>

@@ -9,16 +9,24 @@
 
 .wrapper {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  max-width: 1170px;
   width: 100%;
-  padding: 0 30px;
+  padding: 0 5px;
+  max-width: 900px;
+  @media (max-width: 436px) {
+    justify-content: space-between;
+  }
   @media (max-width: 436px) {
     padding: 0 10px;
   }
+
 }
 
+.info {
+  display: flex;
+  flex: 1 1 100%;
+  justify-content: center;
+}
 
 .icon {
   width: 20px;

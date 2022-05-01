@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import {
   CartesianGrid,
-  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -135,36 +134,37 @@ export const Graphs = React.memo(({ city }: GraphsPropsType) => {
           <div className={style.title}>{title}</div>
           <div className={style.subtitle}>{type ? nameToUppercase(type) : ''}</div>
         </div>
-        <div className={style.controls} />
       </div>
-      <ResponsiveContainer width="100%" height="90%">
-        <LineChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          {title?.split(' & ').map(town => (
-            <Line
-              key={randomColor()}
-              type="monotone"
-              dataKey={town}
-              stroke={randomColor()}
-              strokeWidth={4}
-            />
-          ))}
-        </LineChart>
-      </ResponsiveContainer>
+      <div className={style.wrap}>
+        <ResponsiveContainer width="100%" height="90%">
+          <LineChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            {/* <Legend /> */}
+            {title?.split(' & ').map(town => (
+              <Line
+                key={randomColor()}
+                type="monotone"
+                dataKey={town}
+                stroke={randomColor()}
+                strokeWidth={4}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
       <div className={style.footer}>
         <GraphsControls
           setValue={setValue}

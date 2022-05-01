@@ -6,8 +6,10 @@
   //animation-iteration-count: infinite;
 
   animation: icon 14s 2s infinite;
-
-
+  @media (max-width: 674px) {
+    width: 120px;
+    animation: none
+  }
 }
 
 @keyframes icon {

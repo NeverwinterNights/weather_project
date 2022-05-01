@@ -26,13 +26,21 @@ position: relative;
   position: absolute;
   top: 0;
   right: 0;
-  width: 20%;
+  width: 180px;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 1000000000000;
+  @media (max-width:636px){
+    width: 150px;
+  		}
+  @media (max-width:482px){
+    width: 100px;
+  }
 }
+
+
 
 .icon{
   width: 150px;

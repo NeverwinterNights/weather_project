@@ -34,7 +34,7 @@ export const MenuTheme = React.memo(({ open }: MenuPropsType) => {
     dispatch(setTypeOfTemperatureAC(!temperatureType));
   };
 
-  const styles = open ? { left: '10px' } : { left: '-44%' };
+  const styles = open ? { left: '10px' } : { left: '-100%' };
   const styles2 = theme ? { backgroundColor: '#323675' } : { backgroundColor: '#4fbb65' };
   const common = { ...styles, ...styles2 };
 

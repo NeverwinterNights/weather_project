@@ -80,6 +80,7 @@ export const Card = React.memo(({ city }: CardPropsType) => {
         <animated.div style={styles}>
           <div className={style.main}>
             <div className={style.header}>
+              <Handle viewModeHandler={viewModeHandler} />
               <FavIcon city={city} />
               <button
                 className={style.delete}
@@ -88,7 +89,6 @@ export const Card = React.memo(({ city }: CardPropsType) => {
                 type="button"
                 title="Close"
               />
-              <Handle viewModeHandler={viewModeHandler} />
             </div>
             {componentRender()}
           </div>

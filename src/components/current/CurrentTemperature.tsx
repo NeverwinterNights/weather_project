@@ -15,7 +15,7 @@ const StyledCurrent = styled.div`
   //background: cornflowerblue;
   margin-bottom: 25px;
   border-radius: 30px;
-  padding: 10px 100px;
+  padding: 10px 20px;
   display: flex;
 `;
 
@@ -42,7 +42,9 @@ export const CurrentTemperature = React.memo(() => {
   return (
     <StyledCurrent>
       <div className={style.main}>
-        <Icon name={data.weather?.[0].icon} size={4} />
+        <div className={style.image}>
+          <Icon name={data.weather?.[0].icon} size={4} />
+        </div>
         <div className={style.name}>{data.name}</div>
         <div className={style.temp}>{`${currentTemp.current} ${selectedTempType}`}</div>
       </div>

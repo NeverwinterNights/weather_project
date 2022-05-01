@@ -1,4 +1,8 @@
 .main {
+  margin-left: 65px;
+  @media (max-width: 421px) {
+    margin-left: 0;
+  }
 
 }
 

@@ -7,6 +7,13 @@
   flex-direction: column;
   margin-bottom: 25px;
   width: 100%;
+  @media (max-width: 628px) {
+    margin-bottom: 0px;
+  }
+  @media (max-width: 526px) {
+    height: auto;
+  }
+
 }
 
 .header {
@@ -23,7 +30,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  max-height: 230px;
+  @media (max-width: 526px) {
+    flex-wrap: wrap;
+    //margin-bottom: 25px;
+    max-height: none;
+  }
 }
 
 .info {
@@ -31,34 +43,86 @@
   align-items: center;
   flex: 0 0 50%;
   justify-content: center;
+  @media (max-width: 628px) {
+    flex: 0 0 40%;
+  }
+  @media (max-width: 526px) {
+    flex: 1 1 100%;
+  }
+}
+
+.block {
+  @media (max-width: 526px) {
+    flex: 1 1 50%;
+  }
 }
 
 .up {
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 750px) {
+    margin-bottom: 15px;
+  }
 }
 
 .city {
   font-size: 30px;
   font-weight: bold;
   margin-right: 10px;
+  @media (max-width: 784px) {
+    font-size: 24px;
+  }
+  @media (max-width: 674px) {
+    font-size: 20px;
+  }
+  @media (max-width: 542px) {
+    font-size: 18px;
+  }
+
 }
 
 .country {
   font-size: 30px;
   font-weight: bold;
   margin-right: 30px;
+  @media (max-width: 784px) {
+    font-size: 24px;
+  }
+  @media (max-width: 674px) {
+    font-size: 20px;
+  }
+  @media (max-width: 542px) {
+    font-size: 18px;
+  }
 }
 
 .temp {
   font-size: 50px;
   font-weight: bold;
   position: relative;
+  @media (max-width: 784px) {
+    font-size: 34px;
+  }
+  @media (max-width: 674px) {
+    font-size: 26px;
+  }
+  @media (max-width: 542px) {
+    font-size: 20px;
+  }
 
   span {
     font-size: 50px;
     position: absolute;
+    @media (max-width: 784px) {
+      font-size: 34px;
+    }
+    @media (max-width: 674px) {
+      font-size: 26px;
+    }
+    @media (max-width: 542px) {
+      font-size: 20px;
+    }
   }
 }
 
@@ -80,18 +144,29 @@
   //justify-content: flex-end;
   align-items: center;
   margin: 0 -4px;
+  @media (max-width: 750px) {
+    flex-wrap: wrap;
+  }
+  @media (max-width: 666px) {
+    padding: 0px;
+  }
 }
+
 .column {
   padding: 0 4px;
   width: 100%;
-
+  @media (max-width: 750px) {
+    margin-bottom: 15px;
+  }
 }
+
 .elem {
   flex: 1 1 18%;
-
+  @media (max-width: 750px) {
+    flex: 1 1 25%;
+  }
 
 }
-
 
 
 .card {
@@ -109,6 +184,7 @@
   font-size: 14px;
   display: flex;
   align-items: center;
+
   &:last-child {
     margin-bottom: 0px;
   }

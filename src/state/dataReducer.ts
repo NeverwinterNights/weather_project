@@ -231,3 +231,105 @@ export const getDataByInputNameTC =
         utilsError(err, dispatch);
       });
   };
+
+// export const additionalTC =
+//   (lat: number, lon: number, id: string, countryID?: string) =>
+//   async (dispatch: Dispatch) => {
+//     try {
+//       const res = await dataAPI.getDataFromCall(lat, lon);
+//       dispatch(
+//         addDataAC(res.data.current, res.data.daily, res.data.timezone, id, countryID),
+//       );
+//     } catch (e) {
+//       console.log(e);
+//     }
+//   };
+//
+// export const getDataByCityNameTC =
+//   (
+//     name: string,
+//     lat: number,
+//     lon: number,
+//     countryID?: string,
+//   ): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+//   async dispatch => {
+//     const id: string = v1();
+//     try {
+//       const res = await dataAPI.getDataFromParams(lat, lon);
+//       handleThunk(
+//         dispatch,
+//         name,
+//         res.data.coord.lat,
+//         res.data.coord.lon,
+//         res.data.main,
+//         id,
+//       );
+//       await dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id, countryID));
+//     } catch (err) {
+//       utilsError(err, dispatch);
+//     }
+//   };
+//
+// export const getDataByLocationTC =
+//   (lat: number, lon: number): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+//   async dispatch => {
+//     const id: string = v1();
+//     try {
+//       const res = await dataAPI.getDataFromParams(lat, lon);
+//       handleThunk(
+//         dispatch,
+//         res.data.name,
+//         res.data.coord.lat,
+//         res.data.coord.lon,
+//         res.data.main,
+//         id,
+//       );
+//       dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
+//     } catch (err) {
+//       utilsError(err, dispatch);
+//     }
+//   };
+//
+// export const getDataByZipCodeTC =
+//   (
+//     zip: string,
+//     code: string,
+//   ): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+//   async dispatch => {
+//     const id: string = v1();
+//
+//     try {
+//       const res = await dataAPI.getDataFromZip(zip, code);
+//       handleThunk(
+//         dispatch,
+//         res.data.name,
+//         res.data.coord.lat,
+//         res.data.coord.lon,
+//         res.data.main,
+//         id,
+//       );
+//       dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
+//     } catch (err) {
+//       utilsError(err, dispatch);
+//     }
+//   };
+//
+// export const getDataByInputNameTC =
+//   (name: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+//   async dispatch => {
+//     const id: string = v1();
+//     try {
+//       const res = await dataAPI.getDataByCityName(name);
+//       handleThunk(
+//         dispatch,
+//         res.data.name,
+//         res.data.coord.lat,
+//         res.data.coord.lon,
+//         res.data.main,
+//         id,
+//       );
+//       dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
+//     } catch (err) {
+//       utilsError(err, dispatch);
+//     }
+//   };

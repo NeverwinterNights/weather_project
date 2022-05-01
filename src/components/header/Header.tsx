@@ -25,8 +25,9 @@ export const Header = React.memo(
     return (
       <div className={style.main}>
         <div className={style.wrapper}>
-          <div className={style.search} />
-          <Controls />
+          <div className={style.info}>
+            <Controls />
+          </div>
           <div className={style.controls}>
             <Star onClickFavoriteHandler={onClickFavoriteHandler} />
             <button
