@@ -43,10 +43,21 @@ export const setDataCallAC = (
 
 export type SetCallActionType = ReturnType<typeof setDataCallAC>;
 
+// export const getDataByCallTC =
+//   (lat: number, lon: number, cityName: string, mainData: MainWeather) =>
+//   (dispatch: Dispatch) => {
+//     dataAPI.getDataFromCall(lat, lon).then(res => {
+//       dispatch(setDataCallAC(res.data, cityName, mainData));
+//     });
+//   };
+
 export const getDataByCallTC =
   (lat: number, lon: number, cityName: string, mainData: MainWeather) =>
-  (dispatch: Dispatch) => {
-    dataAPI.getDataFromCall(lat, lon).then(res => {
+  async (dispatch: Dispatch) => {
+    const res = await dataAPI.getDataFromCall(lat, lon);
+    try {
       dispatch(setDataCallAC(res.data, cityName, mainData));
-    });
+    } catch (e) {
+      console.log(e);
+    }
   };

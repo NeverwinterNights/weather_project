@@ -61,14 +61,24 @@ export type UpdateFavoritesCitiesActionType = ReturnType<typeof updateFavoritesC
 //
 // export type SetFavoritesCitiesActionType = ReturnType<typeof setFavoritesCitiesAC>;
 
+// export const updateFavoritesTC =
+//   (lat: number, lon: number, id: string) => (dispatch: Dispatch) => {
+//     dataAPI
+//       .getDataFromCall(lat, lon)
+//       .then(res => {
+//         dispatch(updateFavoritesCitiesAC(res.data.current, id));
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//   };
+
 export const updateFavoritesTC =
-  (lat: number, lon: number, id: string) => (dispatch: Dispatch) => {
-    dataAPI
-      .getDataFromCall(lat, lon)
-      .then(res => {
-        dispatch(updateFavoritesCitiesAC(res.data.current, id));
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  (lat: number, lon: number, id: string) => async (dispatch: Dispatch) => {
+    const res = await dataAPI.getDataFromCall(lat, lon);
+    try {
+      dispatch(updateFavoritesCitiesAC(res.data.current, id));
+    } catch (e) {
+      console.log(e);
+    }
   };

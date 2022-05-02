@@ -62,20 +62,33 @@ export type SetLocationCitiesActionType = ReturnType<typeof setLocationCitiesAC>
 //     });
 // };
 
-export const setLocationCitiesTH = (name: string) => (dispatch: Dispatch) => {
-  dataAPI
-    .getLocationHints(name)
-    .then(res => {
-      // const filteredResponse = res.data.results.filter(
-      //   // eslint-disable-next-line no-underscore-dangle
-      //   town => town.components._type === 'city' || town.components._type === 'village',
-      // );
+// work
 
-      dispatch(setLocationCitiesAC(res.data.results));
-    })
-    .catch(err => {
-      if (axios.isAxiosError(err) && err.response) {
-        dispatch(setErrorAC(err.response.data.status.message));
-      }
-    });
+// export const setLocationCitiesTH = (name: string) => (dispatch: Dispatch) => {
+//   dataAPI
+//     .getLocationHints(name)
+//     .then(res => {
+//       // const filteredResponse = res.data.results.filter(
+//       //   // eslint-disable-next-line no-underscore-dangle
+//       //   town => town.components._type === 'city' || town.components._type === 'village',
+//       // );
+//
+//       dispatch(setLocationCitiesAC(res.data.results));
+//     })
+//     .catch(err => {
+//       if (axios.isAxiosError(err) && err.response) {
+//         dispatch(setErrorAC(err.response.data.status.message));
+//       }
+//     });
+// };
+
+export const setLocationCitiesTH = (name: string) => async (dispatch: Dispatch) => {
+  const res = await dataAPI.getLocationHints(name);
+  try {
+    dispatch(setLocationCitiesAC(res.data.results));
+  } catch (e) {
+    if (axios.isAxiosError(e) && e.response) {
+      dispatch(setErrorAC(e.response.data.status.message));
+    }
+  }
 };

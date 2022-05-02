@@ -30,8 +30,18 @@ export const setCurrentDataAC = (data: DataWeatherResponseType) =>
 
 export type SetCurrentActionType = ReturnType<typeof setCurrentDataAC>;
 
-export const getCurrentDataTC = (lat: number, lon: number) => (dispatch: Dispatch) => {
-  dataAPI.getDataFromParams(lat, lon).then(res => {
-    dispatch(setCurrentDataAC(res.data));
-  });
-};
+// export const getCurrentDataTC = (lat: number, lon: number) => (dispatch: Dispatch) => {
+//   dataAPI.getDataFromParams(lat, lon).then(res => {
+//     dispatch(setCurrentDataAC(res.data));
+//   });
+// };
+
+export const getCurrentDataTC =
+  (lat: number, lon: number) => async (dispatch: Dispatch) => {
+    const res = await dataAPI.getDataFromParams(lat, lon);
+    try {
+      dispatch(setCurrentDataAC(res.data));
+    } catch (e) {
+      console.log(e);
+    }
+  };
