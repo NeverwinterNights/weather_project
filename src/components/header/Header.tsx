@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 // import { ReactComponent as Star } from '../../images/star.svg';
-import { changeFavoritesAC } from '../../state/appReducer';
+import { changeFavoritesAC, changeSlideOpenAC } from '../../state/appReducer';
 import { Controls } from '../controls/Controls';
 
 import style from './Header.module.scss';
@@ -20,6 +20,7 @@ export const Header = React.memo(
 
     const onClickFavoriteHandler = (fav: boolean): void => {
       dispatch(changeFavoritesAC(fav));
+      dispatch(changeSlideOpenAC(true));
     };
 
     return (

@@ -1,13 +1,20 @@
 .wrapper {
   height: 50%;
-  background-color: black;
-  width: 300px;
+  width: 100%;
   position: absolute;
   transition:  all 0.5s ease 0s;
   padding: 50px 25px;
   left: 10px;
   border-radius: 25px;
+  display: flex;
+  justify-content: center;
 }
+
+.body {
+  width: 300px;
+}
+
+
 .item {
   display: flex;
   justify-content: space-between;

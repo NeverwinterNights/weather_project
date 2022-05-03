@@ -5,6 +5,7 @@ export type AppActionsType =
   | SetGraphsActionType
   | SetTypeOfTemperatureActionType
   | ChangeFavoritesActionType
+  | ChangeSlideOpenActionType
   | ChangeGraphsTypeActionType;
 
 export type ViewModeType = 'graphs' | 'map' | 'card';
@@ -15,6 +16,7 @@ export type appStateType = {
   viewMode: ViewModeType;
   typeData: TypeDataType;
   favorite: boolean;
+  slideOpen: boolean;
 };
 
 const initialState: appStateType = {
@@ -22,6 +24,7 @@ const initialState: appStateType = {
   viewMode: 'card',
   typeData: 'temperature',
   favorite: false,
+  slideOpen: false,
 } as appStateType;
 
 export const appReducer = (
@@ -57,6 +60,12 @@ export const appReducer = (
       return {
         ...state,
         favorite: action.value,
+      };
+    }
+    case 'CHANGE-SLIDE-OPEN': {
+      return {
+        ...state,
+        slideOpen: action.value,
       };
     }
     default:
@@ -103,3 +112,11 @@ export const changeFavoritesAC = (value: boolean) =>
   } as const);
 
 export type ChangeFavoritesActionType = ReturnType<typeof changeFavoritesAC>;
+
+export const changeSlideOpenAC = (value: boolean) =>
+  ({
+    type: 'CHANGE-SLIDE-OPEN',
+    value,
+  } as const);
+
+export type ChangeSlideOpenActionType = ReturnType<typeof changeSlideOpenAC>;

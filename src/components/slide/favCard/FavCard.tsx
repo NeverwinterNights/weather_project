@@ -16,7 +16,7 @@ import { DataWeatherType } from '../../../types/types';
 import { changeTemp } from '../../../utils/utils';
 import { Icon } from '../../icon/Icon';
 import { CURRENT_TIME } from '../../utils/constans';
-import style from '../Favorites.module.scss';
+import style from '../Slide.module.scss';
 
 type FavCardPropsType = {
   city: DataWeatherType;

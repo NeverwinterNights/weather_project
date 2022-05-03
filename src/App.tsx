@@ -8,12 +8,11 @@ import styled from 'styled-components';
 import { WeatherCardContainer } from './components/card/WeatherCardContainer';
 import { CurrentTemperature } from './components/current/CurrentTemperature';
 import { Error } from './components/error/Error';
-import { Favorites } from './components/favorites/Favorites';
 import { Header } from './components/header/Header';
-import { MenuTheme } from './components/menuTheme/MenuTheme';
+import { Slide } from './components/slide/Slide';
 import { CURRENT_TIME } from './components/utils/constans';
 import { usePosition } from './hooks/usePosition';
-import { setTimeAC } from './state/appReducer';
+import { changeSlideOpenAC, setTimeAC } from './state/appReducer';
 import { getCurrentDataTC } from './state/currentReducer';
 import { DataWeatherType } from './state/dataReducer';
 import { setFavoritesCitiesAC } from './state/favoritesReducer';
@@ -26,9 +25,6 @@ const StyledApp = styled.div`
 const App = React.memo(() => {
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
-  );
-  const favorite = useSelector<AppRootStateType, boolean>(
-    state => state.appReducer.favorite,
   );
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
@@ -45,7 +41,6 @@ const App = React.memo(() => {
         dispatch(setFavoritesCitiesAC(myState as DataWeatherType[]));
       }
     }
-
     dispatch(setTimeAC(dayjs().format(CURRENT_TIME)));
   }, []);
 
@@ -69,15 +64,14 @@ const App = React.memo(() => {
 
   const onClickGearHandler = (): void => {
     setMenuActive(!menuActive);
+    dispatch(changeSlideOpenAC(true));
   };
 
   return (
     <StyledApp>
       <div className="App">
         <Header onClickGearHandler={onClickGearHandler} menuActive={menuActive} />
-        <MenuTheme open={menuActive} />
-        {favorite && <Favorites />}
-
+        <Slide setThemeMenuActive={setMenuActive} open={menuActive} />
         <div className="main">
           {!error && <CurrentTemperature />}
           <WeatherCardContainer />

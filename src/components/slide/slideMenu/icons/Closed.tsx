@@ -1,21 +1,21 @@
 import React from 'react';
 
-import style from '../FavMenu.module.scss';
+import style from '../SlideMenu.module.scss';
 
 type ClosedPropsType = {
-  closedFavoritesHandler: (value: boolean) => void;
+  onDeleteToFavoritesHandler: () => void;
 };
 
-export const CloseMenu = React.memo(({ closedFavoritesHandler }: ClosedPropsType) => (
+export const Closed = React.memo(({ onDeleteToFavoritesHandler }: ClosedPropsType) => (
   <div
     role="button"
     tabIndex={0}
     title="Delete from favorites"
     onKeyPress={() => {
-      closedFavoritesHandler(false);
+      onDeleteToFavoritesHandler();
     }}
     onClick={() => {
-      closedFavoritesHandler(false);
+      onDeleteToFavoritesHandler();
     }}
     className={style.icon}
   >

@@ -1,37 +1,55 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { changeFavoritesAC } from '../../state/appReducer';
-import { AppRootStateType } from '../../state/store';
+import { changeFavoritesAC, changeSlideOpenAC } from '../../state/appReducer';
 
-export const Overlay = React.memo(() => {
-  const [activeCover, setCoverActive] = useState<boolean>(true);
+type OverlayPropsType = {
+  setThemeMenuActive: (value: boolean) => void;
+};
+
+export const Overlay = React.memo(({ setThemeMenuActive }: OverlayPropsType) => {
+  // const [activeCover, setCoverActive] = useState<boolean>(true);
   const dispatch = useDispatch();
-  const favorite = useSelector<AppRootStateType, boolean>(
-    state => state.appReducer.favorite,
-  );
+
+  // const slideOpen = useSelector<AppRootStateType, boolean>(
+  //   state => state.appReducer.slideOpen,
+  // );
+
+  // const favorite = useSelector<AppRootStateType, boolean>(
+  //   state => state.appReducer.favorite,
+  // );
 
   const activeStyle: CSSProperties = {
     position: 'absolute',
-    top: '-66px',
-    left: '0',
+    top: '-93px',
+    left: '11px',
     width: '100%',
     height: '100vw',
     backgroundColor: 'black',
     opacity: '0.3',
   };
-  const defaultStyle: CSSProperties = {
-    display: 'none',
-  };
+  // const defaultStyle: CSSProperties = {
+  //   display: 'none',
+  // };
   const setCoverActiveHandler = (): void => {
-    setCoverActive(false);
+    // setCoverActive(false);
+    setThemeMenuActive(false);
     dispatch(changeFavoritesAC(false));
+    dispatch(changeSlideOpenAC(false));
   };
 
-  useEffect(() => {
-    setCoverActive(favorite);
-  }, [favorite]);
+  // useEffect(() => {
+  //   setCoverActive(slideOpen);
+  // }, [slideOpen]);
+
+  // const transitions = useTransition(slideOpen, {
+  //   from: { opacity: 0 },
+  //   enter: { opacity: 1 },
+  //   leave: { opacity: 0 },
+  //   reverse: slideOpen,
+  //   config: config.molasses,
+  // });
 
   return (
     <div
@@ -40,7 +58,7 @@ export const Overlay = React.memo(() => {
       onKeyPress={setCoverActiveHandler}
       role="button"
       onClick={setCoverActiveHandler}
-      style={activeCover ? activeStyle : defaultStyle}
+      style={activeStyle}
     />
   );
 });

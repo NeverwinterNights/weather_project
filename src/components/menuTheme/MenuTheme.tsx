@@ -10,12 +10,12 @@ import { Toggle } from '../toggle/Toggle';
 
 import style from './MenuTheme.module.scss';
 
-type MenuPropsType = {
-  open: boolean;
-};
+// type MenuPropsType = {
+//   open: boolean;
+// };
 
-export const MenuTheme = React.memo(({ open }: MenuPropsType) => {
-  const theme = useSelector<AppRootStateType, boolean>(state => state.theme.dayNight);
+export const MenuTheme = React.memo(() => {
+  // const theme = useSelector<AppRootStateType, boolean>(state => state.theme.dayNight);
   const temperatureType = useSelector<AppRootStateType, boolean>(
     state => state.appReducer.temperatureType,
   );
@@ -34,21 +34,24 @@ export const MenuTheme = React.memo(({ open }: MenuPropsType) => {
     dispatch(setTypeOfTemperatureAC(!temperatureType));
   };
 
-  const styles = open ? { left: '10px' } : { left: '-100%' };
-  const styles2 = theme ? { backgroundColor: '#323675' } : { backgroundColor: '#4fbb65' };
-  const common = { ...styles, ...styles2 };
+  // const styles = open ? { left: '10px' } : { left: '-100%' };
+  // const styles2 = theme ? { backgroundColor: '#323675' } : { backgroundColor: '#4fbb65' };
+  // const common = { ...styles, ...styles2 };
 
   return (
-    <div className={style.wrapper} style={common}>
-      <div className={style.item}>
-        <div className={style.text}>Light</div>
-        <Toggle themeHandler={themeHandler} />
-        <div className={style.text}>Dark</div>
-      </div>
-      <div className={style.item}>
-        <div className={style.text}>Celsius</div>
-        <Toggle temperatureTypeChanger={temperatureTypeChanger} />
-        <div className={style.text}>Fahrenheit</div>
+    // <div className={style.wrapper} style={common}>
+    <div className={style.wrapper}>
+      <div className={style.body}>
+        <div className={style.item}>
+          <div className={style.text}>Light</div>
+          <Toggle themeHandler={themeHandler} />
+          <div className={style.text}>Dark</div>
+        </div>
+        <div className={style.item}>
+          <div className={style.text}>Celsius</div>
+          <Toggle temperatureTypeChanger={temperatureTypeChanger} />
+          <div className={style.text}>Fahrenheit</div>
+        </div>
       </div>
     </div>
   );
