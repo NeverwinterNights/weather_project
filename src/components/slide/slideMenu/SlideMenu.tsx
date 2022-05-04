@@ -10,23 +10,26 @@ import style from './SlideMenu.module.scss';
 
 type SlideMenuPropsType = {
   open: boolean;
+  setThemeMenuActive: (value: boolean) => void;
 };
 
-export const SlideMenu = React.memo(({ open }: SlideMenuPropsType) => {
-  const favorite = useSelector<AppRootStateType, boolean>(
-    state => state.appReducer.favorite,
-  );
-  // const slideOpen = useSelector<AppRootStateType, boolean>(
-  //   state => state.appReducer.slideOpen,
-  // );
+export const SlideMenu = React.memo(
+  ({ open, setThemeMenuActive }: SlideMenuPropsType) => {
+    const favorite = useSelector<AppRootStateType, boolean>(
+      state => state.appReducer.favorite,
+    );
+    // const slideOpen = useSelector<AppRootStateType, boolean>(
+    //   state => state.appReducer.slideOpen,
+    // );
 
-  return (
-    <div
-      // style={!slideOpen ? { transform: 'translate(-650px,0px)' } : {}}
-      className={style.wrapper}
-    >
-      {favorite && <Favorites />}
-      {open && <MenuTheme />}
-    </div>
-  );
-});
+    return (
+      <div
+        // style={!slideOpen ? { transform: 'translate(-650px,0px)' } : {}}
+        className={style.wrapper}
+      >
+        {favorite && <Favorites setThemeMenuActive={setThemeMenuActive} />}
+        {open && <MenuTheme />}
+      </div>
+    );
+  },
+);

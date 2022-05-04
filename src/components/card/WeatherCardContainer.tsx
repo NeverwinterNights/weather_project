@@ -1,21 +1,37 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
+import update from 'immutability-helper';
 import { useSelector } from 'react-redux';
 
 import { DataWeatherType } from '../../state/dataReducer';
 import { AppRootStateType } from '../../state/store';
-
-import { Card } from './Card';
+import { DragCard } from '../dragCard/DragCard';
 
 export const WeatherCardContainer = React.memo(() => {
   const data = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
 
+  const [cards, setCards] = useState<DataWeatherType[]>(data);
+
+  useEffect(() => {
+    setCards(data);
+  }, [data]);
+
+  const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
+    setCards((prevCards: DataWeatherType[]) =>
+      update(prevCards, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevCards[dragIndex] as DataWeatherType],
+        ],
+      }),
+    );
+  }, []);
   return (
     <>
-      {data.map(city => (
-        <Card key={city.id} city={city} />
+      {cards.map((city, i) => (
+        <DragCard key={city.id} index={i} city={city} moveCard={moveCard} id={city.id} />
       ))}
     </>
   );

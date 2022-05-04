@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import './App.css';
 import dayjs from 'dayjs';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -68,17 +70,19 @@ const App = React.memo(() => {
   };
 
   return (
-    <StyledApp>
-      <div className="App">
-        <Header onClickGearHandler={onClickGearHandler} menuActive={menuActive} />
-        <Slide setThemeMenuActive={setMenuActive} open={menuActive} />
-        <div className="main">
-          {!error && <CurrentTemperature />}
-          <WeatherCardContainer />
+    <DndProvider backend={HTML5Backend}>
+      <StyledApp>
+        <div className="App">
+          <Header onClickGearHandler={onClickGearHandler} menuActive={menuActive} />
+          <Slide setThemeMenuActive={setMenuActive} open={menuActive} />
+          <div className="main">
+            {!error && <CurrentTemperature />}
+            <WeatherCardContainer />
+          </div>
+          {err && <Error />}
         </div>
-        {err && <Error />}
-      </div>
-    </StyledApp>
+      </StyledApp>
+    </DndProvider>
   );
 });
 export default App;

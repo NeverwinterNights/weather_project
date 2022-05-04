@@ -12,7 +12,11 @@ import { Closed } from '../slideMenu/icons/Closed';
 import { CloseMenu } from '../slideMenu/icons/CloseMenu';
 import style from '../slideMenu/SlideMenu.module.scss';
 
-export const Favorites = React.memo(() => {
+type FavoritesPropsType = {
+  setThemeMenuActive: (value: boolean) => void;
+};
+
+export const Favorites = React.memo(({ setThemeMenuActive }: FavoritesPropsType) => {
   const dispatch = useDispatch();
   const favoritesCity = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.favoritesReducer,
@@ -51,7 +55,12 @@ export const Favorites = React.memo(() => {
               dispatch(setLocationCitiesAC([]));
             } else {
               dispatch(getDataByCityNameTC(cityName, lat, lon, countryID));
-              dispatch(changeFavoritesAC(!favorite));
+              setThemeMenuActive(false);
+              dispatch(changeFavoritesAC(false));
+              dispatch(changeSlideOpenAC(false));
+              setTimeout(() => {
+                dispatch(changeFavoritesAC(!favorite));
+              }, 1000);
             }
           };
           return (
