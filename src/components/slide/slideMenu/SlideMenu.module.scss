@@ -9,6 +9,12 @@
   left: 14px;
   overflow: hidden;
   z-index: 100;
+  @media (max-width: 1040px) {
+    min-width: 270px;
+  }
+  @media (max-width: 503px) {
+    width: 100%;
+  }
 }
 
 .title {

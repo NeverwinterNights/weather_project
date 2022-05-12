@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { AppRootStateType } from '../../state/store';
 import { DataWeatherResponseType } from '../../types/types';
 import { changeTemp, fromPascalToMM } from '../../utils/utils';
-import { Icon } from '../icon/Icon';
+import { IconWeather } from '../icon/iconWeather/IconWeather';
 
 import style from './CurrentTemperature.module.scss';
 
@@ -20,7 +20,7 @@ const StyledCurrent = styled.div`
 `;
 
 export const CurrentTemperature = React.memo(() => {
-  const data = useSelector<AppRootStateType, DataWeatherResponseType>(
+  const dataWeather = useSelector<AppRootStateType, DataWeatherResponseType>(
     state => state.currentReducer,
   );
   const time = useSelector<AppRootStateType, string>(state => state.appReducer.time);
@@ -30,12 +30,12 @@ export const CurrentTemperature = React.memo(() => {
   );
   const currentTemp = useMemo(
     () => ({
-      current: changeTemp(tempType, Math.round(data?.main?.temp)),
-      feels: changeTemp(tempType, Math.round(data?.main?.feels_like)),
-      pressure: fromPascalToMM(data?.main?.pressure),
-      wind: Math.round(data.wind?.speed),
+      current: changeTemp(tempType, Math.round(dataWeather?.main?.temp)),
+      feels: changeTemp(tempType, Math.round(dataWeather?.main?.feels_like)),
+      pressure: fromPascalToMM(dataWeather?.main?.pressure),
+      wind: Math.round(dataWeather.wind?.speed),
     }),
-    [data.main, tempType],
+    [dataWeather.main, tempType],
   );
   const selectedTempType = tempType ? '\u00B0C' : '\u00B0F';
 
@@ -43,9 +43,9 @@ export const CurrentTemperature = React.memo(() => {
     <StyledCurrent>
       <div className={style.main}>
         <div className={style.image}>
-          <Icon name={data.weather?.[0].icon} size={4} />
+          <IconWeather name={dataWeather.weather?.[0].icon} size={4} />
         </div>
-        <div className={style.name}>{data.name}</div>
+        <div className={style.name}>{dataWeather.name}</div>
         <div className={style.temp}>{`${currentTemp.current} ${selectedTempType}`}</div>
       </div>
       <div className={style.info}>
@@ -56,7 +56,7 @@ export const CurrentTemperature = React.memo(() => {
               {`Feels Like ${currentTemp.feels} ${selectedTempType}`}
             </div>
           </div>
-          <div className={style.item}>{`Humidity ${data?.main?.humidity}%`}</div>
+          <div className={style.item}>{`Humidity ${dataWeather?.main?.humidity}%`}</div>
           <div className={style.item}>{`Pressure ${currentTemp.pressure} mmHg`}</div>
           <div className={style.item}>{`Wind speed ${currentTemp.wind} m/s`}</div>
         </div>

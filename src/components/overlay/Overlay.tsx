@@ -1,24 +1,13 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, KeyboardEvent } from 'react';
 
 import { useDispatch } from 'react-redux';
 
 import { changeFavoritesAC, changeSlideOpenAC } from '../../state/appReducer';
 
-type OverlayPropsType = {
-  setThemeMenuActive: (value: boolean) => void;
-};
+import { OverlayPropsType } from './types';
 
 export const Overlay = React.memo(({ setThemeMenuActive }: OverlayPropsType) => {
-  // const [activeCover, setCoverActive] = useState<boolean>(true);
   const dispatch = useDispatch();
-
-  // const slideOpen = useSelector<AppRootStateType, boolean>(
-  //   state => state.appReducer.slideOpen,
-  // );
-
-  // const favorite = useSelector<AppRootStateType, boolean>(
-  //   state => state.appReducer.favorite,
-  // );
 
   const activeStyle: CSSProperties = {
     position: 'absolute',
@@ -29,33 +18,24 @@ export const Overlay = React.memo(({ setThemeMenuActive }: OverlayPropsType) => 
     backgroundColor: 'black',
     opacity: '0.3',
   };
-  // const defaultStyle: CSSProperties = {
-  //   display: 'none',
-  // };
+
   const setCoverActiveHandler = (): void => {
-    // setCoverActive(false);
     setThemeMenuActive(false);
     dispatch(changeFavoritesAC(false));
     dispatch(changeSlideOpenAC(false));
   };
 
-  // useEffect(() => {
-  //   setCoverActive(slideOpen);
-  // }, [slideOpen]);
-
-  // const transitions = useTransition(slideOpen, {
-  //   from: { opacity: 0 },
-  //   enter: { opacity: 1 },
-  //   leave: { opacity: 0 },
-  //   reverse: slideOpen,
-  //   config: config.molasses,
-  // });
+  const setCoverActiveKeyHandler = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      setCoverActiveHandler();
+    }
+  };
 
   return (
     <div
       tabIndex={0}
       aria-label=" "
-      onKeyPress={setCoverActiveHandler}
+      onKeyPress={setCoverActiveKeyHandler}
       role="button"
       onClick={setCoverActiveHandler}
       style={activeStyle}

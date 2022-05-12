@@ -392,9 +392,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
     margin: 5px -10px 5px -6px;
 }
 
-/* Default icon URLs */
+/* Default favIcon URLs */
 .leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
-    /*background-image: url(images/marker-icon.png);*/
+    /*background-image: url(images/marker-favIcon.png);*/
 }
 
 
@@ -555,7 +555,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 
 
-/* div icon */
+/* div favIcon */
 
 .leaflet-div-icon {
     background: #fff;

@@ -1,25 +1,22 @@
 import React, { ReactElement, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useTransition, animated, config } from 'react-spring';
+import { animated, config, useTransition } from 'react-spring';
 
-import { DataWeatherType, deleteCityAC } from '../../state/dataReducer';
+import { deleteCityAC } from '../../state/dataReducer';
 import { AppRootStateType } from '../../state/store';
-import { Handle } from '../handle/Handle';
+import { CardMapGraphsControls } from '../controls/cardMapGraphsControls/CardMapGraphsControls';
+import { Graphs } from '../graphs/Graphs';
+import { FavIcon } from '../icon/favIcon/FavIcon';
+import { Map } from '../map/Map';
+import { Temperature } from '../temperature/Temperature';
 
 import style from './Card.module.scss';
-import { Graphs } from './graphs/Graphs';
-import { FavIcon } from './icon/FavIcon';
-import { Map } from './map/Map';
-import { Temperature } from './Temperature';
-
-type CardPropsType = {
-  city: DataWeatherType;
-};
+import { CardPropsType } from './types';
 
 export const Card = React.memo(({ city }: CardPropsType) => {
   const dispatch = useDispatch();
-  const [show, set] = useState(true);
+  const [show, setShow] = useState(true);
 
   const tempType = useSelector<AppRootStateType, boolean>(
     state => state.appReducer.temperatureType,
@@ -27,21 +24,21 @@ export const Card = React.memo(({ city }: CardPropsType) => {
 
   const selectedTempType = tempType ? '\u00B0C' : '\u00B0F';
 
-  const [viewMode, setViewMode] = useState('card');
+  const [typeViewMode, setTypeViewMode] = useState('card');
 
-  const onClosedHandler = (): void => {
-    set(!show);
+  const onClickCardCloseHandler = (): void => {
+    setShow(!show);
     setTimeout(() => {
       dispatch(deleteCityAC(city.id));
     }, 1000);
   };
 
   const viewModeHandler = (value: string): void => {
-    setViewMode(value);
+    setTypeViewMode(value);
   };
 
   const componentRender = (): ReactElement | ReactElement[] => {
-    switch (viewMode) {
+    switch (typeViewMode) {
       case 'card': {
         return <Temperature selectedTempType={selectedTempType} city={city} />;
       }
@@ -80,11 +77,11 @@ export const Card = React.memo(({ city }: CardPropsType) => {
         <animated.div style={styles}>
           <div className={style.main}>
             <div className={style.header}>
-              <Handle viewModeHandler={viewModeHandler} />
+              <CardMapGraphsControls viewModeHandler={viewModeHandler} />
               <FavIcon city={city} />
               <button
                 className={style.delete}
-                onClick={onClosedHandler}
+                onClick={onClickCardCloseHandler}
                 aria-label=" "
                 type="button"
                 title="Close"

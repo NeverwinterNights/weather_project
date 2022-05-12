@@ -1,6 +1,3 @@
-import { Dispatch } from 'redux';
-
-import { dataAPI } from '../api/apiData';
 import { CurrentWeatherType, DataWeatherType } from '../types/types';
 
 export type FavoritesActionsType =
@@ -26,7 +23,6 @@ export const favoritesReducer = (
       return state.filter(town => town.id !== action.cityId);
     }
     case 'UPDATE-CITIES': {
-      // return state.map(city => ({ ...city, current: action.current }));
       return state.map(city =>
         city.id === action.id ? { ...city, current: action.current } : city,
       );
@@ -55,30 +51,12 @@ export const updateFavoritesCitiesAC = (current: CurrentWeatherType, id: string)
 
 export type UpdateFavoritesCitiesActionType = ReturnType<typeof updateFavoritesCitiesAC>;
 
-//
-// export const setFavoritesCitiesAC = (cityName: string, lat: number, lon: number) =>
-//   ({ type: 'SET-CITIES', cityName, lat, lon } as const);
-//
-// export type SetFavoritesCitiesActionType = ReturnType<typeof setFavoritesCitiesAC>;
-
 // export const updateFavoritesTC =
-//   (lat: number, lon: number, id: string) => (dispatch: Dispatch) => {
-//     dataAPI
-//       .getDataFromCall(lat, lon)
-//       .then(res => {
-//         dispatch(updateFavoritesCitiesAC(res.data.current, id));
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
+//   (lat: number, lon: number, id: string) => async (dispatch: Dispatch) => {
+//     const res = await weatherDataAPI.getWeatherDataFromCall(lat, lon);
+//     try {
+//       dispatch(updateFavoritesCitiesAC(res.data.current, id));
+//     } catch (e) {
+//       console.log(e);
+//     }
 //   };
-
-export const updateFavoritesTC =
-  (lat: number, lon: number, id: string) => async (dispatch: Dispatch) => {
-    const res = await dataAPI.getDataFromCall(lat, lon);
-    try {
-      dispatch(updateFavoritesCitiesAC(res.data.current, id));
-    } catch (e) {
-      console.log(e);
-    }
-  };

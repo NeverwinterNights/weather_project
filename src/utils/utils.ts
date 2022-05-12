@@ -25,4 +25,3 @@ export const conditionUtils = (
   !!data.filter(
     city => city.cityName === nameToUppercase(cityName) && city.country === country,
   ).length;
-// city => city.cityName === nameToUppercase(cityName) && city.country === CountryName)[0];

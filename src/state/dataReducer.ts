@@ -2,11 +2,10 @@ import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { v1 } from 'uuid';
 
-import { dataAPI } from '../api/apiData';
+import { weatherDataAPI } from '../api/apiData';
 import { CurrentWeatherType, DailyDataType, MainWeather } from '../types/types';
 import { handleThunk, utilsError } from '../utils/thunks-utils';
 
-// import { etErrorActionType } from './errorReducer';
 import { SetErrorActionType } from './errorReducer';
 import { ActionsType, AppRootStateType } from './store';
 
@@ -125,118 +124,11 @@ export const getDataFromLocationAC = () =>
 
 export type GetDataFromLocationActionType = ReturnType<typeof getDataFromLocationAC>;
 
-// export const additionalTC =
-//   (lat: number, lon: number, id: string, countryID?: string) => (dispatch: Dispatch) => {
-//     dataAPI.getDataFromCall(lat, lon).then(res => {
-//       dispatch(
-//         addDataAC(res.data.current, res.data.daily, res.data.timezone, id, countryID),
-//       );
-//     });
-//   };
-//
-// export const getDataByCityNameTC =
-//   (
-//     name: string,
-//     lat: number,
-//     lon: number,
-//     countryID?: string,
-//   ): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
-//   dispatch => {
-//     const id: string = v1();
-//     dataAPI
-//       .getDataFromParams(lat, lon)
-//       .then(res => {
-//         handleThunk(
-//           dispatch,
-//           name,
-//           res.data.coord.lat,
-//           res.data.coord.lon,
-//           res.data.main,
-//           id,
-//         );
-//         // dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
-//         dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id, countryID));
-//       })
-//       .catch(err => {
-//         utilsError(err, dispatch);
-//       });
-//   };
-//
-// export const getDataByLocationTC =
-//   (lat: number, lon: number): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
-//   dispatch => {
-//     const id: string = v1();
-//     dataAPI
-//       .getDataFromParams(lat, lon)
-//       .then(res => {
-//         handleThunk(
-//           dispatch,
-//           res.data.name,
-//           res.data.coord.lat,
-//           res.data.coord.lon,
-//           res.data.main,
-//           id,
-//         );
-//         dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
-//       })
-//       .catch(err => {
-//         utilsError(err, dispatch);
-//       });
-//   };
-//
-// export const getDataByZipCodeTC =
-//   (
-//     zip: string,
-//     code: string,
-//   ): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
-//   dispatch => {
-//     const id: string = v1();
-//     dataAPI
-//       .getDataFromZip(zip, code)
-//       .then(res => {
-//         handleThunk(
-//           dispatch,
-//           res.data.name,
-//           res.data.coord.lat,
-//           res.data.coord.lon,
-//           res.data.main,
-//           id,
-//         );
-//         dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
-//       })
-//       .catch(err => {
-//         utilsError(err, dispatch);
-//       });
-//   };
-//
-// export const getDataByInputNameTC =
-//   (name: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
-//   dispatch => {
-//     const id: string = v1();
-//     dataAPI
-//       .getDataByCityName(name)
-//       .then(res => {
-//         handleThunk(
-//           dispatch,
-//           res.data.name,
-//           res.data.coord.lat,
-//           res.data.coord.lon,
-//           res.data.main,
-//           id,
-//         );
-//         // dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
-//         dispatch(additionalTC(res.data.coord.lat, res.data.coord.lon, id));
-//       })
-//       .catch(err => {
-//         utilsError(err, dispatch);
-//       });
-//   };
-
 export const additionalTC =
   (lat: number, lon: number, id: string, countryID?: string) =>
   async (dispatch: Dispatch) => {
     try {
-      const res = await dataAPI.getDataFromCall(lat, lon);
+      const res = await weatherDataAPI.getWeatherDataFromCall(lat, lon);
       dispatch(
         addDataAC(res.data.current, res.data.daily, res.data.timezone, id, countryID),
       );
@@ -255,7 +147,7 @@ export const getDataByCityNameTC =
   async dispatch => {
     const id: string = v1();
     try {
-      const res = await dataAPI.getDataFromParams(lat, lon);
+      const res = await weatherDataAPI.getWeatherDataFromParams(lat, lon);
       handleThunk(
         dispatch,
         name,
@@ -275,7 +167,7 @@ export const getDataByLocationTC =
   async dispatch => {
     const id: string = v1();
     try {
-      const res = await dataAPI.getDataFromParams(lat, lon);
+      const res = await weatherDataAPI.getWeatherDataFromParams(lat, lon);
       handleThunk(
         dispatch,
         res.data.name,
@@ -299,7 +191,7 @@ export const getDataByZipCodeTC =
     const id: string = v1();
 
     try {
-      const res = await dataAPI.getDataFromZip(zip, code);
+      const res = await weatherDataAPI.getWeatherDataFromZip(zip, code);
       handleThunk(
         dispatch,
         res.data.name,
@@ -319,7 +211,7 @@ export const getDataByInputNameTC =
   async dispatch => {
     const id: string = v1();
     try {
-      const res = await dataAPI.getDataByCityName(name);
+      const res = await weatherDataAPI.getWeatherDataByCityName(name);
       handleThunk(
         dispatch,
         res.data.name,

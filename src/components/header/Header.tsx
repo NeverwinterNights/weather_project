@@ -2,17 +2,12 @@ import React from 'react';
 
 import { useDispatch } from 'react-redux';
 
-// import { ReactComponent as Star } from '../../images/star.svg';
 import { changeFavoritesAC, changeSlideOpenAC } from '../../state/appReducer';
-import { Controls } from '../controls/Controls';
+import { HeaderControls } from '../controls/headerControls/HeaderControls';
+import { Star } from '../icon/star/Star';
 
 import style from './Header.module.scss';
-import { Star } from './icons/Star';
-
-type HeaderPropsType = {
-  menuActive: boolean;
-  onClickGearHandler: () => void;
-};
+import { HeaderPropsType } from './types';
 
 export const Header = React.memo(
   ({ menuActive, onClickGearHandler }: HeaderPropsType) => {
@@ -27,7 +22,7 @@ export const Header = React.memo(
       <div className={style.main}>
         <div className={style.wrapper}>
           <div className={style.info}>
-            <Controls />
+            <HeaderControls />
           </div>
           <div className={style.controls}>
             <Star onClickFavoriteHandler={onClickFavoriteHandler} />

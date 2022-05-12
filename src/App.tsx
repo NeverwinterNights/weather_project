@@ -7,12 +7,12 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { WeatherCardContainer } from './components/card/WeatherCardContainer';
 import { CurrentTemperature } from './components/current/CurrentTemperature';
 import { Error } from './components/error/Error';
 import { Header } from './components/header/Header';
 import { Slide } from './components/slide/Slide';
 import { CURRENT_TIME } from './components/utils/constans';
+import { WeatherCardContainer } from './components/weatherCardContainer/WeatherCardContainer';
 import { usePosition } from './hooks/usePosition';
 import { changeSlideOpenAC, setTimeAC } from './state/appReducer';
 import { getCurrentDataTC } from './state/currentReducer';

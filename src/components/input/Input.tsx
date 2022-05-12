@@ -11,15 +11,12 @@ import {
   getDataByZipCodeTC,
 } from '../../state/dataReducer';
 import { AppRootStateType } from '../../state/store';
-import { CityType, TypeSearchTypes } from '../../types/types';
+import { CityType } from '../../types/types';
 import { conditionUtils } from '../../utils/utils';
 import { SelectLocation } from '../selectLocation/SelectLocation';
 
 import style from './Input.module.scss';
-
-type InputPropsType = {
-  typeSearch: TypeSearchTypes;
-};
+import { InputPropsType } from './types';
 
 export const Input = React.memo(({ typeSearch }: InputPropsType) => {
   const [cityName, setCityName] = useState<string>('');

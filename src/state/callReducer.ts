@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import { dataAPI } from '../api/apiData';
+import { weatherDataAPI } from '../api/apiData';
 import {
   DataCallWeatherResponseType,
   DataCallWeatherType,
@@ -43,18 +43,10 @@ export const setDataCallAC = (
 
 export type SetCallActionType = ReturnType<typeof setDataCallAC>;
 
-// export const getDataByCallTC =
-//   (lat: number, lon: number, cityName: string, mainData: MainWeather) =>
-//   (dispatch: Dispatch) => {
-//     dataAPI.getDataFromCall(lat, lon).then(res => {
-//       dispatch(setDataCallAC(res.data, cityName, mainData));
-//     });
-//   };
-
 export const getDataByCallTC =
   (lat: number, lon: number, cityName: string, mainData: MainWeather) =>
   async (dispatch: Dispatch) => {
-    const res = await dataAPI.getDataFromCall(lat, lon);
+    const res = await weatherDataAPI.getWeatherDataFromCall(lat, lon);
     try {
       dispatch(setDataCallAC(res.data, cityName, mainData));
     } catch (e) {

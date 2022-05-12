@@ -3,21 +3,9 @@ import React, { useRef } from 'react';
 import { Identifier, XYCoord } from 'dnd-core';
 import { useDrag, useDrop } from 'react-dnd';
 
-import { DataWeatherType } from '../../state/dataReducer';
 import { Card } from '../card/Card';
 
-type DragCardPropsType = {
-  id: string;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
-  index: number;
-  city: DataWeatherType;
-};
-
-type DragItemType = {
-  index: number;
-  id: string;
-  type: string;
-};
+import { DragCardPropsType, DragItemType } from './types';
 
 export const ItemTypes = {
   CARD: 'card',

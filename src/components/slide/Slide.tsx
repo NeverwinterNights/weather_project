@@ -8,11 +8,7 @@ import { Overlay } from '../overlay/Overlay';
 
 import style from './Slide.module.scss';
 import { SlideMenu } from './slideMenu/SlideMenu';
-
-type SlidePropsType = {
-  open: boolean;
-  setThemeMenuActive: (value: boolean) => void;
-};
+import { SlidePropsType } from './types';
 
 export const Slide = React.memo(({ open, setThemeMenuActive }: SlidePropsType) => {
   const slideOpen = useSelector<AppRootStateType, boolean>(
@@ -24,7 +20,6 @@ export const Slide = React.memo(({ open, setThemeMenuActive }: SlidePropsType) =
     enter: { opacity: 1 },
     leave: { opacity: 0 },
     reverse: slideOpen,
-    // config: config.molasses,
     config: { mass: 1, tension: 280, friction: 40 },
   });
 
@@ -34,8 +29,6 @@ export const Slide = React.memo(({ open, setThemeMenuActive }: SlidePropsType) =
         <animated.div style={styles} className={style.main}>
           <Overlay setThemeMenuActive={setThemeMenuActive} />
           <SlideMenu setThemeMenuActive={setThemeMenuActive} open={open} />
-
-          {/* {favoritesCity && favoritesCity.map(city => <FavCard key={city.id} city={city} />)} */}
         </animated.div>
       ),
   );

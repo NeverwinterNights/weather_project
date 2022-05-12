@@ -21,14 +21,6 @@ const rootReducer = combineReducers({
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
-// export const store = createStore(rootReducer, loadState(), applyMiddleware(thunk));
-
-// store.subscribe(() => {
-//   // localStorage.setItem('state', JSON.stringify(store.getState().favoritesReducer));
-//   saveState({
-//     favoritesReducer: store.getState().favoritesReducer,
-//   });
-// });
 
 export type AppRootStateType = ReturnType<typeof rootReducer>;
 export type ActionsType =
@@ -37,10 +29,6 @@ export type ActionsType =
   | CallActionsType
   | AppActionsType
   | FavoritesActionsType;
-
-// store.subscribe(() => {
-//   localStorage.setItem('state', JSON.stringify(store.getState().favoritesReducer));
-// });
 
 // @ts-ignore
 window.store = store;
