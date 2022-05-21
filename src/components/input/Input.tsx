@@ -13,65 +13,84 @@ import {
 import { AppRootStateType } from '../../state/store';
 import { CityType } from '../../types/types';
 import { conditionUtils } from '../../utils/utils';
+import { InputsValuesType } from '../header/types';
 import { SelectLocation } from '../selectLocation/SelectLocation';
 
 import style from './Input.module.scss';
 import { InputPropsType } from './types';
 
 export const Input = React.memo(({ typeSearch }: InputPropsType) => {
-  const [cityName, setCityName] = useState<string>('');
-  const [zipIndex, setZipIndex] = useState<string>('');
-  const [zipCode, setZipCode] = useState<string>('');
-  const [coordinatesX, setCoordinatesX] = useState<number>(0);
-  const [coordinatesY, setCoordinatesY] = useState<number>(0);
-  const [countryID, setCountryID] = useState<string>('');
+  const [inputsValues, setInputValues] = useState<InputsValuesType>(
+    {} as InputsValuesType,
+  );
 
   const data = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
   );
   const dispatch = useDispatch();
-  const debouncedSearch = useDebounce(() => dispatch(setLocationCitiesTH(cityName)), 500);
+  const debouncedSearch = useDebounce(
+    () => dispatch(setLocationCitiesTH(inputsValues.cityName)),
+    500,
+  );
   const allSearchedCities = useSelector<AppRootStateType, CityType[]>(
     state => state.citiesReducer,
   );
 
   const onChooseLocation = (): void => {
-    if (cityName.length >= 3) {
+    if (inputsValues.cityName.length >= 3) {
       dispatch(setLocationCitiesAC([]));
-      setCityName('');
+      setInputValues({
+        ...inputsValues,
+        cityName: '',
+      });
     }
   };
 
   const clickCityNameHandler = (): void => {
-    if (conditionUtils(data, cityName, countryID)) {
+    if (conditionUtils(data, inputsValues.cityName, inputsValues.countryID)) {
       dispatch(setLocationCitiesAC([]));
-      setCityName('');
+      setInputValues({
+        ...inputsValues,
+        cityName: '',
+      });
     } else {
-      dispatch(getDataByInputNameTC(cityName));
-      setCityName('');
+      dispatch(getDataByInputNameTC(inputsValues.cityName));
+      setInputValues({
+        ...inputsValues,
+        cityName: '',
+      });
       dispatch(setLocationCitiesAC([]));
     }
   };
 
   const onKeyUpSendHandler = (): void => {
-    if (cityName.length >= 3) {
+    if (inputsValues.cityName.length >= 3) {
       debouncedSearch();
     }
   };
 
   const countryIDHandler = (ID: string): void => {
-    setCountryID(ID);
+    setInputValues({
+      ...inputsValues,
+      countryID: ID,
+    });
   };
 
   const clickCoordinatesHandler = (): void => {
-    dispatch(getDataByLocationTC(coordinatesX, coordinatesY));
-    setCoordinatesX(0);
-    setCoordinatesY(0);
+    dispatch(getDataByLocationTC(inputsValues.coordinatesX, inputsValues.coordinatesY));
+    setInputValues({
+      ...inputsValues,
+      coordinatesX: 0,
+      coordinatesY: 0,
+    });
   };
   const clickZipHandler = (): void => {
-    dispatch(getDataByZipCodeTC(zipCode, zipIndex));
-    setZipIndex('');
-    setZipCode('');
+    dispatch(getDataByZipCodeTC(inputsValues.zipCode, inputsValues.zipIndex));
+    setInputValues({
+      ...inputsValues,
+      zipIndex: '',
+      zipCode: '',
+    });
   };
 
   const keyPressNameHandler = (e: KeyboardEvent<HTMLInputElement>): void => {
@@ -81,15 +100,22 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
     }
   };
 
-  const onChangeInputByName = (e: ChangeEvent<HTMLInputElement>): void => {
-    setCityName(e.currentTarget.value);
-    if (cityName) {
-      dispatch(setLocationCitiesAC([]));
-    }
+  const stateHandler = (str: string): void => {
+    setInputValues({
+      ...inputsValues,
+      cityName: str,
+    });
   };
 
-  const stateHandler = (str: string): void => {
-    setCityName(str);
+  const inputHandler = (e: ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    setInputValues({
+      ...inputsValues,
+      [name]: value,
+    });
+    if (inputsValues.cityName) {
+      dispatch(setLocationCitiesAC([]));
+    }
   };
 
   return (
@@ -100,10 +126,11 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
             <input
               className={style.input}
               onKeyPress={keyPressNameHandler}
-              onChange={onChangeInputByName}
-              value={cityName}
+              onChange={inputHandler}
+              value={inputsValues.cityName}
               type="text"
               onKeyUp={onKeyUpSendHandler}
+              name="cityName"
             />
             <button
               disabled={allSearchedCities.length < 1}
@@ -119,19 +146,17 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
           <>
             <input
               className={style.cord}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                setCoordinatesX(+e.currentTarget.value);
-              }}
-              value={coordinatesX || ''}
+              onChange={inputHandler}
+              value={inputsValues.coordinatesX || ''}
               type="text"
+              name="coordinatesX"
             />
             <input
               className={style.cord}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                setCoordinatesY(+e.currentTarget.value);
-              }}
-              value={coordinatesY || ''}
+              value={inputsValues.coordinatesY || ''}
               type="text"
+              name="coordinatesY"
+              onChange={inputHandler}
             />
             <button
               className={style.button}
@@ -146,19 +171,17 @@ export const Input = React.memo(({ typeSearch }: InputPropsType) => {
           <>
             <input
               className={style.cord}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                setZipIndex(e.currentTarget.value);
-              }}
-              value={zipIndex}
+              value={inputsValues.zipIndex}
               type="text"
+              onChange={inputHandler}
+              name="zipIndex"
             />
             <input
               className={style.cord}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                setZipCode(e.currentTarget.value);
-              }}
-              value={zipCode}
+              value={inputsValues.zipCode}
               type="text"
+              name="zipCode"
+              onChange={inputHandler}
             />
             <button className={style.button} type="button" onClick={clickZipHandler}>
               Send
