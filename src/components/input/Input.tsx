@@ -20,9 +20,16 @@ import style from './Input.module.scss';
 import { InputPropsType } from './types';
 
 export const Input = React.memo(({ typeSearch }: InputPropsType) => {
-  const [inputsValues, setInputValues] = useState<InputsValuesType>(
-    {} as InputsValuesType,
-  );
+  const initialValue: InputsValuesType = {
+    cityName: '',
+    zipIndex: '',
+    zipCode: '',
+    coordinatesX: 0,
+    coordinatesY: 0,
+    countryID: '',
+  };
+
+  const [inputsValues, setInputValues] = useState<InputsValuesType>(initialValue);
 
   const data = useSelector<AppRootStateType, DataWeatherType[]>(
     state => state.dataReducer,
