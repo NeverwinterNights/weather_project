@@ -45,7 +45,8 @@ export const weatherDataAPI = {
 
   getLocationHints(name: string) {
     return axios.get<CityHintsResponse>(
-      `https://api.opencagedata.com/geocode/v1/json?q=${name}&key=64a1714fbdda479ebb06a3fa9dbd5ba9&language=en`,
+      // `https://api.opencagedata.com/geocode/v1/json?q=${name}&key=64a1714fbdda479ebb06a3fa9dbd5ba9&language=en`,
+      `https://api.opencagedata.com/geocode/v1/json?q=${name}&key=f7c9fe5e31e14c699e96f490f56a7007&language=en`,
     );
   },
 };

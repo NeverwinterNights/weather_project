@@ -34,7 +34,7 @@ export const Favorites = React.memo(({ setThemeMenuActive }: FavoritesPropsType)
   return (
     <div className={style.body}>
       <div className={style.header}>
-        <div className={style.title}>Favorite city </div>
+        <div className={style.title}>Favorite city</div>
         <CloseMenu closedFavoritesHandler={closedFavoritesHandler} />
       </div>
       <div className={style.main}>
